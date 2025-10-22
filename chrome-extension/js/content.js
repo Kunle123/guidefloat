@@ -439,10 +439,25 @@
 
         close: async function() {
             if (confirm('Close GuideFloat? Your progress will be saved.')) {
+                console.log('[GuideFloat Content] Closing widget...');
                 await this.saveProgress(this.currentGuide.id, this.currentStepIndex + 1);
                 this.hide();
-                await chrome.storage.local.set({ widgetVisible: false });
-                chrome.runtime.sendMessage({ action: 'widgetClosed' });
+                
+                // Clear state
+                await chrome.storage.local.set({ 
+                    widgetVisible: false,
+                    currentGuide: null,
+                    activeTabId: null
+                });
+                
+                // Remove widget from DOM
+                if (this.widget) {
+                    this.widget.remove();
+                    this.widget = null;
+                }
+                
+                this.currentGuide = null;
+                console.log('[GuideFloat Content] Widget closed and removed');
             }
         },
 
