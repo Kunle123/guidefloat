@@ -138,7 +138,7 @@
       "actionButtons": [
         {
           "text": "Open Ads Manager",
-          "url": "https://adsmanager.facebook.com?ref=guidefloat",
+          "url": "https://adsmanager.facebook.com/",
           "type": "affiliate"
         }
       ],
@@ -273,7 +273,7 @@
       "actionButtons": [
         {
           "text": "Open Ads Manager",
-          "url": "https://adsmanager.facebook.com?ref=guidefloat",
+          "url": "https://adsmanager.facebook.com/",
           "type": "affiliate"
         }
       ],
