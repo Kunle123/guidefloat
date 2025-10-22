@@ -506,13 +506,34 @@ async function selectGuide(guideId) {
         recentlyUsed: recentlyUsed
     });
     
-    // Show widget on current tab
+    // Get current tab
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    
+    // Inject content script into this specific tab
+    try {
+        await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['js/content.js']
+        });
+        
+        await chrome.scripting.insertCSS({
+            target: { tabId: tab.id },
+            files: ['css/widget.css']
+        });
+    } catch (e) {
+        // Script might already be injected, that's okay
+        console.log('Script injection skipped:', e);
+    }
+    
+    // Small delay to ensure script is loaded
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Show widget on current tab
     await chrome.tabs.sendMessage(tab.id, {
         action: 'showGuide',
         guideId: guideId
-    }).catch(() => {
-        // Tab doesn't have content script loaded yet, it's okay
+    }).catch((e) => {
+        console.error('Failed to show guide:', e);
     });
     
     isWidgetVisible = true;

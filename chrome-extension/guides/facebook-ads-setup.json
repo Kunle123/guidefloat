@@ -32,10 +32,10 @@
       "id": 1,
       "title": "Set up Facebook Business Manager",
       "description": "Facebook Business Manager is required to run professional ads and track results properly.",
-      "instructions": "Go to business.facebook.com and click 'Create Account'. Enter your business name, your name, and business email. Click 'Submit' to create your Business Manager account.",
+      "instructions": "1. Click the button below to open business.facebook.com\n2. Look for a blue 'Create Account' button (usually in the center or top-right)\n3. Fill in: Business name, Your name, Business email\n4. Click 'Submit' or 'Next'\n\n📝 Note: If you're already logged into Facebook Business Manager, you'll see your dashboard instead. In that case, click 'Skip' below.",
       "skipIfCompleted": true,
       "skipMessage": "Already have Business Manager? Skip this step.",
-      "layoutDiagram": "<svg viewBox='0 0 280 160' xmlns='http://www.w3.org/2000/svg'><rect width='280' height='160' fill='#f9fafb' stroke='#e5e7eb' stroke-width='2'/><text x='140' y='25' text-anchor='middle' font-size='11' font-weight='bold' fill='#374151'>Facebook Business Manager</text><rect x='20' y='40' width='240' height='30' fill='#dbeafe' stroke='#3b82f6' stroke-width='2' rx='4'/><text x='140' y='60' text-anchor='middle' font-size='10' fill='#1e40af'>Create Account Button</text><rect x='20' y='80' width='240' height='15' fill='#f3f4f6' rx='2'/><rect x='20' y='100' width='240' height='15' fill='#f3f4f6' rx='2'/><text x='140' y='135' text-anchor='middle' font-size='9' fill='#6b7280'>Look for the blue 'Create Account'</text><text x='140' y='150' text-anchor='middle' font-size='9' fill='#6b7280'>button near the top of the page</text></svg>",
+      "layoutDiagram": "<svg viewBox='0 0 300 80' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='80' fill='#eff6ff' rx='8'/><text x='150' y='25' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 What to Look For:</text><rect x='20' y='35' width='260' height='32' fill='#3b82f6' rx='6'/><text x='150' y='55' text-anchor='middle' font-size='14' font-weight='bold' fill='white'>Create Account</text><text x='150' y='75' text-anchor='middle' font-size='11' fill='#1e40af'>Blue button - Center or Top-Right of page</text></svg>",
       "actionButtons": [
         {
           "text": "Open Facebook Business Manager",
@@ -46,7 +46,7 @@
       "tips": [
         "Use your business email, not personal",
         "Have your business details ready",
-        "You can manage multiple ad accounts from one Business Manager"
+        "The page layout may vary based on your account status"
       ],
       "estimatedTime": "5 minutes"
     },
@@ -54,10 +54,10 @@
       "id": 2,
       "title": "Connect Your Facebook Page",
       "description": "Your ads will run from this page, and people will click through to learn about you.",
-      "instructions": "In Business Manager, click 'Business Settings' → 'Accounts' → 'Pages' → 'Add'. If you have a page, claim it. If not, create a new page first on Facebook.",
+      "instructions": "1. Click the button below to open Business Settings\n2. Look for 'Accounts' in the left sidebar (or top menu)\n3. Click 'Pages'\n4. Click the '+ Add' or 'Add Page' button\n5. Choose 'Add a Page' or 'Claim a Page'\n6. Select your existing page, OR create a new one\n\n📝 Note: If you already see your page listed, click 'Skip' below.",
       "skipIfCompleted": true,
       "skipMessage": "Already have a connected Page? Skip this step.",
-      "layoutDiagram": "<svg viewBox='0 0 280 160' xmlns='http://www.w3.org/2000/svg'><rect width='280' height='160' fill='#f9fafb' stroke='#e5e7eb' stroke-width='2'/><rect x='10' y='10' width='50' height='140' fill='#f3f4f6'/><text x='35' y='25' text-anchor='middle' font-size='8' fill='#6b7280'>Sidebar</text><rect x='15' y='35' width='40' height='12' fill='#dbeafe' stroke='#3b82f6' stroke-width='2' rx='2'/><text x='35' y='43' text-anchor='middle' font-size='7' fill='#1e40af' font-weight='bold'>Settings</text><rect x='70' y='10' width='200' height='140' fill='white' stroke='#e5e7eb'/><text x='170' y='30' text-anchor='middle' font-size='10' font-weight='bold' fill='#374151'>Business Settings</text><text x='85' y='55' font-size='9' fill='#6b7280'>Accounts ></text><text x='85' y='75' font-size='9' fill='#6b7280'>Pages ></text><rect x='150' y='66' width='50' height='15' fill='#dcfce7' stroke='#10b981' stroke-width='2' rx='2'/><text x='175' y='76' text-anchor='middle' font-size='8' fill='#065f46' font-weight='bold'>+ Add</text><text x='170' y='140' text-anchor='middle' font-size='8' fill='#6b7280'>Click 'Add' to connect your page</text></svg>",
+      "layoutDiagram": "<svg viewBox='0 0 300 100' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='100' fill='#eff6ff' rx='8'/><text x='150' y='20' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 Navigation Path:</text><rect x='20' y='30' width='70' height='24' fill='#f3f4f6' stroke='#9ca3af' stroke-width='2' rx='4'/><text x='55' y='47' text-anchor='middle' font-size='11' font-weight='600' fill='#374151'>Accounts</text><text x='95' y='47' font-size='14' fill='#9ca3af'>→</text><rect x='110' y='30' width='70' height='24' fill='#f3f4f6' stroke='#9ca3af' stroke-width='2' rx='4'/><text x='145' y='47' text-anchor='middle' font-size='11' font-weight='600' fill='#374151'>Pages</text><text x='185' y='47' font-size='14' fill='#9ca3af'>→</text><rect x='200' y='30' width='80' height='24' fill='#10b981' rx='4'/><text x='240' y='47' text-anchor='middle' font-size='11' font-weight='bold' fill='white'>+ Add</text><text x='150' y='70' text-anchor='middle' font-size='10' fill='#6b7280'>Look in left sidebar or top menu</text><text x='150' y='85' text-anchor='middle' font-size='10' fill='#6b7280'>Then click green Add button</text></svg>",
       "actionButtons": [
         {
           "text": "Go to Business Settings",
@@ -66,9 +66,9 @@
         }
       ],
       "tips": [
+        "Need to create a page first? Go to facebook.com/pages/create",
         "Use a professional profile photo",
-        "Add a cover photo that represents your brand",
-        "Fill out all page information completely"
+        "The Settings layout varies - look for 'Accounts' then 'Pages'"
       ],
       "estimatedTime": "5 minutes"
     },
@@ -76,8 +76,8 @@
       "id": 3,
       "title": "Create Ad Account",
       "description": "This is where you'll create and manage all your ad campaigns.",
-      "instructions": "In Business Settings, go to 'Accounts' → 'Ad Accounts' → 'Add'. Choose 'Create a new ad account', name it, select your time zone and currency, then assign it to your Business Manager.",
-      "layoutDiagram": "<svg viewBox='0 0 280 160' xmlns='http://www.w3.org/2000/svg'><rect width='280' height='160' fill='#f9fafb' stroke='#e5e7eb' stroke-width='2'/><rect x='10' y='10' width='50' height='140' fill='#f3f4f6'/><text x='35' y='25' text-anchor='middle' font-size='8' fill='#6b7280'>Sidebar</text><rect x='15' y='35' width='40' height='12' fill='#f3f4f6' stroke='#d1d5db' rx='2'/><text x='35' y='43' text-anchor='middle' font-size='7' fill='#6b7280'>Settings</text><rect x='70' y='10' width='200' height='140' fill='white' stroke='#e5e7eb'/><text x='170' y='30' text-anchor='middle' font-size='10' font-weight='bold' fill='#374151'>Business Settings</text><text x='85' y='55' font-size='9' fill='#6b7280'>Accounts ></text><text x='85' y='75' font-size='9' fill='#1e40af' font-weight='bold'>Ad Accounts ></text><rect x='150' y='66' width='50' height='15' fill='#fef3c7' stroke='#f59e0b' stroke-width='2' rx='2'/><text x='175' y='76' text-anchor='middle' font-size='8' fill='#92400e' font-weight='bold'>+ Add</text><text x='170' y='100' text-anchor='middle' font-size='8' fill='#6b7280'>Then select:</text><rect x='100' y='108' width='140' height='12' fill='#dcfce7' stroke='#10b981' stroke-width='1' rx='2'/><text x='170' y='116' text-anchor='middle' font-size='7' fill='#065f46'>'Create a new ad account'</text></svg>",
+      "instructions": "1. In Business Settings, find 'Accounts'\n2. Click 'Ad Accounts' (under Accounts)\n3. Click the '+ Add' or 'Add' button\n4. Select 'Create a new ad account'\n5. Enter an account name (e.g., 'My Business Ads')\n6. Choose your time zone\n7. Choose your currency (can't be changed later!)\n8. Click 'Next' or 'Create'\n\n⚠️ Important: Choose your currency carefully - it cannot be changed!",
+      "layoutDiagram": "<svg viewBox='0 0 300 110' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='110' fill='#eff6ff' rx='8'/><text x='150' y='20' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 Navigation Path:</text><rect x='15' y='30' width='70' height='24' fill='#f3f4f6' stroke='#9ca3af' stroke-width='2' rx='4'/><text x='50' y='47' text-anchor='middle' font-size='11' font-weight='600' fill='#374151'>Accounts</text><text x='90' y='47' font-size='14' fill='#9ca3af'>→</text><rect x='100' y='30' width='90' height='24' fill='#f3f4f6' stroke='#9ca3af' stroke-width='2' rx='4'/><text x='145' y='47' text-anchor='middle' font-size='11' font-weight='600' fill='#374151'>Ad Accounts</text><text x='195' y='47' font-size='14' fill='#9ca3af'>→</text><rect x='205' y='30' width='80' height='24' fill='#f59e0b' rx='4'/><text x='245' y='47' text-anchor='middle' font-size='11' font-weight='bold' fill='white'>+ Add</text><rect x='40' y='65' width='220' height='28' fill='#dcfce7' stroke='#10b981' stroke-width='2' rx='6'/><text x='150' y='83' text-anchor='middle' font-size='12' font-weight='600' fill='#065f46'>Create a new ad account</text><text x='150' y='103' text-anchor='middle' font-size='10' fill='#dc2626' font-weight='600'>⚠️ Pick currency carefully - can't change!</text></svg>",
       "actionButtons": [
         {
           "text": "Create Ad Account",
