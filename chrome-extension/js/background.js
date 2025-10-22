@@ -12,24 +12,33 @@ chrome.runtime.onInstalled.addListener((details) => {
 
 // Listen for navigation events to restore guide on page load
 chrome.webNavigation.onCompleted.addListener(async (details) => {
+    console.log('[GuideFloat Background] Navigation detected:', details);
+    
     // Only handle main frame navigation (not iframes)
-    if (details.frameId !== 0) return;
+    if (details.frameId !== 0) {
+        console.log('[GuideFloat Background] Ignoring iframe navigation');
+        return;
+    }
     
     const tabId = details.tabId;
+    console.log('[GuideFloat Background] Checking if guide needs restoration on tab:', tabId);
     
     // Check if this tab has an active guide
     const result = await chrome.storage.local.get(['currentGuide', 'activeTabId', 'widgetVisible']);
+    console.log('[GuideFloat Background] Storage state:', result);
     
     if (!result.currentGuide || !result.widgetVisible) {
+        console.log('[GuideFloat Background] No active guide to restore');
         return; // No active guide
     }
     
     // Check if this is the tab with the active guide
     if (result.activeTabId !== tabId) {
+        console.log(`[GuideFloat Background] Guide is on tab ${result.activeTabId}, not ${tabId}`);
         return; // Guide is on a different tab
     }
     
-    console.log(`Page navigated on tab ${tabId}, restoring guide...`);
+    console.log(`[GuideFloat Background] ✓ Will restore guide on tab ${tabId}`);
     
     // Get tab info to check URL
     const tab = await chrome.tabs.get(tabId);
