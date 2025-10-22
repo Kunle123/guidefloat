@@ -29,7 +29,7 @@
     // IMPORTANT: Change this to your production domain
     var baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
         ? window.location.origin 
-        : 'https://guidefloat.com';
+        : 'https://kunle123.github.io/guidefloat';
     
     // Inject CSS
     var css = document.createElement('link');
