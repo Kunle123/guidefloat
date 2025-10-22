@@ -259,21 +259,22 @@
             
             const actionButtonsHTML = step.actionButtons && step.actionButtons.length > 0 ? `
                 <div class="guidefloat-action-buttons">
-                    ${step.actionButtons.map(button => `
+                    ${step.actionButtons.map((button, idx) => `
                         <a href="${button.url}" 
                            target="_blank" 
                            rel="noopener noreferrer"
                            class="guidefloat-action-btn"
                            data-button-id="${button.text}"
-                           title="Opens in new tab - widget stays here">
+                           data-button-url="${button.url}"
+                           title="Right-click → Open in background tab (recommended)">
                             ${button.text}
                             🔗
                         </a>
                     `).join('')}
                 </div>
-                <p style="font-size: 11px; color: #6c757d; margin: 8px 0 0 36px;">
-                    💡 Tip: Links open in new tab so this guide stays visible
-                </p>
+                <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 8px 12px; margin: 8px 0 0 36px; font-size: 12px;">
+                    <strong>💡 Pro Tip:</strong> Right-click the button → "Open in new background tab" so this guide stays visible while the site opens behind it!
+                </div>
             ` : '';
             
             return `
@@ -323,13 +324,31 @@
                 });
             });
             
-            // Track action button clicks
+            // Track action button clicks and handle opening
             const actionButtons = this.widget.querySelectorAll('.guidefloat-action-btn');
             actionButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const buttonId = button.dataset.buttonId;
                     const url = button.href;
                     this.trackClick(buttonId, url);
+                    
+                    // Show helpful message after clicking
+                    setTimeout(() => {
+                        const tip = document.createElement('div');
+                        tip.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 12px 20px; border-radius: 8px; z-index: 2147483647; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
+                        tip.innerHTML = '✅ Link opened! This guide stays here. Switch tabs when ready.';
+                        document.body.appendChild(tip);
+                        setTimeout(() => tip.remove(), 4000);
+                    }, 100);
+                });
+                
+                // Add context menu hint
+                button.addEventListener('contextmenu', (e) => {
+                    // Let default context menu show, but add visual feedback
+                    button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                    setTimeout(() => {
+                        button.style.background = '';
+                    }, 300);
                 });
             });
         },
