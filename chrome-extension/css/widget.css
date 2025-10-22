@@ -412,25 +412,29 @@
     transform: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
 }
 
 #guidefloat-widget.minimized:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
+}
+
+#guidefloat-widget.minimized::after {
+    content: '🚀';
+    font-size: 32px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #guidefloat-widget.minimized .guidefloat-header {
-    border-radius: 30px;
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 24px;
-}
-
-#guidefloat-widget.minimized .guidefloat-header::before {
-    content: '🚀';
-    font-size: 32px;
+    display: none !important;
 }
 
 #guidefloat-widget.minimized .guidefloat-title,
