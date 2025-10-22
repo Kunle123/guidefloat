@@ -22,13 +22,14 @@ const guides = [
     },
     {
         id: 'shopify-store-setup',
-        title: 'Shopify Store Setup',
-        description: 'Build a professional e-commerce store with Shopify',
+        title: '🛍️ Shopify Store Setup',
+        description: 'Build your online store from scratch - complete setup in under 2 hours',
         category: 'ecommerce',
         difficulty: 'Beginner',
-        estimatedTime: '60 minutes',
+        estimatedTime: '90 minutes',
         totalSteps: 12,
-        icon: '🛒'
+        icon: '🛍️',
+        hasAffiliate: true
     },
     {
         id: 'mailchimp-campaign',

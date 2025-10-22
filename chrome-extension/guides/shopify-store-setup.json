@@ -1,227 +1,368 @@
 {
   "id": "shopify-store-setup",
-  "title": "Shopify Store Setup",
-  "description": "Build a professional e-commerce store with Shopify from scratch",
+  "title": "🛍️ Shopify Store Setup Guide",
+  "description": "Build your online store from scratch with Shopify - complete setup in under 2 hours",
   "category": "E-commerce",
   "difficulty": "Beginner",
-  "estimatedTime": "60 minutes",
+  "estimatedTime": "90 minutes",
   "totalSteps": 12,
+  "affiliateDisclosure": "This guide contains affiliate links. We earn a commission if you sign up through our links, at no extra cost to you. This helps us create more free guides!",
+  "prerequisites": {
+    "title": "What You'll Need",
+    "description": "Make sure you have these ready before starting:",
+    "items": [
+      "Business name and description",
+      "Product photos (if selling physical products)",
+      "Business email address",
+      "Credit card for Shopify subscription ($29-299/month after trial)",
+      "Domain name idea (optional - can use free .myshopify.com)"
+    ]
+  },
   "steps": [
     {
       "id": 1,
-      "title": "Create Shopify Account",
-      "description": "Sign up for Shopify and start your free trial.",
-      "instructions": "Go to Shopify.com and click 'Start free trial'. Enter your email, create a password, and choose a store name. Shopify offers a 14-day free trial (sometimes extended to 3 days for $1).",
+      "title": "Sign Up for Shopify",
+      "description": "Start your 3-day free trial - no credit card required to begin",
+      "instructions": "1. Click the button below to start your Shopify trial\n2. Enter your email address\n3. Click 'Start free trial'\n4. Fill in: Store name, Country, Industry\n5. Click 'Next' to continue\n\n💡 Pro Tip: Choose your store name carefully - it will be your default URL (storename.myshopify.com)",
       "actionButtons": [
         {
           "text": "Start Shopify Free Trial",
-          "url": "https://shopify.com?ref=guidefloat",
+          "url": "https://www.shopify.com/free-trial",
           "type": "affiliate"
         }
       ],
       "tips": [
-        "Choose a store name that's memorable and available as a domain",
-        "You can change your store name later",
-        "No credit card required for the trial"
+        "3-day free trial, then $1/month for first 3 months",
+        "No credit card needed to start trial",
+        "Store name becomes your subdomain (changeable later)",
+        "Can upgrade/downgrade plans anytime"
       ],
-      "estimatedTime": "3 minutes"
+      "estimatedTime": "3 minutes",
+      "spotlight": {
+        "target": "button[type='submit'], a[href*='signup']",
+        "message": "Look for the 'Start free trial' button and enter your email",
+        "type": "success",
+        "position": "auto"
+      }
     },
     {
       "id": 2,
-      "title": "Complete Store Setup Questions",
-      "description": "Shopify will ask some questions to customize your experience.",
-      "instructions": "Answer questions about what you're selling, whether you're already selling, your business goals, and your industry. This helps Shopify provide relevant recommendations.",
-      "actionButtons": [],
+      "title": "Complete Store Setup Survey",
+      "description": "Shopify asks a few questions to customize your experience",
+      "instructions": "1. Answer 'Are you already selling?' (Yes/No)\n2. Select your current revenue (if applicable)\n3. Choose your industry from dropdown\n4. Click 'Next'\n5. Set up your store address\n\n📝 Note: This helps Shopify show relevant features, but doesn't affect functionality",
       "tips": [
-        "Be honest - this helps Shopify suggest the right tools",
-        "You can skip questions if unsure",
-        "These answers don't lock you into anything"
+        "Be honest - helps with relevant features",
+        "Store address needed for legal/tax purposes",
+        "Can change these settings later",
+        "Skip if you prefer (optional questions)"
       ],
-      "estimatedTime": "2 minutes"
+      "estimatedTime": "2 minutes",
+      "autoNavigate": {
+        "url": "https://accounts.shopify.com/store-create",
+        "message": "Taking you to store setup..."
+      }
     },
     {
       "id": 3,
-      "title": "Choose and Customize Your Theme",
-      "description": "Select a professional theme that matches your brand.",
-      "instructions": "Go to 'Online Store' → 'Themes'. Browse the theme library and click 'Explore free themes' or check out paid themes. Click 'Try theme' to preview, then 'Publish' when ready. Use the theme customizer to change colors, fonts, and layout.",
+      "title": "Add Your First Product",
+      "description": "Let's add a product to your store - you can edit or delete this later",
+      "instructions": "1. In Shopify admin, click 'Products' in left sidebar\n2. Click 'Add product' button\n3. Fill in:\n   - Title: Product name\n   - Description: What it is, why buy it\n   - Price: Your selling price\n   - Upload at least 1 image\n4. Scroll down and click 'Save'\n\n💡 You can add more details later (variants, inventory, SEO)",
       "actionButtons": [
         {
-          "text": "Browse Shopify Themes",
-          "url": "https://themes.shopify.com?ref=guidefloat",
+          "text": "Go to Products",
+          "url": "https://admin.shopify.com/store/products",
           "type": "affiliate"
         }
       ],
       "tips": [
-        "Dawn is a great free theme for beginners",
-        "Make sure theme is mobile-responsive",
-        "Don't spend too long on design initially - focus on products",
-        "Paid themes ($180-350) offer more features but aren't necessary"
+        "High-quality images are crucial (min 1000x1000px)",
+        "Write benefits, not just features",
+        "Set competitive pricing (research competitors)",
+        "Can add unlimited products on all plans"
       ],
-      "estimatedTime": "10 minutes"
+      "estimatedTime": "10 minutes",
+      "spotlight": {
+        "target": "button:contains('Add product'), a[href*='products/new']",
+        "message": "Click 'Add product' to create your first product listing",
+        "type": "info",
+        "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/products",
+        "message": "Opening Products page..."
+      }
     },
     {
       "id": 4,
-      "title": "Add Your Logo and Branding",
-      "description": "Upload your logo and set brand colors.",
-      "instructions": "In the theme customizer, go to 'Theme settings' → 'Logo'. Upload your logo image (recommended size: 250x100px). Set your brand colors in the color scheme section. Update typography if desired.",
+      "title": "Choose and Customize Your Theme",
+      "description": "Pick a professional design for your store - many free options available",
+      "instructions": "1. Click 'Online Store' in left sidebar\n2. Click 'Themes'\n3. Browse free themes or explore paid ones\n4. Click 'Add' on a theme you like\n5. Once added, click 'Customize' to edit it\n6. Customize: Logo, colors, fonts, homepage layout\n7. Click 'Save' in top right when done\n\n🎨 Recommended free themes: Dawn, Sense, Craft",
       "actionButtons": [
         {
-          "text": "Create Free Logo with Canva",
-          "url": "https://canva.com/create/logos/",
-          "type": "resource"
+          "text": "Browse Themes",
+          "url": "https://admin.shopify.com/store/themes",
+          "type": "affiliate"
         }
       ],
       "tips": [
-        "Use PNG format with transparent background for logo",
-        "Keep logo simple and legible at small sizes",
-        "Consistent branding builds trust",
-        "Use a free tool like Canva if you don't have a logo yet"
+        "Dawn is the newest, fastest free theme",
+        "Mobile-first: 70%+ traffic is mobile",
+        "Paid themes: $150-350 (one-time)",
+        "Can preview before applying",
+        "Customization is intuitive (drag & drop)"
       ],
-      "estimatedTime": "5 minutes"
+      "estimatedTime": "15 minutes",
+      "spotlight": {
+        "target": "[data-polaris-unstyled='true']:contains('Customize'), button:contains('Customize')",
+        "message": "Click 'Customize' to design your store",
+        "type": "info",
+        "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/themes",
+        "message": "Taking you to Themes..."
+      }
     },
     {
       "id": 5,
-      "title": "Add Your First Products",
-      "description": "Create product listings with images and descriptions.",
-      "instructions": "Go to 'Products' → 'Add product'. Enter title, description, price, and upload high-quality images. Add product variants (size, color) if needed. Set SKU and inventory tracking. Click 'Save'.",
-      "actionButtons": [],
-      "tips": [
-        "Use high-resolution images (2048x2048px minimum)",
-        "Write detailed, benefit-focused descriptions",
-        "Add 4-6 images per product from different angles",
-        "Include product dimensions and materials",
-        "Use bullet points for key features"
+      "title": "Set Up Payment Methods",
+      "description": "Enable customers to pay you - Shopify Payments is easiest",
+      "instructions": "1. Go to Settings (bottom left)\n2. Click 'Payments'\n3. For Shopify Payments:\n   - Click 'Complete account setup'\n   - Fill in business details\n   - Bank account for payouts\n   - Verify identity (may need ID)\n4. Alternatively, add PayPal, Stripe, or others\n5. Click 'Save'\n\n💳 Shopify Payments: 2.9% + 30¢ per transaction (no extra fees)",
+      "actionButtons": [
+        {
+          "text": "Set Up Payments",
+          "url": "https://admin.shopify.com/store/settings/payments",
+          "type": "affiliate"
+        }
       ],
-      "estimatedTime": "10 minutes per product"
+      "tips": [
+        "Shopify Payments = lowest fees (no gateway fee)",
+        "Must use Shopify Payments for Shop Pay",
+        "Can accept multiple payment methods",
+        "Bank account verification takes 1-2 days",
+        "Third-party providers charge extra 0.5-2%"
+      ],
+      "estimatedTime": "8 minutes",
+      "spotlight": {
+        "target": "button:contains('Complete'), a:contains('Activate')",
+        "message": "Complete your Shopify Payments setup to accept payments",
+        "type": "warning",
+        "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/settings/payments",
+        "message": "Opening Payment Settings..."
+      }
     },
     {
       "id": 6,
-      "title": "Organize Products into Collections",
-      "description": "Create collections to help customers browse your store.",
-      "instructions": "Go to 'Products' → 'Collections' → 'Create collection'. Name your collection (e.g., 'Summer Sale', 'Best Sellers', 'New Arrivals'). Choose between manual selection or automated based on conditions. Add products and save.",
-      "actionButtons": [],
-      "tips": [
-        "Create at least 3-4 collections",
-        "Use descriptive collection names",
-        "Add collection images for visual appeal",
-        "Automated collections save time as you add products"
+      "title": "Configure Shipping Settings",
+      "description": "Set up how you'll ship products to customers",
+      "instructions": "1. Go to Settings → Shipping and delivery\n2. Under Shipping, click 'Manage rates'\n3. Add shipping zones (countries you ship to)\n4. For each zone, add rates:\n   - Free shipping (set minimum order)\n   - Flat rate (single price)\n   - Calculated (real-time carrier rates)\n5. Set handling time (how long to ship)\n6. Click 'Save'\n\n📦 For digital products: Create a zone with $0 shipping",
+      "actionButtons": [
+        {
+          "text": "Configure Shipping",
+          "url": "https://admin.shopify.com/store/settings/shipping",
+          "type": "affiliate"
+        }
       ],
-      "estimatedTime": "5 minutes"
+      "tips": [
+        "Free shipping increases conversions",
+        "Can offer free over $X (e.g., $50+)",
+        "Real-time rates need carrier account",
+        "Test checkout to verify rates work",
+        "International shipping = more complexity"
+      ],
+      "estimatedTime": "10 minutes",
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/settings/shipping",
+        "message": "Taking you to Shipping Settings..."
+      }
     },
     {
       "id": 7,
-      "title": "Set Up Payment Gateway",
-      "description": "Enable customers to pay you.",
-      "instructions": "Go to 'Settings' → 'Payments'. Activate Shopify Payments (simplest option) or add third-party providers like PayPal, Stripe. Enter your banking information to receive payouts. Enable express checkout options (Shop Pay, Apple Pay, Google Pay).",
-      "actionButtons": [],
-      "tips": [
-        "Shopify Payments has the lowest fees (2.9% + 30¢)",
-        "Always offer PayPal as an option",
-        "Enable express checkout for faster purchases",
-        "Verify your bank account to avoid delays"
+      "title": "Set Up Tax Settings",
+      "description": "Configure automatic tax collection (required in most regions)",
+      "instructions": "1. Go to Settings → Taxes and duties\n2. Your location is auto-detected\n3. Enable 'Collect sales tax' for your region\n4. For US: Shopify calculates state tax automatically\n5. For EU: Enable VAT collection if applicable\n6. Set tax-exempt products if needed\n7. Click 'Save'\n\n⚖️ Note: You're responsible for remitting collected taxes",
+      "actionButtons": [
+        {
+          "text": "Set Up Taxes",
+          "url": "https://admin.shopify.com/store/settings/taxes",
+          "type": "affiliate"
+        }
       ],
-      "estimatedTime": "5 minutes"
+      "tips": [
+        "Shopify auto-calculates tax (most regions)",
+        "US: Economic nexus laws apply",
+        "EU: VAT required if selling to EU",
+        "Consult accountant for complex cases",
+        "Can set up tax overrides for specific products"
+      ],
+      "estimatedTime": "5 minutes",
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/settings/taxes",
+        "message": "Opening Tax Settings..."
+      }
     },
     {
       "id": 8,
-      "title": "Configure Shipping Rates",
-      "description": "Set up how you'll ship products to customers.",
-      "instructions": "Go to 'Settings' → 'Shipping and delivery'. Add shipping zones (regions where you ship), then set rates for each zone. Choose between flat rate, price-based, or weight-based shipping. Consider offering free shipping thresholds.",
-      "actionButtons": [],
-      "tips": [
-        "Free shipping increases conversion rates",
-        "Offer free shipping over a certain amount",
-        "Use real-time carrier rates if shipping many different items",
-        "International shipping requires customs information"
+      "title": "Add Essential Pages",
+      "description": "Create required legal pages and about/contact pages",
+      "instructions": "1. Go to Online Store → Pages\n2. Click 'Add page'\n3. Create these pages:\n   - About Us (your story)\n   - Contact (email/phone/form)\n   - Shipping Policy (auto-generated)\n   - Refund Policy (auto-generated)\n   - Privacy Policy (auto-generated)\n   - Terms of Service (auto-generated)\n4. For legal pages: Use Shopify's policy generator\n5. Customize each page content\n6. Click 'Save' for each\n\n⚖️ Legal pages are required by law in most countries",
+      "actionButtons": [
+        {
+          "text": "Manage Pages",
+          "url": "https://admin.shopify.com/store/pages",
+          "type": "affiliate"
+        }
       ],
-      "estimatedTime": "7 minutes"
+      "tips": [
+        "Use Shopify's policy generator (Settings → Legal)",
+        "About page builds trust",
+        "Contact page: Multiple ways to reach you",
+        "Add these pages to footer navigation",
+        "Review policies with lawyer if high-risk business"
+      ],
+      "estimatedTime": "12 minutes",
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/pages",
+        "message": "Taking you to Pages..."
+      }
     },
     {
       "id": 9,
-      "title": "Set Up Taxes",
-      "description": "Configure tax collection based on your location.",
-      "instructions": "Go to 'Settings' → 'Taxes and duties'. Shopify auto-calculates taxes in most regions. Verify your business address is correct. Enable automatic tax collection. Check if you need to collect taxes in multiple regions.",
-      "actionButtons": [],
-      "tips": [
-        "US sellers: Sales tax is collected in most states automatically",
-        "EU sellers: VAT is required on all sales",
-        "Consult an accountant for complex tax situations",
-        "Keep records of all sales for tax filing"
+      "title": "Set Up Your Domain",
+      "description": "Connect your custom domain or buy one through Shopify",
+      "instructions": "Option 1: Buy domain through Shopify\n1. Go to Settings → Domains\n2. Click 'Buy new domain'\n3. Search for available domain\n4. Purchase (around $14/year)\n5. Done! Auto-configured.\n\nOption 2: Connect existing domain\n1. Go to Settings → Domains\n2. Click 'Connect existing domain'\n3. Enter your domain name\n4. Follow DNS setup instructions\n5. Wait 24-48 hours for propagation\n\n💡 Can keep free .myshopify.com if not ready",
+      "actionButtons": [
+        {
+          "text": "Manage Domains",
+          "url": "https://admin.shopify.com/store/settings/domains",
+          "type": "affiliate"
+        }
       ],
-      "estimatedTime": "3 minutes"
+      "tips": [
+        "Buying through Shopify is easiest (auto-setup)",
+        "Existing domain: You'll need to edit DNS",
+        "Keep .myshopify.com as backup",
+        "Can change primary domain anytime",
+        "SSL certificate included free"
+      ],
+      "estimatedTime": "10 minutes",
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/settings/domains",
+        "message": "Opening Domain Settings..."
+      }
     },
     {
       "id": 10,
-      "title": "Create Essential Pages",
-      "description": "Add legal pages and about information.",
-      "instructions": "Go to 'Online Store' → 'Pages'. Create these pages: About Us, Contact Us, Shipping Policy, Return Policy, Privacy Policy, Terms of Service. Shopify has templates for legal pages in Settings → Policies.",
+      "title": "Install Essential Apps",
+      "description": "Add functionality with apps - many are free",
+      "instructions": "1. Click 'Apps' in left sidebar\n2. Click 'Customize your store'\n3. Browse Shopify App Store\n4. Recommended apps to install:\n   - Email marketing (Klaviyo/Omnisend - free tier)\n   - Reviews (Judge.me - free)\n   - SEO optimizer (Plug in SEO - free)\n   - Live chat (Tidio - free tier)\n   - Analytics (Google Analytics - free)\n5. Click 'Add app' for each\n6. Follow setup wizard for each app\n\n💡 Start with free apps, upgrade as you grow",
       "actionButtons": [
         {
-          "text": "Generate Legal Pages",
-          "url": "https://getterms.io",
+          "text": "Browse App Store",
+          "url": "https://apps.shopify.com/",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Don't over-install (slows site)",
+        "5-10 apps is reasonable for starting",
+        "Check reviews before installing",
+        "Many free apps have paid upgrades",
+        "Can uninstall anytime"
+      ],
+      "estimatedTime": "15 minutes",
+      "spotlight": {
+        "target": "button:contains('Add app'), a:contains('Install')",
+        "message": "Install essential apps to extend your store's functionality",
+        "type": "info",
+        "position": "auto"
+      }
+    },
+    {
+      "id": 11,
+      "title": "Test Your Checkout",
+      "description": "Make sure customers can complete purchases successfully",
+      "instructions": "1. Go to your store (click eye icon in Shopify admin)\n2. Add a product to cart\n3. Go to checkout\n4. Use Shopify's test credit card:\n   - Number: 1 (then any 15 digits)\n   - Expiry: Any future date\n   - CVV: Any 3 digits\n5. Complete the test order\n6. Check that:\n   - Taxes calculate correctly\n   - Shipping rates appear\n   - Order confirmation email arrives\n   - Order appears in Shopify admin\n7. Cancel/refund the test order\n\n✅ Test on both desktop and mobile!",
+      "tips": [
+        "Use incognito mode for realistic test",
+        "Test on mobile (most traffic)",
+        "Try different shipping addresses",
+        "Verify email notifications work",
+        "Check abandoned cart emails (if set up)"
+      ],
+      "estimatedTime": "8 minutes",
+      "spotlight": {
+        "target": "button:contains('Preview'), a:contains('View your store')",
+        "message": "Open your store in a new tab to test the checkout process",
+        "type": "success",
+        "position": "auto"
+      }
+    },
+    {
+      "id": 12,
+      "title": "Launch Your Store!",
+      "description": "Remove password protection and go live",
+      "instructions": "1. Go to Online Store → Preferences\n2. Scroll to 'Password protection' section\n3. Uncheck 'Enable password'\n4. Click 'Save'\n5. Your store is now live! 🎉\n\nNext steps:\n- Share on social media\n- Start marketing (SEO, ads, social)\n- Add more products\n- Set up Google Analytics\n- Create email marketing campaigns\n\n💡 Keep improving based on customer feedback!",
+      "actionButtons": [
+        {
+          "text": "Remove Password",
+          "url": "https://admin.shopify.com/store/online_store/preferences",
+          "type": "affiliate"
+        },
+        {
+          "text": "View Your Live Store",
+          "url": "https://www.myshopify.com/",
           "type": "resource"
         }
       ],
       "tips": [
-        "Use Shopify's policy generators as a starting point",
-        "Legal pages build customer trust",
-        "Make policies easy to find in the footer",
-        "Write About Us in first person to connect with customers"
+        "Take final screenshots before launch",
+        "Have at least 5-10 products ready",
+        "Announce launch with special offer",
+        "Start collecting emails immediately",
+        "Monitor analytics daily at first"
       ],
-      "estimatedTime": "10 minutes"
-    },
-    {
-      "id": 11,
-      "title": "Set Up Your Domain",
-      "description": "Connect a custom domain to your store.",
-      "instructions": "Go to 'Settings' → 'Domains'. Either buy a domain through Shopify ($14/year) or connect an existing domain from GoDaddy, Namecheap, etc. Follow the instructions to update DNS records.",
-      "actionButtons": [
-        {
-          "text": "Search Domains on Shopify",
-          "url": "https://shopify.com/domains?ref=guidefloat",
-          "type": "affiliate"
-        }
-      ],
-      "tips": [
-        "Use .com if possible for credibility",
-        "Keep domain name short and memorable",
-        "Buying through Shopify is easiest for beginners",
-        "DNS changes can take 24-48 hours to propagate"
-      ],
-      "estimatedTime": "5 minutes"
-    },
-    {
-      "id": 12,
-      "title": "Launch Your Store",
-      "description": "Remove password protection and go live!",
-      "instructions": "Go to 'Online Store' → 'Preferences'. Scroll to 'Password protection' and uncheck 'Enable password'. Choose a Shopify plan (Basic at $39/month recommended). Enter payment details and click 'Select plan'. Your store is now live!",
-      "actionButtons": [
-        {
-          "text": "Compare Shopify Plans",
-          "url": "https://shopify.com/pricing?ref=guidefloat",
-          "type": "affiliate"
-        }
-      ],
-      "tips": [
-        "Test the checkout process before launching",
-        "Share your store with friends for feedback",
-        "Install Google Analytics for tracking",
-        "Consider adding live chat for customer support",
-        "Announce your launch on social media"
-      ],
-      "estimatedTime": "5 minutes"
+      "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "input[type='checkbox']:contains('password'), label:contains('password')",
+        "message": "Uncheck 'Enable password' to make your store public",
+        "type": "success",
+        "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "https://admin.shopify.com/store/online_store/preferences",
+        "message": "Taking you to launch your store..."
+      }
     }
   ],
   "resources": [
     {
-      "title": "Shopify Academy",
-      "url": "https://shopify.com/academy"
+      "title": "Shopify Help Center",
+      "url": "https://help.shopify.com/"
     },
     {
-      "title": "Shopify Community Forums",
-      "url": "https://community.shopify.com"
+      "title": "Shopify Blog",
+      "url": "https://www.shopify.com/blog"
+    },
+    {
+      "title": "Shopify YouTube Channel",
+      "url": "https://www.youtube.com/user/shopify"
+    },
+    {
+      "title": "Free Shopify Courses",
+      "url": "https://www.shopify.com/learn"
     }
   ],
-  "affiliateDisclosure": "This guide contains affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you."
+  "nextSteps": [
+    "Add 10+ products to your store",
+    "Set up Google Analytics for tracking",
+    "Create social media business pages",
+    "Start email marketing campaigns",
+    "Run your first paid ads (Google/Facebook)",
+    "Optimize for SEO",
+    "Join Shopify Community forums"
+  ]
 }
-
