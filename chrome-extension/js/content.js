@@ -4,9 +4,63 @@
 (function() {
     'use strict';
 
-    // Prevent multiple injections
-    if (window.guideFloatInjected) return;
+    console.log('[GuideFloat Content] Script loaded');
+    
+    // Always set up message listener first (even on re-injection)
+    if (!window.guideFloatListenerSetup) {
+        console.log('[GuideFloat Content] Setting up message listener...');
+        
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            console.log('[GuideFloat Content] Received message:', message.action);
+            
+            if (message.action === 'ping') {
+                // Respond to ping to confirm script is loaded
+                console.log('[GuideFloat Content] Responding to ping');
+                sendResponse({ status: 'ready' });
+                return true;
+            } else if (message.action === 'showGuide') {
+                console.log('[GuideFloat Content] Showing guide:', message.guideId);
+                if (window.GuideFloat) {
+                    window.GuideFloat.loadGuide(message.guideId);
+                    sendResponse({ status: 'shown' });
+                } else {
+                    console.error('[GuideFloat Content] GuideFloat object not ready!');
+                    sendResponse({ status: 'error', message: 'GuideFloat not initialized' });
+                }
+                return true;
+            } else if (message.action === 'hideGuide') {
+                if (window.GuideFloat) {
+                    window.GuideFloat.hide();
+                    sendResponse({ status: 'hidden' });
+                } else {
+                    sendResponse({ status: 'error' });
+                }
+                return true;
+            } else if (message.action === 'showWidget') {
+                // Show and un-minimize the widget if it exists
+                if (window.GuideFloat && window.GuideFloat.widget) {
+                    window.GuideFloat.widget.style.display = 'flex';
+                    window.GuideFloat.widget.classList.remove('minimized');
+                    window.GuideFloat.isMinimized = false;
+                    sendResponse({ status: 'shown' });
+                } else {
+                    sendResponse({ status: 'no_widget' });
+                }
+                return true;
+            }
+        });
+        
+        window.guideFloatListenerSetup = true;
+        console.log('[GuideFloat Content] Message listener ready!');
+    }
+
+    // Prevent multiple full injections
+    if (window.guideFloatInjected) {
+        console.log('[GuideFloat Content] Already injected, skipping re-initialization');
+        return;
+    }
     window.guideFloatInjected = true;
+    console.log('[GuideFloat Content] Initializing GuideFloat object...');
 
     // Main GuideFloat object
     const GuideFloat = {
@@ -487,35 +541,15 @@
         }
     };
 
-    // Initialize on page load
-    GuideFloat.init();
+    // Make GuideFloat globally accessible
+    window.GuideFloat = GuideFloat;
+    console.log('[GuideFloat Content] GuideFloat object ready');
 
-    // Listen for messages from popup
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        if (message.action === 'ping') {
-            // Respond to ping to confirm script is loaded
-            sendResponse({ status: 'ready' });
-            return true;
-        } else if (message.action === 'showGuide') {
-            GuideFloat.loadGuide(message.guideId);
-            sendResponse({ status: 'shown' });
-            return true;
-        } else if (message.action === 'hideGuide') {
-            GuideFloat.hide();
-            sendResponse({ status: 'hidden' });
-            return true;
-        } else if (message.action === 'showWidget') {
-            // Show and un-minimize the widget if it exists
-            if (GuideFloat.widget) {
-                GuideFloat.widget.style.display = 'flex';
-                GuideFloat.widget.classList.remove('minimized');
-                GuideFloat.isMinimized = false;
-                sendResponse({ status: 'shown' });
-            } else {
-                sendResponse({ status: 'no_widget' });
-            }
-            return true;
-        }
+    // Initialize on page load
+    GuideFloat.init().then(() => {
+        console.log('[GuideFloat Content] Initialization complete');
+    }).catch((err) => {
+        console.error('[GuideFloat Content] Initialization error:', err);
     });
 
 })();
