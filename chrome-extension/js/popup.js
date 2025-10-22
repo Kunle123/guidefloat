@@ -525,6 +525,14 @@ async function selectGuide(guideId) {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
     console.log(`[GuideFloat] Loading guide "${guideId}" on tab ${tab.id}`);
+    console.log(`[GuideFloat] Tab URL: ${tab.url}`);
+    
+    // Check if we can inject on this URL
+    if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
+        showStatus('❌ Cannot inject on browser pages. Try a regular website.', 'error');
+        console.error('[GuideFloat] Cannot inject on restricted URL:', tab.url);
+        return;
+    }
     
     // Show loading feedback
     showStatus('Loading guide...', 'info');
@@ -538,17 +546,25 @@ async function selectGuide(guideId) {
             files: ['css/widget.css'],
             origin: 'USER'
         });
+        console.log('[GuideFloat] ✓ CSS injected');
         
         console.log('[GuideFloat] Injecting JavaScript...');
         // Then inject JavaScript
-        await chrome.scripting.executeScript({
+        const injection = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             files: ['js/content.js']
         });
-        console.log('[GuideFloat] Scripts injected successfully');
+        console.log('[GuideFloat] ✓ JavaScript injected, result:', injection);
     } catch (e) {
-        // Script might already be injected, that's okay
-        console.log('[GuideFloat] Script injection skipped (already injected):', e.message);
+        console.error('[GuideFloat] ❌ Injection failed:', e);
+        showStatus('❌ Failed to inject script. See console for details.', 'error');
+        console.error('[GuideFloat] Injection error details:', {
+            message: e.message,
+            stack: e.stack,
+            tabId: tab.id,
+            tabUrl: tab.url
+        });
+        return; // Stop here if injection failed
     }
     
     // Wait for script to be ready with ping checks
