@@ -59,6 +59,22 @@ let isWidgetVisible = false;
 // Initialize popup
 document.addEventListener('DOMContentLoaded', async function() {
     await loadState();
+    
+    // If a guide is active, check if we should focus its tab
+    if (currentGuideId && isWidgetVisible) {
+        const result = await chrome.storage.local.get(['activeTabId']);
+        if (result.activeTabId) {
+            // Check if that tab still exists
+            try {
+                await chrome.tabs.get(result.activeTabId);
+                // Tab exists, we can offer to switch to it
+            } catch (e) {
+                // Tab was closed, clear the stored tab ID
+                await chrome.storage.local.remove('activeTabId');
+            }
+        }
+    }
+    
     renderGuides();
     setupEventListeners();
     updateStatus();
@@ -112,6 +128,11 @@ function renderGuides() {
 
 // Select a guide
 async function selectGuide(guideId) {
+    // Close any existing guide first (only one at a time)
+    if (currentGuideId && currentGuideId !== guideId) {
+        await closeAllGuides();
+    }
+    
     currentGuideId = guideId;
     await chrome.storage.local.set({ currentGuide: guideId });
     
@@ -120,13 +141,27 @@ async function selectGuide(guideId) {
     await chrome.tabs.sendMessage(tab.id, {
         action: 'showGuide',
         guideId: guideId
+    }).catch(() => {
+        // Tab doesn't have content script loaded yet, it's okay
     });
     
     isWidgetVisible = true;
-    await chrome.storage.local.set({ widgetVisible: true });
+    await chrome.storage.local.set({ widgetVisible: true, activeTabId: tab.id });
     
     renderGuides();
     updateStatus();
+}
+
+// Close all guides across all tabs
+async function closeAllGuides() {
+    const tabs = await chrome.tabs.query({});
+    for (const tab of tabs) {
+        try {
+            await chrome.tabs.sendMessage(tab.id, { action: 'hideGuide' });
+        } catch (e) {
+            // Tab doesn't have guide, continue
+        }
+    }
 }
 
 // Setup event listeners
@@ -134,49 +169,80 @@ function setupEventListeners() {
     // Search
     document.getElementById('searchInput').addEventListener('input', renderGuides);
     
-    // Toggle button
+    // Toggle button (now acts as Close button)
     document.getElementById('toggleBtn').addEventListener('click', async () => {
         if (!currentGuideId) {
             showStatus('Please select a guide first', 'error');
             return;
         }
         
-        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        // Close the guide completely
+        await closeAllGuides();
         
-        if (isWidgetVisible) {
-            await chrome.tabs.sendMessage(tab.id, { action: 'hideGuide' });
-            isWidgetVisible = false;
-        } else {
-            await chrome.tabs.sendMessage(tab.id, {
-                action: 'showGuide',
-                guideId: currentGuideId
-            });
-            isWidgetVisible = true;
-        }
+        // Clear state
+        currentGuideId = null;
+        isWidgetVisible = false;
+        await chrome.storage.local.set({ 
+            currentGuide: null, 
+            widgetVisible: false,
+            activeTabId: null
+        });
         
-        await chrome.storage.local.set({ widgetVisible: isWidgetVisible });
+        renderGuides();
         updateStatus();
+        showStatus('Guide closed', 'success');
     });
 }
 
 // Update status display
-function updateStatus() {
+async function updateStatus() {
     const statusEl = document.getElementById('status');
     const toggleBtn = document.getElementById('toggleBtn');
     
     if (currentGuideId) {
         const guide = guides.find(g => g.id === currentGuideId);
+        const result = await chrome.storage.local.get(['activeTabId']);
+        
         statusEl.style.display = 'block';
-        statusEl.innerHTML = `✓ ${guide.title}<br><small style="opacity: 0.8;">Guide will appear on all pages</small>`;
+        statusEl.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <div>✓ ${guide.title}</div>
+                    <small style="opacity: 0.8;">Active guide</small>
+                </div>
+                <button id="goToGuideBtn" style="padding: 6px 12px; background: #10b981; border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">
+                    Go to Guide →
+                </button>
+            </div>
+        `;
+        
+        // Add event listener for "Go to Guide" button
+        setTimeout(() => {
+            const goBtn = document.getElementById('goToGuideBtn');
+            if (goBtn) {
+                goBtn.addEventListener('click', async () => {
+                    if (result.activeTabId) {
+                        try {
+                            await chrome.tabs.update(result.activeTabId, { active: true });
+                            window.close(); // Close popup
+                        } catch (e) {
+                            alert('The tab with the guide was closed. The guide will appear on your current tab.');
+                            // Show on current tab instead
+                            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+                            await chrome.tabs.sendMessage(tab.id, {
+                                action: 'showGuide',
+                                guideId: currentGuideId
+                            });
+                            await chrome.storage.local.set({ activeTabId: tab.id });
+                        }
+                    }
+                });
+            }
+        }, 100);
         
         toggleBtn.style.display = 'block';
-        if (isWidgetVisible) {
-            toggleBtn.textContent = 'Hide Guide';
-            toggleBtn.classList.add('hide');
-        } else {
-            toggleBtn.textContent = 'Show Guide on This Page';
-            toggleBtn.classList.remove('hide');
-        }
+        toggleBtn.textContent = 'Close Guide';
+        toggleBtn.classList.add('hide');
     } else {
         statusEl.style.display = 'none';
         toggleBtn.style.display = 'none';
