@@ -485,6 +485,21 @@ function createFullGuideCard(guide) {
 
 // Select a guide
 async function selectGuide(guideId) {
+    // If clicking the same guide that's already active, just switch to its tab
+    if (currentGuideId === guideId) {
+        const result = await chrome.storage.local.get(['activeTabId']);
+        if (result.activeTabId) {
+            try {
+                await chrome.tabs.update(result.activeTabId, { active: true });
+                window.close(); // Close popup
+                return;
+            } catch (e) {
+                // Tab was closed, continue to show guide on current tab
+                console.log('Active tab was closed, showing on current tab');
+            }
+        }
+    }
+    
     // Close any existing guide first (only one at a time)
     if (currentGuideId && currentGuideId !== guideId) {
         await closeAllGuides();
@@ -509,11 +524,14 @@ async function selectGuide(guideId) {
     // Get current tab
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
+    console.log(`[GuideFloat] Loading guide "${guideId}" on tab ${tab.id}`);
+    
     // Show loading feedback
     showStatus('Loading guide...', 'info');
     
     // Inject CSS and script into this specific tab (CSS first!)
     try {
+        console.log('[GuideFloat] Injecting CSS...');
         // Inject CSS first with USER origin for highest priority
         await chrome.scripting.insertCSS({
             target: { tabId: tab.id },
@@ -521,50 +539,64 @@ async function selectGuide(guideId) {
             origin: 'USER'
         });
         
+        console.log('[GuideFloat] Injecting JavaScript...');
         // Then inject JavaScript
         await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             files: ['js/content.js']
         });
+        console.log('[GuideFloat] Scripts injected successfully');
     } catch (e) {
         // Script might already be injected, that's okay
-        console.log('Script injection skipped:', e);
+        console.log('[GuideFloat] Script injection skipped (already injected):', e.message);
     }
     
     // Wait for script to be ready with ping checks
+    console.log('[GuideFloat] Waiting for content script to be ready...');
     let scriptReady = false;
     let maxPingAttempts = 5;
     
     for (let i = 0; i < maxPingAttempts; i++) {
-        await new Promise(resolve => setTimeout(resolve, 200 * (i + 1))); // Increasing delay
+        const delay = 200 * (i + 1);
+        console.log(`[GuideFloat] Ping attempt ${i + 1}/${maxPingAttempts} (waiting ${delay}ms)...`);
+        await new Promise(resolve => setTimeout(resolve, delay)); // Increasing delay
         
         try {
             const response = await chrome.tabs.sendMessage(tab.id, { action: 'ping' });
             if (response && response.status === 'ready') {
                 scriptReady = true;
-                console.log('Content script is ready!');
+                console.log('[GuideFloat] ✓ Content script is ready!');
                 break;
             }
         } catch (e) {
-            console.log(`Ping attempt ${i + 1}/${maxPingAttempts} failed`);
+            console.log(`[GuideFloat] Ping attempt ${i + 1} failed:`, e.message);
         }
     }
     
     if (!scriptReady) {
-        console.warn('Script may not be fully loaded, trying to show guide anyway...');
+        console.warn('[GuideFloat] ⚠️ Script did not respond to ping, trying anyway...');
+        showStatus('⚠️ Loading slowly... check your tab', 'error');
     }
     
     // Now show the guide
     try {
+        console.log(`[GuideFloat] Sending showGuide message for "${guideId}"...`);
         await chrome.tabs.sendMessage(tab.id, {
             action: 'showGuide',
             guideId: guideId
         });
-        console.log('Guide loaded successfully!');
+        console.log('[GuideFloat] ✓ Guide loaded successfully!');
         showStatus('✓ Guide loaded!', 'success');
     } catch (e) {
-        console.error('Failed to show guide:', e);
-        showStatus('⚠️ Guide may appear in a moment. Check your tab!', 'error');
+        console.error('[GuideFloat] ❌ Failed to show guide:', e);
+        showStatus('❌ Failed to load. Check console (F12) for details.', 'error');
+        // Log detailed error for debugging
+        console.error('[GuideFloat] Error details:', {
+            error: e.message,
+            stack: e.stack,
+            tabId: tab.id,
+            guideId: guideId
+        });
     }
     
     isWidgetVisible = true;
@@ -636,104 +668,10 @@ async function updateStatus() {
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div>
                     <div>✓ ${guide.title}</div>
-                    <small style="opacity: 0.8;">Active guide</small>
+                    <small style="opacity: 0.8;">Click guide to switch to it</small>
                 </div>
-                <button id="goToGuideBtn" style="padding: 6px 12px; background: #10b981; border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">
-                    Go to Guide →
-                </button>
             </div>
         `;
-        
-        // Add event listener for "Go to Guide" button
-        setTimeout(() => {
-            const goBtn = document.getElementById('goToGuideBtn');
-            if (goBtn) {
-                goBtn.addEventListener('click', async () => {
-                    if (result.activeTabId) {
-                        try {
-                            // Switch to the tab
-                            await chrome.tabs.update(result.activeTabId, { active: true });
-                            
-                            // Wait a bit for tab to become active
-                            await new Promise(resolve => setTimeout(resolve, 100));
-                            
-                            // Try to ping the content script
-                            let scriptReady = false;
-                            try {
-                                const pingResponse = await chrome.tabs.sendMessage(result.activeTabId, {
-                                    action: 'ping'
-                                });
-                                if (pingResponse && pingResponse.status === 'ready') {
-                                    scriptReady = true;
-                                }
-                            } catch (err) {
-                                console.log('Script not responding, will re-inject');
-                            }
-                            
-                            // If script not ready, re-inject
-                            if (!scriptReady) {
-                                try {
-                                    // Re-inject CSS and script
-                                    await chrome.scripting.insertCSS({
-                                        target: { tabId: result.activeTabId },
-                                        files: ['css/widget.css'],
-                                        origin: 'USER'
-                                    });
-                                    
-                                    await chrome.scripting.executeScript({
-                                        target: { tabId: result.activeTabId },
-                                        files: ['js/content.js']
-                                    });
-                                    
-                                    // Wait for script to load with ping
-                                    let ready = false;
-                                    for (let i = 0; i < 5; i++) {
-                                        await new Promise(resolve => setTimeout(resolve, 300));
-                                        try {
-                                            const pingResp = await chrome.tabs.sendMessage(result.activeTabId, {
-                                                action: 'ping'
-                                            });
-                                            if (pingResp && pingResp.status === 'ready') {
-                                                ready = true;
-                                                break;
-                                            }
-                                        } catch (e) {
-                                            console.log(`Ping ${i + 1} failed after re-injection`);
-                                        }
-                                    }
-                                    
-                                    if (!ready) {
-                                        showStatus('Could not load guide. Please select it again.', 'error');
-                                        return;
-                                    }
-                                } catch (reinjectErr) {
-                                    showStatus('Could not show guide. Please select it again.', 'error');
-                                    return;
-                                }
-                            }
-                            
-                            // Now show the widget
-                            try {
-                                await chrome.tabs.sendMessage(result.activeTabId, {
-                                    action: 'showWidget'
-                                });
-                            } catch (showErr) {
-                                console.error('Failed to show widget:', showErr);
-                            }
-                            
-                            window.close(); // Close popup
-                        } catch (e) {
-                            showStatus('Tab was closed. Click a guide to restart.', 'error');
-                            // Clear the invalid tab reference
-                            currentGuideId = null;
-                            await chrome.storage.local.remove(['currentGuide', 'widgetVisible', 'activeTabId']);
-                            renderGuides();
-                            updateStatus();
-                        }
-                    }
-                });
-            }
-        }, 100);
         
         toggleBtn.style.display = 'block';
         toggleBtn.textContent = 'Close Guide';
