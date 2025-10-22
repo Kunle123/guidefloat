@@ -74,7 +74,13 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
             origin: 'USER'
         });
         
-        // Then inject JavaScript
+        // Inject page detector first
+        await chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            files: ['js/page-detector.js']
+        });
+        
+        // Then inject main content script
         await chrome.scripting.executeScript({
             target: { tabId: tabId },
             files: ['js/content.js']

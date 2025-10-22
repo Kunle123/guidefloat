@@ -565,12 +565,19 @@ async function selectGuide(guideId) {
         console.log('[GuideFloat] ✓ CSS injected');
         
         console.log('[GuideFloat] Injecting JavaScript...');
-        // Then inject JavaScript
+        // Inject page detector first
+        await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['js/page-detector.js']
+        });
+        console.log('[GuideFloat] ✓ Page detector injected');
+        
+        // Then inject main content script
         const injection = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             files: ['js/content.js']
         });
-        console.log('[GuideFloat] ✓ JavaScript injected, result:', injection);
+        console.log('[GuideFloat] ✓ Content script injected, result:', injection);
     } catch (e) {
         console.error('[GuideFloat] ❌ Injection failed:', e);
         showStatus('❌ Failed to inject script. See console for details.', 'error');

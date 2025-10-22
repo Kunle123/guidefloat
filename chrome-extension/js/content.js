@@ -93,6 +93,17 @@
                 this.currentStepIndex = progress ? progress.currentStep - 1 : 0;
                 
                 this.show();
+                
+                // Smart detection: Check if user has already completed some steps
+                if (window.PageDetector) {
+                    console.log('[GuideFloat] Running smart page detection...');
+                    const detectedState = await window.PageDetector.detectGuideState(guideId);
+                    const suggestion = window.PageDetector.getSuggestionMessage(detectedState, guideId);
+                    
+                    if (suggestion && suggestion.steps && suggestion.steps.length > 0) {
+                        this.showSmartSuggestion(suggestion);
+                    }
+                }
             } catch (error) {
                 console.error('Failed to load guide:', error);
             }
@@ -514,6 +525,133 @@
                     peekBtn.title = 'Full Mode (Expand)';
                 }
             }
+        },
+
+        showSmartSuggestion: function(suggestion) {
+            console.log('[GuideFloat] Showing smart suggestion:', suggestion);
+            
+            // Create notification overlay
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 16px;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 10;
+                animation: slideDown 0.3s ease-out;
+            `;
+            
+            notification.innerHTML = `
+                <style>
+                    @keyframes slideDown {
+                        from { transform: translateY(-100%); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                </style>
+                <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">
+                    ${suggestion.title}
+                </div>
+                <div style="font-size: 13px; line-height: 1.5; margin-bottom: 12px; opacity: 0.95;">
+                    ${suggestion.message}
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="smart-accept" style="
+                        flex: 1;
+                        background: white;
+                        color: #667eea;
+                        border: none;
+                        padding: 10px 16px;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        font-size: 13px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                    ">
+                        ✓ Yes, Skip These Steps
+                    </button>
+                    <button class="smart-decline" style="
+                        flex: 1;
+                        background: rgba(255, 255, 255, 0.2);
+                        color: white;
+                        border: none;
+                        padding: 10px 16px;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        font-size: 13px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                    ">
+                        No Thanks
+                    </button>
+                </div>
+            `;
+            
+            // Add hover effects
+            const acceptBtn = notification.querySelector('.smart-accept');
+            const declineBtn = notification.querySelector('.smart-decline');
+            
+            acceptBtn.addEventListener('mouseenter', () => {
+                acceptBtn.style.background = '#f0f0f0';
+                acceptBtn.style.transform = 'scale(1.02)';
+            });
+            acceptBtn.addEventListener('mouseleave', () => {
+                acceptBtn.style.background = 'white';
+                acceptBtn.style.transform = 'scale(1)';
+            });
+            
+            declineBtn.addEventListener('mouseenter', () => {
+                declineBtn.style.background = 'rgba(255, 255, 255, 0.3)';
+                declineBtn.style.transform = 'scale(1.02)';
+            });
+            declineBtn.addEventListener('mouseleave', () => {
+                declineBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+                declineBtn.style.transform = 'scale(1)';
+            });
+            
+            // Handle accept
+            acceptBtn.addEventListener('click', async () => {
+                // Mark suggested steps as completed
+                const progress = await this.loadProgress(this.currentGuide.id);
+                const completedSteps = progress ? progress.completedSteps : [];
+                
+                for (const stepNum of suggestion.steps) {
+                    if (!completedSteps.includes(stepNum)) {
+                        completedSteps.push(stepNum);
+                    }
+                }
+                
+                await this.saveProgress(this.currentGuide.id, this.currentStepIndex + 1, completedSteps);
+                
+                // Re-render to show updated state
+                this.renderSteps();
+                this.updateProgress();
+                
+                // Remove notification with animation
+                notification.style.animation = 'slideDown 0.3s ease-out reverse';
+                setTimeout(() => notification.remove(), 300);
+            });
+            
+            // Handle decline
+            declineBtn.addEventListener('click', () => {
+                notification.style.animation = 'slideDown 0.3s ease-out reverse';
+                setTimeout(() => notification.remove(), 300);
+            });
+            
+            // Add to widget
+            this.widget.insertBefore(notification, this.widget.firstChild);
+            
+            // Auto-dismiss after 15 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideDown 0.3s ease-out reverse';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 15000);
         },
 
         close: async function() {
