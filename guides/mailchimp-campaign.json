@@ -1,0 +1,187 @@
+{
+  "id": "mailchimp-campaign",
+  "title": "Mailchimp Email Campaign",
+  "description": "Create and launch your first email marketing campaign with Mailchimp",
+  "category": "Email",
+  "difficulty": "Beginner",
+  "estimatedTime": "30 minutes",
+  "totalSteps": 10,
+  "steps": [
+    {
+      "id": 1,
+      "title": "Create Mailchimp Account",
+      "description": "Sign up for a free Mailchimp account to get started.",
+      "instructions": "Go to Mailchimp.com and click 'Sign Up Free'. Enter your email, create a username and password. Verify your email address. Mailchimp's free plan includes up to 500 subscribers and 1,000 sends per month.",
+      "actionButtons": [
+        {
+          "text": "Sign Up for Mailchimp",
+          "url": "https://mailchimp.com?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Free plan is perfect for getting started",
+        "Use a business email for professional appearance",
+        "Enable two-factor authentication for security"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 2,
+      "title": "Complete Your Profile",
+      "description": "Add your business information and contact details.",
+      "instructions": "Click your profile icon → 'Account & Billing' → 'Settings'. Fill in your business name, website URL, physical address (required by law), and phone number. This information appears in your emails.",
+      "actionButtons": [],
+      "tips": [
+        "Physical address is legally required for marketing emails",
+        "Use a professional business name",
+        "Add your logo to brand your emails"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 3,
+      "title": "Create Your First Audience",
+      "description": "Set up a list to store your subscribers.",
+      "instructions": "Go to 'Audience' → 'All contacts' → 'Settings' → 'Audience name and defaults'. Name your audience (e.g., 'Newsletter Subscribers'). Set the default from email and name. Enable double opt-in for better engagement.",
+      "actionButtons": [],
+      "tips": [
+        "You can have multiple audiences for different purposes",
+        "Double opt-in reduces spam complaints",
+        "Keep audience names descriptive",
+        "Enable GDPR fields if you have EU subscribers"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 4,
+      "title": "Import or Add Contacts",
+      "description": "Add subscribers to your audience.",
+      "instructions": "Click 'Audience' → 'Add contacts'. Choose 'Import contacts' for CSV/Excel files, or 'Add a subscriber' to manually add people. Make sure you have permission to email these contacts. Tag contacts for better segmentation.",
+      "actionButtons": [],
+      "tips": [
+        "Only email people who opted in",
+        "Clean your list - remove invalid emails",
+        "Use tags to organize subscribers by interest",
+        "Never buy email lists - it violates Mailchimp's terms"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 5,
+      "title": "Create a New Campaign",
+      "description": "Start building your email campaign.",
+      "instructions": "Go to 'Campaigns' → 'Create Campaign' → 'Email'. Choose 'Regular' for a standard email. Name your campaign (internal use only). Select your audience and click 'Begin'.",
+      "actionButtons": [],
+      "tips": [
+        "Use descriptive campaign names for your records",
+        "Save campaigns as templates if you'll reuse them",
+        "Schedule campaigns for optimal send times"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 6,
+      "title": "Set Up Campaign Details",
+      "description": "Configure who the email is from and the subject line.",
+      "instructions": "Fill in 'From name' (your business or personal name), 'From email address', 'Subject line', and 'Preview text'. The preview text appears in inbox previews. Make your subject line compelling but not spammy.",
+      "actionButtons": [],
+      "tips": [
+        "Subject lines under 50 characters perform best",
+        "Avoid spam trigger words (Free, Win, Click here)",
+        "Use personalization like first name when appropriate",
+        "A/B test different subject lines",
+        "Preview text should complement the subject line"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 7,
+      "title": "Design Your Email",
+      "description": "Create an attractive, on-brand email design.",
+      "instructions": "Click 'Design Email'. Choose a template or start from scratch. Mailchimp's drag-and-drop editor lets you add text, images, buttons, dividers, and more. Keep design clean and mobile-friendly. Add your logo at the top.",
+      "actionButtons": [
+        {
+          "text": "Browse Email Templates",
+          "url": "https://mailchimp.com/email-templates?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Use a single-column layout for mobile compatibility",
+        "Keep important content above the fold",
+        "Use images sparingly - they slow load times",
+        "Include clear call-to-action buttons",
+        "Match colors to your brand",
+        "Test on mobile before sending"
+      ],
+      "estimatedTime": "10 minutes"
+    },
+    {
+      "id": 8,
+      "title": "Write Compelling Content",
+      "description": "Craft email copy that engages and converts.",
+      "instructions": "Write in a conversational tone. Start with a strong hook, provide value (tips, offers, news), and end with a clear call-to-action. Keep paragraphs short. Use bullet points for easy scanning. Include links to your website or products.",
+      "actionButtons": [],
+      "tips": [
+        "Write like you're talking to one person, not a crowd",
+        "Focus on benefits, not just features",
+        "Use emojis sparingly to add personality",
+        "Include social proof (testimonials, stats)",
+        "Make unsubscribe link easy to find (it's the law)",
+        "Proofread carefully for typos"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 9,
+      "title": "Preview and Test Send",
+      "description": "Check how your email looks before sending to everyone.",
+      "instructions": "Click 'Preview and Test' → 'Send a test email'. Enter your email address and send. Check it on desktop and mobile. Look for broken links, formatting issues, and typos. Make any necessary edits.",
+      "actionButtons": [],
+      "tips": [
+        "Send test to multiple email clients (Gmail, Outlook, Apple Mail)",
+        "Check on both desktop and mobile",
+        "Click all links to verify they work",
+        "Ask a colleague to review before sending",
+        "Use Mailchimp's inbox preview feature"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 10,
+      "title": "Send or Schedule Campaign",
+      "description": "Launch your email to subscribers!",
+      "instructions": "Click 'Continue to Review' to see a summary. If everything looks good, choose 'Send' (immediate) or 'Schedule' (later). Best times to send: Tuesday-Thursday, 10am or 2pm in your audience's timezone. Monitor results in the Reports section.",
+      "actionButtons": [
+        {
+          "text": "View Campaign Reports",
+          "url": "https://mailchimp.com/reports?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Tuesday-Thursday mornings have highest open rates",
+        "Avoid Monday mornings and Friday afternoons",
+        "Test different send times with small segments",
+        "Track opens, clicks, and unsubscribes",
+        "Good open rate: 15-25%",
+        "Good click rate: 2-5%",
+        "Clean inactive subscribers every 6 months"
+      ],
+      "estimatedTime": "2 minutes"
+    }
+  ],
+  "resources": [
+    {
+      "title": "Mailchimp Marketing Library",
+      "url": "https://mailchimp.com/marketing-glossary/"
+    },
+    {
+      "title": "Email Marketing Best Practices",
+      "url": "https://mailchimp.com/resources/"
+    }
+  ],
+  "affiliateDisclosure": "This guide contains affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you."
+}
+

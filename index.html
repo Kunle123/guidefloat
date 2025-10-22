@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Step-by-step guides that float while you work. Complete complex tasks with ease using GuideFloat's interactive floating widgets.">
+    <title>GuideFloat - Step-by-Step Guides That Float While You Work</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .bookmarklet-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: move;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .bookmarklet-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .guide-card {
+            transition: all 0.3s ease;
+            border: 2px solid #E5E7EB;
+        }
+        
+        .guide-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: #3B82F6;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-beginner {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .difficulty-intermediate {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .difficulty-advanced {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-3xl">🚀</span>
+                    <h1 class="text-2xl font-bold text-gray-900">GuideFloat</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#guides" class="text-gray-600 hover:text-gray-900 font-medium">Browse Guides</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-gray-900 font-medium">How It Works</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-5xl font-bold mb-6">Step-by-step guides that float while you work</h2>
+            <p class="text-xl mb-8 text-purple-100 max-w-2xl mx-auto">
+                Complete complex tasks with confidence. Our floating widget stays visible while you work on any website.
+            </p>
+            
+            <!-- Bookmarklet Section -->
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border-2 border-white/20">
+                <p class="text-lg mb-4 font-semibold">🎯 Get Started in 2 Steps:</p>
+                <ol class="text-left space-y-3 mb-6">
+                    <li class="flex items-start">
+                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">1</span>
+                        <span>Drag the button below to your bookmarks bar</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">2</span>
+                        <span>Click it on any page to open your guide</span>
+                    </li>
+                </ol>
+                
+                <a href="javascript:(function(){if(document.getElementById('guidefloat-widget')){alert('GuideFloat is already running!');return;}var css=document.createElement('link');css.rel='stylesheet';css.href='https://guidefloat.com/widget.css';document.head.appendChild(css);var script=document.createElement('script');script.src='https://guidefloat.com/widget.js';script.onload=function(){GuideFloat.init({guideId:localStorage.getItem('guidefloat-current-guide')||null});};document.body.appendChild(script);})();" 
+                   class="bookmarklet-button inline-flex items-center"
+                   onclick="alert('Drag this button to your bookmarks bar instead of clicking!'); return false;">
+                    <i class="fas fa-rocket mr-2"></i>
+                    📌 GuideFloat Bookmarklet
+                </a>
+                
+                <p class="text-sm mt-4 text-purple-100">
+                    <i class="fas fa-info-circle"></i> Drag this to your bookmarks bar (don't click)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section id="guides" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 space-y-4 md:space-y-0">
+            <!-- Search Bar -->
+            <div class="relative flex-1 max-w-md">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Search guides..." 
+                    class="w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition"
+                >
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+            
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2">
+                <button class="category-filter active px-4 py-2 rounded-lg font-medium transition bg-blue-500 text-white" data-category="all">
+                    All
+                </button>
+                <button class="category-filter px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="marketing">
+                    📱 Marketing
+                </button>
+                <button class="category-filter px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="website">
+                    🌐 Website
+                </button>
+                <button class="category-filter px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="email">
+                    📧 Email
+                </button>
+                <button class="category-filter px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="ecommerce">
+                    🛒 E-commerce
+                </button>
+                <button class="category-filter px-4 py-2 rounded-lg font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="analytics">
+                    📊 Analytics
+                </button>
+            </div>
+        </div>
+
+        <!-- Guide Cards Grid -->
+        <div id="guideGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Guide cards will be dynamically inserted here -->
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+            <p class="text-xl text-gray-600">No guides found matching your search.</p>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12">How It Works</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bookmark text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">1. Install Bookmarklet</h3>
+                    <p class="text-gray-600">Drag our bookmarklet button to your browser's bookmarks bar. It's that simple!</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-mouse-pointer text-3xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">2. Choose Your Guide</h3>
+                    <p class="text-gray-600">Browse our library and click "Start Guide" on any topic you want to learn.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check-circle text-3xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">3. Follow & Complete</h3>
+                    <p class="text-gray-600">Our floating widget guides you step-by-step. Check off tasks as you complete them!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12">Why GuideFloat?</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <i class="fas fa-arrows-alt text-3xl text-blue-500 mb-3"></i>
+                    <h3 class="text-lg font-semibold mb-2">Draggable Widget</h3>
+                    <p class="text-gray-600 text-sm">Move the guide anywhere on your screen for optimal viewing.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <i class="fas fa-save text-3xl text-green-500 mb-3"></i>
+                    <h3 class="text-lg font-semibold mb-2">Auto-Save Progress</h3>
+                    <p class="text-gray-600 text-sm">Your progress is automatically saved. Pick up where you left off anytime.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <i class="fas fa-globe text-3xl text-purple-500 mb-3"></i>
+                    <h3 class="text-lg font-semibold mb-2">Works Anywhere</h3>
+                    <p class="text-gray-600 text-sm">Use GuideFloat on any website. No installations required.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <i class="fas fa-link text-3xl text-orange-500 mb-3"></i>
+                    <h3 class="text-lg font-semibold mb-2">Quick Actions</h3>
+                    <p class="text-gray-600 text-sm">Direct links to tools and resources you need for each step.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <span class="text-3xl">🚀</span>
+                        <h3 class="text-xl font-bold text-white">GuideFloat</h3>
+                    </div>
+                    <p class="text-sm">Making complex tasks simple, one step at a time.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#guides" class="hover:text-white transition">Browse Guides</a></li>
+                        <li><a href="#how-it-works" class="hover:text-white transition">How It Works</a></li>
+                        <li><a href="#" class="hover:text-white transition">About</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-sm text-center">
+                    <strong>Affiliate Disclosure:</strong> This site contains affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you. We only recommend products and services we believe will help you succeed.
+                </p>
+                <p class="text-sm text-center mt-4">
+                    © 2025 GuideFloat. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/landing.js"></script>
+</body>
+</html>
+

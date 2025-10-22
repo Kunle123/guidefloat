@@ -1,0 +1,157 @@
+{
+  "id": "google-analytics-setup",
+  "title": "Google Analytics Setup",
+  "description": "Set up Google Analytics 4 to track your website visitors and understand your audience",
+  "category": "Analytics",
+  "difficulty": "Beginner",
+  "estimatedTime": "25 minutes",
+  "totalSteps": 8,
+  "steps": [
+    {
+      "id": 1,
+      "title": "Create Google Analytics Account",
+      "description": "Sign up for a free Google Analytics account.",
+      "instructions": "Go to analytics.google.com and sign in with your Google account. Click 'Start measuring'. Enter an account name (usually your company name). Configure data sharing settings as desired. Click 'Next'.",
+      "actionButtons": [
+        {
+          "text": "Open Google Analytics",
+          "url": "https://analytics.google.com",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Use your business Google account if you have one",
+        "Account name is for your internal organization",
+        "You can manage multiple websites under one account",
+        "Google Analytics is completely free"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 2,
+      "title": "Create a Property",
+      "description": "Set up a property for your website or app.",
+      "instructions": "Enter a property name (your website name). Select your reporting time zone and currency. These affect how data is displayed. Click 'Next'. This creates a Google Analytics 4 (GA4) property.",
+      "actionButtons": [],
+      "tips": [
+        "Property represents your website or app",
+        "Choose timezone where most visitors are located",
+        "Currency should match your business currency",
+        "GA4 is the latest version - Universal Analytics is deprecated"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 3,
+      "title": "Enter Business Information",
+      "description": "Tell Google about your business.",
+      "instructions": "Select your industry category, business size, and how you intend to use Google Analytics (improve marketing, measure traffic, etc.). This helps Google customize your dashboard. Click 'Create'.",
+      "actionButtons": [],
+      "tips": [
+        "Be accurate - this affects recommendations you receive",
+        "You can select multiple use cases",
+        "This doesn't limit what you can track",
+        "Just helps Google show relevant insights"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 4,
+      "title": "Accept Terms of Service",
+      "description": "Review and accept Google Analytics terms.",
+      "instructions": "Read the Terms of Service Agreement. Check the box for your region (United States, Europe, etc.). Review GDPR and data processing terms if applicable. Click 'I Accept'.",
+      "actionButtons": [],
+      "tips": [
+        "Terms differ by region due to data privacy laws",
+        "EU users: GDPR compliance is mandatory",
+        "Terms cover data collection and privacy",
+        "You must accept to use the service"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 5,
+      "title": "Set Up Data Stream",
+      "description": "Connect your website to Google Analytics.",
+      "instructions": "Choose 'Web' as your platform. Enter your website URL (e.g., https://yourwebsite.com). Name your stream (usually your website name). Enable 'Enhanced measurement' to automatically track scrolls, outbound clicks, site search, video engagement, and file downloads. Click 'Create stream'.",
+      "actionButtons": [],
+      "tips": [
+        "Make sure to include https:// in your URL",
+        "Enhanced measurement is recommended for most sites",
+        "One property can have multiple data streams",
+        "Mobile apps need separate iOS/Android streams"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 6,
+      "title": "Get Your Tracking Code",
+      "description": "Copy the code you'll add to your website.",
+      "instructions": "After creating the stream, you'll see your 'Measurement ID' (starts with G-). Click 'View tag instructions'. Choose 'Install manually' to see the Global Site Tag code. Copy the entire code snippet - it's a <script> tag.",
+      "actionButtons": [],
+      "tips": [
+        "Measurement ID format: G-XXXXXXXXXX",
+        "You'll need this ID or the full code for installation",
+        "Keep this code secure but don't worry if it's visible in your site source",
+        "You can always find this code later in Admin → Data Streams"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 7,
+      "title": "Install Tracking Code on Your Website",
+      "description": "Add the code to every page of your website.",
+      "instructions": "The installation method depends on your platform:\n\n- WordPress: Use plugin like 'MonsterInsights' or 'GA Google Analytics', enter your Measurement ID\n- Shopify: Go to Online Store → Themes → Actions → Edit Code, paste in theme.liquid before </head>\n- Squarespace: Settings → Advanced → Code Injection, paste in Header\n- HTML site: Paste code in <head> section of every page\n\nSave changes and publish.",
+      "actionButtons": [
+        {
+          "text": "WordPress: Get MonsterInsights",
+          "url": "https://wordpress.org/plugins/google-analytics-for-wordpress/",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Code must be on every page you want to track",
+        "Using a plugin or tag manager is easier than manual installation",
+        "For WordPress: Insert Headers and Footers plugin also works",
+        "Test that code is installed correctly in next step"
+      ],
+      "estimatedTime": "7 minutes"
+    },
+    {
+      "id": 8,
+      "title": "Verify Installation and Explore Reports",
+      "description": "Confirm tracking is working and familiarize yourself with reports.",
+      "instructions": "In Google Analytics, go to 'Reports' → 'Realtime'. Visit your website in a new tab. You should see your visit appear in real-time. If not, check code installation. Explore other reports: Acquisition (where visitors come from), Engagement (what they do), Monetization (revenue), and Retention (return visitors).",
+      "actionButtons": [
+        {
+          "text": "Learn Google Analytics",
+          "url": "https://analytics.google.com/analytics/academy/",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Data takes 24-48 hours to fully populate reports",
+        "Realtime report shows current activity instantly",
+        "Key metrics: Users, Sessions, Bounce Rate, Avg Session Duration",
+        "Set up goals to track conversions (purchases, sign-ups)",
+        "Enable Demographics in Admin → Property Settings → Data Collection",
+        "Link Google Analytics with Google Search Console for SEO data",
+        "Check reports weekly to understand traffic patterns",
+        "Use insights to improve your marketing and content"
+      ],
+      "estimatedTime": "5 minutes"
+    }
+  ],
+  "resources": [
+    {
+      "title": "Google Analytics Academy",
+      "url": "https://analytics.google.com/analytics/academy/"
+    },
+    {
+      "title": "GA4 Documentation",
+      "url": "https://support.google.com/analytics/"
+    }
+  ],
+  "affiliateDisclosure": "This guide contains affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you."
+}
+
