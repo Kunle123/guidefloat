@@ -176,6 +176,15 @@
                 </div>
             ` : '';
 
+            const layoutDiagramHTML = step.layoutDiagram ? `
+                <div class="guidefloat-layout-diagram" style="margin: 12px 0 12px 36px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #6b7280; margin-bottom: 6px;">📍 Where to find it:</div>
+                    <div style="background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 12px; max-width: 280px;">
+                        ${step.layoutDiagram}
+                    </div>
+                </div>
+            ` : '';
+
             const actionButtonsHTML = step.actionButtons && step.actionButtons.length > 0 ? `
                 <div class="guidefloat-action-buttons">
                     ${step.actionButtons.map(button => `
@@ -208,6 +217,7 @@
                     <div class="guidefloat-step-body">
                         <div class="guidefloat-step-description">${step.description}</div>
                         <div class="guidefloat-step-instructions">${step.instructions}</div>
+                        ${layoutDiagramHTML}
                         ${tipsHTML}
                         ${actionButtonsHTML}
                     </div>
