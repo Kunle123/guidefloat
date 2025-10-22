@@ -555,13 +555,19 @@
         showSmartSuggestion: function(suggestion) {
             console.log('[GuideFloat] Showing smart suggestion:', suggestion);
             
+            // Check if notification already exists
+            const existing = this.widget.querySelector('.guidefloat-smart-notification');
+            if (existing) {
+                console.log('[GuideFloat] Smart notification already showing, skipping duplicate');
+                return;
+            }
+            
             // Create notification overlay
             const notification = document.createElement('div');
+            notification.className = 'guidefloat-smart-notification';
             notification.style.cssText = `
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
+                position: relative;
+                width: 100%;
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 color: white;
                 padding: 16px;
@@ -569,6 +575,7 @@
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                 z-index: 10;
                 animation: slideDown 0.3s ease-out;
+                flex-shrink: 0;
             `;
             
             notification.innerHTML = `
@@ -667,8 +674,13 @@
                 setTimeout(() => notification.remove(), 300);
             });
             
-            // Add to widget
-            this.widget.insertBefore(notification, this.widget.firstChild);
+            // Add to widget - insert after header
+            const header = this.widget.querySelector('.guidefloat-header');
+            if (header && header.nextSibling) {
+                this.widget.insertBefore(notification, header.nextSibling);
+            } else {
+                this.widget.insertBefore(notification, this.widget.firstChild);
+            }
             
             // Auto-dismiss after 15 seconds
             setTimeout(() => {
