@@ -31,6 +31,19 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     
     console.log(`Page navigated on tab ${tabId}, restoring guide...`);
     
+    // Get tab info to check URL
+    const tab = await chrome.tabs.get(tabId);
+    const url = tab.url || '';
+    
+    // Don't inject on restricted URLs
+    if (url.startsWith('chrome://') || url.startsWith('chrome-extension://') || 
+        url.startsWith('edge://') || url.startsWith('about:') || url.startsWith('file://')) {
+        console.log(`[GuideFloat Background] Cannot inject on restricted URL: ${url}`);
+        return;
+    }
+    
+    console.log(`[GuideFloat Background] Restoring on URL: ${url}`);
+    
     // Re-inject the content script
     try {
         // Inject CSS first
