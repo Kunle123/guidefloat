@@ -39,7 +39,7 @@
       "actionButtons": [
         {
           "text": "Open Facebook Business Manager",
-          "url": "https://business.facebook.com?ref=guidefloat",
+          "url": "https://business.facebook.com/",
           "type": "affiliate"
         }
       ],
@@ -61,7 +61,7 @@
       "actionButtons": [
         {
           "text": "Go to Business Settings",
-          "url": "https://business.facebook.com/settings?ref=guidefloat",
+          "url": "https://business.facebook.com/settings",
           "type": "affiliate"
         }
       ],
@@ -81,7 +81,7 @@
       "actionButtons": [
         {
           "text": "Create Ad Account",
-          "url": "https://business.facebook.com/settings/ad-accounts?ref=guidefloat",
+          "url": "https://business.facebook.com/settings/ad-accounts",
           "type": "affiliate"
         }
       ],
@@ -100,7 +100,7 @@
       "actionButtons": [
         {
           "text": "Add Payment Method",
-          "url": "https://business.facebook.com/settings/payment-methods?ref=guidefloat",
+          "url": "https://business.facebook.com/billing_hub/payment_settings",
           "type": "affiliate"
         }
       ],
@@ -119,7 +119,7 @@
       "actionButtons": [
         {
           "text": "Open Events Manager",
-          "url": "https://business.facebook.com/events_manager?ref=guidefloat",
+          "url": "https://business.facebook.com/events_manager",
           "type": "affiliate"
         }
       ],
@@ -170,7 +170,7 @@
       "actionButtons": [
         {
           "text": "Use Audience Insights",
-          "url": "https://business.facebook.com/ads/audience-insights?ref=guidefloat",
+          "url": "https://business.facebook.com/ads/audience-insights",
           "type": "affiliate"
         }
       ],
@@ -240,7 +240,7 @@
       "actionButtons": [
         {
           "text": "Check Events Manager",
-          "url": "https://business.facebook.com/events_manager?ref=guidefloat",
+          "url": "https://business.facebook.com/events_manager",
           "type": "affiliate"
         }
       ],
@@ -293,7 +293,7 @@
       "actionButtons": [
         {
           "text": "Learn Advanced Strategies",
-          "url": "https://facebook.com/business/learn?ref=guidefloat",
+          "url": "https://facebook.com/business/learn",
           "type": "resource"
         }
       ],
