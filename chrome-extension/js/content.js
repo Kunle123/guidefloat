@@ -92,6 +92,7 @@
                 <div class="guidefloat-content"></div>
                 <div class="guidefloat-footer">
                     <button class="guidefloat-nav-btn prev-btn" disabled>◀ Previous</button>
+                    <button class="guidefloat-nav-btn skip-btn" style="background: #f59e0b; display: none;">Skip ⏭</button>
                     <button class="guidefloat-nav-btn primary next-btn">Next Step ▶</button>
                 </div>
                 <div class="guidefloat-action-bar">
@@ -124,9 +125,10 @@
 
             this.widget.querySelector('.prev-btn').addEventListener('click', () => this.previousStep());
             this.widget.querySelector('.next-btn').addEventListener('click', () => this.nextStep());
+            this.widget.querySelector('.skip-btn').addEventListener('click', () => this.skipStep());
             this.widget.querySelector('.reset-btn').addEventListener('click', () => this.resetProgress());
             this.widget.querySelector('.help-btn').addEventListener('click', () => {
-                alert('GuideFloat Help\n\n- Check boxes to mark steps complete\n- Click step headers to expand/collapse\n- Drag the header to move the widget\n- Progress is saved automatically');
+                alert('GuideFloat Help\n\n- Check boxes to mark steps complete\n- Click step headers to expand/collapse\n- Drag the header to move the widget\n- Click "Skip" button if step is already done\n- Progress is saved automatically');
             });
         },
 
@@ -202,6 +204,12 @@
                 </div>
             ` : '';
 
+            const skipBadge = step.skipIfCompleted ? `
+                <div style="display: inline-block; background: #fef3c7; color: #92400e; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: 600;">
+                    ⏭ SKIPPABLE
+                </div>
+            ` : '';
+
             return `
                 <div class="${stepClasses.join(' ')}" data-step-id="${step.id}" data-step-index="${index}">
                     <div class="guidefloat-step-header">
@@ -209,12 +217,16 @@
                             <span class="guidefloat-checkbox-icon">✓</span>
                         </div>
                         <div style="flex: 1;">
-                            <div class="guidefloat-step-number">Step ${step.id} of ${this.currentGuide.totalSteps}</div>
+                            <div class="guidefloat-step-number">
+                                Step ${step.id} of ${this.currentGuide.totalSteps}
+                                ${skipBadge}
+                            </div>
                             <div class="guidefloat-step-title">${step.title}</div>
                         </div>
                         <div class="guidefloat-expand-icon">▼</div>
                     </div>
                     <div class="guidefloat-step-body">
+                        ${step.skipIfCompleted ? `<div style="background: #fffbeb; border-left: 3px solid #f59e0b; padding: 8px 12px; margin: 8px 0; font-size: 12px; color: #92400e;">💡 ${step.skipMessage || 'Skip this step if you\'ve already completed it.'}</div>` : ''}
                         <div class="guidefloat-step-description">${step.description}</div>
                         <div class="guidefloat-step-instructions">${step.instructions}</div>
                         ${layoutDiagramHTML}
@@ -289,12 +301,45 @@
             }
         },
 
+        skipStep: async function() {
+            // Mark current step as completed and move to next
+            const currentStep = this.currentGuide.steps[this.currentStepIndex];
+            const progress = await this.loadProgress(this.currentGuide.id);
+            const completedSteps = progress ? progress.completedSteps : [];
+            
+            // Add to completed if not already
+            if (!completedSteps.includes(currentStep.id)) {
+                completedSteps.push(currentStep.id);
+                await chrome.storage.local.set({
+                    [`guidefloat-progress-${this.currentGuide.id}`]: {
+                        currentStep: this.currentStepIndex + 2,
+                        completedSteps: completedSteps,
+                        lastUpdated: new Date().toISOString()
+                    }
+                });
+            }
+            
+            // Move to next step
+            this.nextStep();
+        },
+
         updateNavigation: function() {
             const prevBtn = this.widget.querySelector('.prev-btn');
             const nextBtn = this.widget.querySelector('.next-btn');
+            const skipBtn = this.widget.querySelector('.skip-btn');
+            
+            const currentStep = this.currentGuide.steps[this.currentStepIndex];
 
             prevBtn.disabled = this.currentStepIndex === 0;
             nextBtn.disabled = this.currentStepIndex === this.currentGuide.steps.length - 1;
+
+            // Show skip button if current step can be skipped
+            if (currentStep && currentStep.skipIfCompleted) {
+                skipBtn.style.display = 'inline-block';
+                skipBtn.title = currentStep.skipMessage || 'Skip this step if already completed';
+            } else {
+                skipBtn.style.display = 'none';
+            }
 
             if (this.currentStepIndex === this.currentGuide.steps.length - 1) {
                 nextBtn.textContent = '🎉 Complete';

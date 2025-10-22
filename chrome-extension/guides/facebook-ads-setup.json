@@ -6,12 +6,35 @@
   "difficulty": "Beginner",
   "estimatedTime": "45 minutes",
   "totalSteps": 15,
+  "prerequisites": {
+    "title": "Before You Start",
+    "description": "This guide adapts to your experience level. Skip steps you've already completed!",
+    "checkpoints": [
+      {
+        "id": "has-business-manager",
+        "question": "Do you already have Facebook Business Manager?",
+        "skipToStep": 2
+      },
+      {
+        "id": "has-facebook-page",
+        "question": "Do you already have a Facebook Business Page connected?",
+        "skipToStep": 3
+      },
+      {
+        "id": "has-ads-manager",
+        "question": "Do you already have Ads Manager set up?",
+        "skipToStep": 8
+      }
+    ]
+  },
   "steps": [
     {
       "id": 1,
       "title": "Set up Facebook Business Manager",
       "description": "Facebook Business Manager is required to run professional ads and track results properly.",
       "instructions": "Go to business.facebook.com and click 'Create Account'. Enter your business name, your name, and business email. Click 'Submit' to create your Business Manager account.",
+      "skipIfCompleted": true,
+      "skipMessage": "Already have Business Manager? Skip this step.",
       "layoutDiagram": "<svg viewBox='0 0 280 160' xmlns='http://www.w3.org/2000/svg'><rect width='280' height='160' fill='#f9fafb' stroke='#e5e7eb' stroke-width='2'/><text x='140' y='25' text-anchor='middle' font-size='11' font-weight='bold' fill='#374151'>Facebook Business Manager</text><rect x='20' y='40' width='240' height='30' fill='#dbeafe' stroke='#3b82f6' stroke-width='2' rx='4'/><text x='140' y='60' text-anchor='middle' font-size='10' fill='#1e40af'>Create Account Button</text><rect x='20' y='80' width='240' height='15' fill='#f3f4f6' rx='2'/><rect x='20' y='100' width='240' height='15' fill='#f3f4f6' rx='2'/><text x='140' y='135' text-anchor='middle' font-size='9' fill='#6b7280'>Look for the blue 'Create Account'</text><text x='140' y='150' text-anchor='middle' font-size='9' fill='#6b7280'>button near the top of the page</text></svg>",
       "actionButtons": [
         {
@@ -32,6 +55,8 @@
       "title": "Connect Your Facebook Page",
       "description": "Your ads will run from this page, and people will click through to learn about you.",
       "instructions": "In Business Manager, click 'Business Settings' → 'Accounts' → 'Pages' → 'Add'. If you have a page, claim it. If not, create a new page first on Facebook.",
+      "skipIfCompleted": true,
+      "skipMessage": "Already have a connected Page? Skip this step.",
       "layoutDiagram": "<svg viewBox='0 0 280 160' xmlns='http://www.w3.org/2000/svg'><rect width='280' height='160' fill='#f9fafb' stroke='#e5e7eb' stroke-width='2'/><rect x='10' y='10' width='50' height='140' fill='#f3f4f6'/><text x='35' y='25' text-anchor='middle' font-size='8' fill='#6b7280'>Sidebar</text><rect x='15' y='35' width='40' height='12' fill='#dbeafe' stroke='#3b82f6' stroke-width='2' rx='2'/><text x='35' y='43' text-anchor='middle' font-size='7' fill='#1e40af' font-weight='bold'>Settings</text><rect x='70' y='10' width='200' height='140' fill='white' stroke='#e5e7eb'/><text x='170' y='30' text-anchor='middle' font-size='10' font-weight='bold' fill='#374151'>Business Settings</text><text x='85' y='55' font-size='9' fill='#6b7280'>Accounts ></text><text x='85' y='75' font-size='9' fill='#6b7280'>Pages ></text><rect x='150' y='66' width='50' height='15' fill='#dcfce7' stroke='#10b981' stroke-width='2' rx='2'/><text x='175' y='76' text-anchor='middle' font-size='8' fill='#065f46' font-weight='bold'>+ Add</text><text x='170' y='140' text-anchor='middle' font-size='8' fill='#6b7280'>Click 'Add' to connect your page</text></svg>",
       "actionButtons": [
         {
