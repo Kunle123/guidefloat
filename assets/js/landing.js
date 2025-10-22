@@ -173,23 +173,13 @@ function startGuide(guideId) {
     // Save the guide ID to localStorage
     localStorage.setItem('guidefloat-current-guide', guideId);
     
-    // Ask user which mode they prefer (only first time)
+    // Set to overlay mode (most reliable)
+    // Users can change via Mode button if they want popup
     const hasChosenMode = localStorage.getItem('guidefloat-mode-chosen');
     
     if (!hasChosenMode) {
-        const usePopup = confirm(
-            "🚀 How would you like to use GuideFloat?\n\n" +
-            "Click OK for POPUP MODE (Recommended):\n" +
-            "• Opens in separate window\n" +
-            "• Stays visible while you navigate\n" +
-            "• Floats above all tabs\n\n" +
-            "Click Cancel for OVERLAY MODE:\n" +
-            "• Appears on current page only\n" +
-            "• Click bookmarklet again on new pages\n\n" +
-            "You can change this anytime in settings."
-        );
-        
-        localStorage.setItem('guidefloat-use-popup', usePopup ? 'true' : 'false');
+        // Default to overlay mode - more reliable
+        localStorage.setItem('guidefloat-use-popup', 'false');
         localStorage.setItem('guidefloat-mode-chosen', 'true');
     }
     

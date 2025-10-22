@@ -101,21 +101,28 @@
             
             <!-- Bookmarklet Section -->
             <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border-2 border-white/20">
-                <p class="text-lg mb-4 font-semibold">🎯 Get Started in 3 Steps:</p>
+                <p class="text-lg mb-4 font-semibold">🎯 How to Use GuideFloat:</p>
                 <ol class="text-left space-y-3 mb-6">
                     <li class="flex items-start">
                         <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">1</span>
-                        <span>Drag the button below to your bookmarks bar</span>
+                        <span><strong>Drag bookmarklet</strong> button below to your bookmarks bar</span>
                     </li>
                     <li class="flex items-start">
                         <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">2</span>
-                        <span>Choose a guide from the library below</span>
+                        <span><strong>Choose a guide</strong> below (saves your selection)</span>
                     </li>
                     <li class="flex items-start">
                         <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">3</span>
-                        <span><strong>Go to the website</strong> where you need to work (e.g., Facebook.com), then <strong>click the bookmarklet</strong> - the guide appears and stays with you!</span>
+                        <span><strong>Go to the work site</strong> (e.g., Facebook.com)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">4</span>
+                        <span><strong>Click bookmarklet</strong> - guide floats on that page!</span>
                     </li>
                 </ol>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">
+                    <strong>💡 Pro Tip:</strong> Drag the guide to the side of your screen. Button links open in NEW tabs so the guide stays visible!
+                </div>
                 
                 <a href="javascript:(function(){if(document.getElementById('guidefloat-widget')){alert('GuideFloat is already running!');return;}var css=document.createElement('link');css.rel='stylesheet';css.href='https://kunle123.github.io/guidefloat/widget.css';document.head.appendChild(css);var script=document.createElement('script');script.src='https://kunle123.github.io/guidefloat/widget.js';script.onload=function(){GuideFloat.init({guideId:localStorage.getItem('guidefloat-current-guide')||null});};document.body.appendChild(script);})();" 
                    class="bookmarklet-button inline-flex items-center"
