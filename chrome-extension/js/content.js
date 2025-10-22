@@ -105,7 +105,38 @@
                     }
                 }
                 
-                // Show spotlight for initial step
+                // Auto-navigate to first step if needed
+                const firstStep = this.currentGuide.steps[this.currentStepIndex];
+                let shouldNavigate = false;
+                let targetUrl = null;
+                
+                // Check if first step has auto-navigation
+                if (firstStep.autoNavigate && firstStep.autoNavigate.url) {
+                    targetUrl = firstStep.autoNavigate.url;
+                    shouldNavigate = true;
+                } else if (firstStep.actionButtons && firstStep.actionButtons.length > 0) {
+                    // Or use the first action button URL
+                    targetUrl = firstStep.actionButtons[0].url;
+                    shouldNavigate = true;
+                }
+                
+                // Navigate if we have a URL and not already there
+                if (shouldNavigate && targetUrl && this.currentStepIndex === 0) {
+                    const currentUrl = window.location.href;
+                    const currentDomain = new URL(currentUrl).origin + new URL(currentUrl).pathname;
+                    const targetDomain = new URL(targetUrl).origin + new URL(targetUrl).pathname;
+                    
+                    if (!currentDomain.includes(targetDomain.split('?')[0])) {
+                        console.log('[GuideFloat] Auto-navigating to first step:', targetUrl);
+                        this.showNavigationNotice(firstStep.autoNavigate?.message || `Taking you to ${firstStep.title}...`);
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 1000);
+                        return; // Don't show spotlight yet, we're navigating
+                    }
+                }
+                
+                // Show spotlight for initial step (if not navigating)
                 this.showSpotlight();
             } catch (error) {
                 console.error('Failed to load guide:', error);
