@@ -264,12 +264,16 @@
                            target="_blank" 
                            rel="noopener noreferrer"
                            class="guidefloat-action-btn"
-                           data-button-id="${button.text}">
+                           data-button-id="${button.text}"
+                           title="Opens in new tab - widget stays here">
                             ${button.text}
                             🔗
                         </a>
                     `).join('')}
                 </div>
+                <p style="font-size: 11px; color: #6c757d; margin: 8px 0 0 36px;">
+                    💡 Tip: Links open in new tab so this guide stays visible
+                </p>
             ` : '';
             
             return `
