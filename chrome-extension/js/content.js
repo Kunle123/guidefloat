@@ -322,8 +322,19 @@
             this.isMinimized = !this.isMinimized;
             if (this.isMinimized) {
                 this.widget.classList.add('minimized');
+                this.widget.style.cursor = 'pointer';
+                // Make the entire minimized widget clickable
+                this.widget.addEventListener('click', this.handleMinimizedClick);
             } else {
                 this.widget.classList.remove('minimized');
+                this.widget.style.cursor = '';
+                this.widget.removeEventListener('click', this.handleMinimizedClick);
+            }
+        },
+
+        handleMinimizedClick: function(e) {
+            if (GuideFloat.isMinimized) {
+                GuideFloat.toggleMinimize();
             }
         },
 

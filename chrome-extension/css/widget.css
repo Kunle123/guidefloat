@@ -410,17 +410,31 @@
     right: 20px;
     bottom: 20px;
     transform: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#guidefloat-widget.minimized:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
 
 #guidefloat-widget.minimized .guidefloat-header {
     border-radius: 30px;
     padding: 0;
     justify-content: center;
+    align-items: center;
     cursor: pointer;
+    font-size: 24px;
+}
+
+#guidefloat-widget.minimized .guidefloat-header::before {
+    content: '🚀';
+    font-size: 32px;
 }
 
 #guidefloat-widget.minimized .guidefloat-title,
-#guidefloat-widget.minimized .guidefloat-header-btn:not(.expand-btn) {
+#guidefloat-widget.minimized .guidefloat-header-btn {
     display: none;
 }
 
