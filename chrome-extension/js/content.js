@@ -420,6 +420,79 @@
             }
         },
 
+        // Check and handle auto-navigation
+        checkAutoNavigate: function() {
+            const step = this.currentGuide.steps[this.currentStepIndex];
+            
+            // Check if step has autoNavigate URL
+            if (step.autoNavigate && step.autoNavigate.url) {
+                const currentUrl = window.location.href;
+                const targetUrl = step.autoNavigate.url;
+                
+                // Check if we're already on the target page (or close enough)
+                const currentDomain = new URL(currentUrl).origin + new URL(currentUrl).pathname;
+                const targetDomain = new URL(targetUrl).origin + new URL(targetUrl).pathname;
+                
+                if (!currentDomain.includes(targetDomain.split('?')[0])) {
+                    console.log('[GuideFloat] Auto-navigating to:', targetUrl);
+                    
+                    // Show brief notification
+                    if (step.autoNavigate.message) {
+                        this.showNavigationNotice(step.autoNavigate.message);
+                    }
+                    
+                    // Navigate after short delay (let user see the notification)
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 1000);
+                }
+            }
+        },
+
+        // Show navigation notice
+        showNavigationNotice: function(message) {
+            const notice = document.createElement('div');
+            notice.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                z-index: 2147483647;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                animation: guidefloat-slideIn 0.3s ease-out;
+            `;
+            
+            notice.innerHTML = `🚀 ${message}`;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes guidefloat-slideIn {
+                    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+                }
+            `;
+            
+            if (!document.querySelector('style[data-navigation-notice]')) {
+                style.setAttribute('data-navigation-notice', 'true');
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(notice);
+            
+            // Remove after delay
+            setTimeout(() => {
+                notice.style.opacity = '0';
+                setTimeout(() => notice.remove(), 300);
+            }, 2500);
+        },
+
         // Navigation
         nextStep: function() {
             if (this.currentStepIndex < this.currentGuide.steps.length - 1) {
@@ -429,7 +502,15 @@
                 this.updateProgress();
                 this.updateNavigation();
                 this.widget.querySelector('.guidefloat-content').scrollTop = 0;
-                this.showSpotlight(); // Show spotlight for new step
+                
+                // Check for auto-navigation first, then spotlight
+                this.checkAutoNavigate();
+                
+                // Only show spotlight if not navigating away
+                const step = this.currentGuide.steps[this.currentStepIndex];
+                if (!step.autoNavigate || !step.autoNavigate.url) {
+                    this.showSpotlight();
+                }
             }
         },
 
@@ -441,7 +522,15 @@
                 this.updateProgress();
                 this.updateNavigation();
                 this.widget.querySelector('.guidefloat-content').scrollTop = 0;
-                this.showSpotlight(); // Show spotlight for new step
+                
+                // Check for auto-navigation first, then spotlight
+                this.checkAutoNavigate();
+                
+                // Only show spotlight if not navigating away
+                const step = this.currentGuide.steps[this.currentStepIndex];
+                if (!step.autoNavigate || !step.autoNavigate.url) {
+                    this.showSpotlight();
+                }
             }
         },
 

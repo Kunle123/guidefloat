@@ -82,6 +82,10 @@
         "message": "Look for 'Accounts' in the left sidebar, then click 'Pages', then look for the '+ Add' or 'Add Page' button.",
         "type": "info",
         "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "https://business.facebook.com/settings",
+        "message": "Taking you to Business Settings..."
       }
     },
     {
@@ -102,7 +106,11 @@
         "Use a descriptive name if you'll manage multiple accounts",
         "Make sure timezone matches your business location"
       ],
-      "estimatedTime": "3 minutes"
+      "estimatedTime": "3 minutes",
+      "autoNavigate": {
+        "url": "https://business.facebook.com/settings/ad-accounts",
+        "message": "Taking you to Ad Accounts settings..."
+      }
     },
     {
       "id": 4,
@@ -121,7 +129,11 @@
         "Set a spending limit if you want to control costs",
         "Facebook bills either when you reach $25 or monthly"
       ],
-      "estimatedTime": "3 minutes"
+      "estimatedTime": "3 minutes",
+      "autoNavigate": {
+        "url": "https://business.facebook.com/billing_hub/payment_settings",
+        "message": "Taking you to Payment Settings..."
+      }
     },
     {
       "id": 5,
