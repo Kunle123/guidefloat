@@ -197,19 +197,24 @@ function startGuide(guideId) {
     
     if (usePopup) {
         // Open in popup window
+        const currentPath = window.location.pathname;
+        const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+        const popupUrl = window.location.origin + basePath + 'popup.html?guide=' + guideId;
+        
         const popup = window.open(
-            'popup.html?guide=' + guideId,
+            popupUrl,
             'guidefloat-popup',
-            'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no'
+            'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,alwaysRaised=yes'
         );
         
         if (!popup) {
-            alert('Please allow popups for GuideFloat!\n\nOr use overlay mode by changing settings.');
+            alert('❌ Popup was blocked!\n\n1. Look for a popup blocker icon in your address bar\n2. Click it and allow popups for this site\n3. Try again\n\nOr click Mode button to switch to Overlay mode.');
             localStorage.setItem('guidefloat-use-popup', 'false');
         } else {
+            popup.focus();
             // Show instructions
             setTimeout(() => {
-                alert('✅ Guide opened in popup window!\n\nThe guide will stay visible while you work.\nNow you can navigate to Facebook or any other site.');
+                alert('✅ Guide opened in separate window!\n\nYou can now:\n• Navigate to Facebook.com (or any site)\n• Keep the guide window visible\n• Arrange windows side-by-side\n\nThe guide stays with you wherever you go!');
             }, 500);
         }
     } else {

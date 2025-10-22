@@ -36,17 +36,23 @@
         
         // Open guide in popup window (stays on top, follows across pages)
         openInPopup: function(guideId) {
-            const popupUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '') + 'popup.html?guide=' + guideId;
+            // Build correct URL for GitHub Pages
+            const currentPath = window.location.pathname;
+            const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+            const popupUrl = window.location.origin + basePath + 'popup.html?guide=' + guideId;
+            
             const popup = window.open(
                 popupUrl,
                 'guidefloat-popup',
-                'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no'
+                'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,alwaysRaised=yes'
             );
             
             if (!popup) {
-                alert('Please allow popups for GuideFloat to work in floating mode!');
+                alert('Please allow popups for GuideFloat to work in floating mode!\n\nCheck if your browser blocked the popup.');
                 // Fallback to inline mode
                 this.loadGuide(guideId);
+            } else {
+                popup.focus();
             }
         },
 

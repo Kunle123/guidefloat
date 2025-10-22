@@ -39,10 +39,20 @@
         .popup-indicator {
             background: #10b981;
             color: white;
-            padding: 8px 16px;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        
+        .popup-help {
+            background: #f0f9ff;
+            border-bottom: 2px solid #3b82f6;
+            padding: 12px 16px;
             text-align: center;
             font-size: 12px;
-            font-weight: 600;
+            color: #1e40af;
         }
         
         .minimize-btn {
@@ -52,7 +62,10 @@
 </head>
 <body>
     <div class="popup-indicator">
-        ✨ Popup Mode: This window stays on top while you work
+        ✨ Guide Window - Stays visible wherever you go!
+    </div>
+    <div class="popup-help">
+        📍 <strong>Keep this window open</strong> and navigate to Facebook (or any site) in your main browser. This guide stays with you!
     </div>
     
     <script src="widget.js"></script>
