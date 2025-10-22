@@ -80,6 +80,12 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
             files: ['js/page-detector.js']
         });
         
+        // Inject spotlight system
+        await chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            files: ['js/spotlight.js']
+        });
+        
         // Then inject main content script
         await chrome.scripting.executeScript({
             target: { tabId: tabId },

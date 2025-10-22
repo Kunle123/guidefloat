@@ -572,6 +572,13 @@ async function selectGuide(guideId) {
         });
         console.log('[GuideFloat] ✓ Page detector injected');
         
+        // Inject spotlight system
+        await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['js/spotlight.js']
+        });
+        console.log('[GuideFloat] ✓ Spotlight injected');
+        
         // Then inject main content script
         const injection = await chrome.scripting.executeScript({
             target: { tabId: tab.id },

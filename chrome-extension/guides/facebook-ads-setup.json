@@ -48,7 +48,13 @@
         "Have your business details ready",
         "The page layout may vary based on your account status"
       ],
-      "estimatedTime": "5 minutes"
+      "estimatedTime": "5 minutes",
+      "spotlight": {
+        "target": "button[type='submit'], a[role='button']",
+        "message": "Look for the blue 'Create Account' button. It's usually in the center or top-right of the page.",
+        "type": "info",
+        "position": "auto"
+      }
     },
     {
       "id": 2,
@@ -70,7 +76,13 @@
         "Use a professional profile photo",
         "The Settings layout varies - look for 'Accounts' then 'Pages'"
       ],
-      "estimatedTime": "5 minutes"
+      "estimatedTime": "5 minutes",
+      "spotlight": {
+        "target": "[data-testid='add-page-button'], button:contains('Add'), a[href*='pages']",
+        "message": "Look for 'Accounts' in the left sidebar, then click 'Pages', then look for the '+ Add' or 'Add Page' button.",
+        "type": "info",
+        "position": "auto"
+      }
     },
     {
       "id": 3,

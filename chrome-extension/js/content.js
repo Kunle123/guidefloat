@@ -104,6 +104,9 @@
                         this.showSmartSuggestion(suggestion);
                     }
                 }
+                
+                // Show spotlight for initial step
+                this.showSpotlight();
             } catch (error) {
                 console.error('Failed to load guide:', error);
             }
@@ -397,6 +400,26 @@
             this.updateProgress();
         },
 
+        // Show spotlight for current step
+        showSpotlight: function() {
+            const step = this.currentGuide.steps[this.currentStepIndex];
+            
+            // Check if step has spotlight data
+            if (step.spotlight && window.Spotlight) {
+                console.log('[GuideFloat] Showing spotlight for step', step.id);
+                
+                // Wait a bit for page to settle
+                setTimeout(() => {
+                    window.Spotlight.create({
+                        target: step.spotlight.target,
+                        message: step.spotlight.message || step.title,
+                        type: step.spotlight.type || 'info',
+                        position: step.spotlight.position || 'auto'
+                    });
+                }, 500);
+            }
+        },
+
         // Navigation
         nextStep: function() {
             if (this.currentStepIndex < this.currentGuide.steps.length - 1) {
@@ -406,6 +429,7 @@
                 this.updateProgress();
                 this.updateNavigation();
                 this.widget.querySelector('.guidefloat-content').scrollTop = 0;
+                this.showSpotlight(); // Show spotlight for new step
             }
         },
 
@@ -417,6 +441,7 @@
                 this.updateProgress();
                 this.updateNavigation();
                 this.widget.querySelector('.guidefloat-content').scrollTop = 0;
+                this.showSpotlight(); // Show spotlight for new step
             }
         },
 
