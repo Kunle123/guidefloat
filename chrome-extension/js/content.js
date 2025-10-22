@@ -492,17 +492,29 @@
 
     // Listen for messages from popup
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        if (message.action === 'showGuide') {
+        if (message.action === 'ping') {
+            // Respond to ping to confirm script is loaded
+            sendResponse({ status: 'ready' });
+            return true;
+        } else if (message.action === 'showGuide') {
             GuideFloat.loadGuide(message.guideId);
+            sendResponse({ status: 'shown' });
+            return true;
         } else if (message.action === 'hideGuide') {
             GuideFloat.hide();
+            sendResponse({ status: 'hidden' });
+            return true;
         } else if (message.action === 'showWidget') {
             // Show and un-minimize the widget if it exists
             if (GuideFloat.widget) {
                 GuideFloat.widget.style.display = 'flex';
                 GuideFloat.widget.classList.remove('minimized');
                 GuideFloat.isMinimized = false;
+                sendResponse({ status: 'shown' });
+            } else {
+                sendResponse({ status: 'no_widget' });
             }
+            return true;
         }
     });
 

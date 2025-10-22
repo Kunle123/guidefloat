@@ -509,6 +509,9 @@ async function selectGuide(guideId) {
     // Get current tab
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
+    // Show loading feedback
+    showStatus('Loading guide...', 'info');
+    
     // Inject CSS and script into this specific tab (CSS first!)
     try {
         // Inject CSS first with USER origin for highest priority
@@ -528,16 +531,41 @@ async function selectGuide(guideId) {
         console.log('Script injection skipped:', e);
     }
     
-    // Small delay to ensure script is loaded
-    await new Promise(resolve => setTimeout(resolve, 200));
+    // Wait for script to be ready with ping checks
+    let scriptReady = false;
+    let maxPingAttempts = 5;
     
-    // Show widget on current tab
-    await chrome.tabs.sendMessage(tab.id, {
-        action: 'showGuide',
-        guideId: guideId
-    }).catch((e) => {
+    for (let i = 0; i < maxPingAttempts; i++) {
+        await new Promise(resolve => setTimeout(resolve, 200 * (i + 1))); // Increasing delay
+        
+        try {
+            const response = await chrome.tabs.sendMessage(tab.id, { action: 'ping' });
+            if (response && response.status === 'ready') {
+                scriptReady = true;
+                console.log('Content script is ready!');
+                break;
+            }
+        } catch (e) {
+            console.log(`Ping attempt ${i + 1}/${maxPingAttempts} failed`);
+        }
+    }
+    
+    if (!scriptReady) {
+        console.warn('Script may not be fully loaded, trying to show guide anyway...');
+    }
+    
+    // Now show the guide
+    try {
+        await chrome.tabs.sendMessage(tab.id, {
+            action: 'showGuide',
+            guideId: guideId
+        });
+        console.log('Guide loaded successfully!');
+        showStatus('✓ Guide loaded!', 'success');
+    } catch (e) {
         console.error('Failed to show guide:', e);
-    });
+        showStatus('⚠️ Guide may appear in a moment. Check your tab!', 'error');
+    }
     
     isWidgetVisible = true;
     await chrome.storage.local.set({ widgetVisible: true, activeTabId: tab.id });
@@ -629,19 +657,21 @@ async function updateStatus() {
                             // Wait a bit for tab to become active
                             await new Promise(resolve => setTimeout(resolve, 100));
                             
-                            // Try to show the widget
-                            let widgetResponded = false;
+                            // Try to ping the content script
+                            let scriptReady = false;
                             try {
-                                await chrome.tabs.sendMessage(result.activeTabId, {
-                                    action: 'showWidget'
+                                const pingResponse = await chrome.tabs.sendMessage(result.activeTabId, {
+                                    action: 'ping'
                                 });
-                                widgetResponded = true;
+                                if (pingResponse && pingResponse.status === 'ready') {
+                                    scriptReady = true;
+                                }
                             } catch (err) {
-                                console.log('Widget not responding, will re-inject');
+                                console.log('Script not responding, will re-inject');
                             }
                             
-                            // If widget didn't respond, re-inject and show
-                            if (!widgetResponded) {
+                            // If script not ready, re-inject
+                            if (!scriptReady) {
                                 try {
                                     // Re-inject CSS and script
                                     await chrome.scripting.insertCSS({
@@ -655,18 +685,40 @@ async function updateStatus() {
                                         files: ['js/content.js']
                                     });
                                     
-                                    // Wait for script to load
-                                    await new Promise(resolve => setTimeout(resolve, 300));
+                                    // Wait for script to load with ping
+                                    let ready = false;
+                                    for (let i = 0; i < 5; i++) {
+                                        await new Promise(resolve => setTimeout(resolve, 300));
+                                        try {
+                                            const pingResp = await chrome.tabs.sendMessage(result.activeTabId, {
+                                                action: 'ping'
+                                            });
+                                            if (pingResp && pingResp.status === 'ready') {
+                                                ready = true;
+                                                break;
+                                            }
+                                        } catch (e) {
+                                            console.log(`Ping ${i + 1} failed after re-injection`);
+                                        }
+                                    }
                                     
-                                    // Now show the guide
-                                    await chrome.tabs.sendMessage(result.activeTabId, {
-                                        action: 'showGuide',
-                                        guideId: currentGuideId
-                                    });
+                                    if (!ready) {
+                                        showStatus('Could not load guide. Please select it again.', 'error');
+                                        return;
+                                    }
                                 } catch (reinjectErr) {
                                     showStatus('Could not show guide. Please select it again.', 'error');
                                     return;
                                 }
+                            }
+                            
+                            // Now show the widget
+                            try {
+                                await chrome.tabs.sendMessage(result.activeTabId, {
+                                    action: 'showWidget'
+                                });
+                            } catch (showErr) {
+                                console.error('Failed to show widget:', showErr);
                             }
                             
                             window.close(); // Close popup
