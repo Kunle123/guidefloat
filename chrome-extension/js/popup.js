@@ -532,15 +532,20 @@ async function selectGuide(guideId) {
         console.log('[GuideFloat] Cannot inject on restricted page, navigating to GuideFloat homepage...');
         showStatus('Opening GuideFloat homepage...', 'info');
         
+        // Store that we want to load this guide after navigation
+        await chrome.storage.local.set({ 
+            currentGuide: guideId,
+            pendingGuideLoad: true,
+            activeTabId: tab.id
+        });
+        
         // Auto-navigate to GuideFloat homepage
         await chrome.tabs.update(tab.id, { 
             url: 'https://kunle123.github.io/guidefloat/' 
         });
         
-        // Wait for page to load, then show the guide
-        setTimeout(() => {
-            selectGuide(guideId);
-        }, 2000);
+        // Close popup - background script will handle loading the guide
+        window.close();
         
         return;
     }
@@ -614,6 +619,12 @@ async function selectGuide(guideId) {
         });
         console.log('[GuideFloat] ✓ Guide loaded successfully!');
         showStatus('✓ Guide loaded!', 'success');
+        
+        // Auto-close popup after successful guide load
+        setTimeout(() => {
+            window.close();
+        }, 500); // Small delay so user sees success message
+        
     } catch (e) {
         console.error('[GuideFloat] ❌ Failed to show guide:', e);
         showStatus('❌ Failed to load. Check console (F12) for details.', 'error');

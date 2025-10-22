@@ -23,11 +23,14 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     const tabId = details.tabId;
     console.log('[GuideFloat Background] Checking if guide needs restoration on tab:', tabId);
     
-    // Check if this tab has an active guide
-    const result = await chrome.storage.local.get(['currentGuide', 'activeTabId', 'widgetVisible']);
+    // Check if this tab has an active guide or a pending guide load
+    const result = await chrome.storage.local.get(['currentGuide', 'activeTabId', 'widgetVisible', 'pendingGuideLoad']);
     console.log('[GuideFloat Background] Storage state:', result);
     
-    if (!result.currentGuide || !result.widgetVisible) {
+    // Check if we have a pending guide load (from restricted page redirect)
+    const isPendingLoad = result.pendingGuideLoad && result.activeTabId === tabId;
+    
+    if (!result.currentGuide || (!result.widgetVisible && !isPendingLoad)) {
         console.log('[GuideFloat Background] No active guide to restore');
         return; // No active guide
     }
@@ -36,6 +39,15 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     if (result.activeTabId !== tabId) {
         console.log(`[GuideFloat Background] Guide is on tab ${result.activeTabId}, not ${tabId}`);
         return; // Guide is on a different tab
+    }
+    
+    // Clear the pending flag if it was set
+    if (isPendingLoad) {
+        console.log('[GuideFloat Background] Processing pending guide load from restricted page redirect');
+        await chrome.storage.local.set({ 
+            pendingGuideLoad: false,
+            widgetVisible: true 
+        });
     }
     
     console.log(`[GuideFloat Background] ✓ Will restore guide on tab ${tabId}`);
