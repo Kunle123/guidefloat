@@ -245,16 +245,14 @@
                 <div class="guidefloat-action-buttons">
                     ${step.actionButtons.map(button => `
                         <a href="${button.url}" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
                            class="guidefloat-action-btn"
                            data-button-id="${button.text}">
-                            ${button.text} 🔗
+                            ${button.text} →
                         </a>
                     `).join('')}
                 </div>
-                <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 8px 12px; margin: 8px 0 0 36px; font-size: 12px;">
-                    <strong>💡 Tip:</strong> Links open in new tabs - the guide stays here!
+                <div style="background: #e0f2fe; border-left: 3px solid #0ea5e9; padding: 10px 12px; margin: 8px 0 0 36px; font-size: 12px; color: #0c4a6e; font-weight: 500;">
+                    💡 The guide will follow you to the next page!
                 </div>
             ` : '';
 
