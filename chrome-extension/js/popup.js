@@ -509,16 +509,19 @@ async function selectGuide(guideId) {
     // Get current tab
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
-    // Inject content script into this specific tab
+    // Inject CSS and script into this specific tab (CSS first!)
     try {
+        // Inject CSS first with USER origin for highest priority
+        await chrome.scripting.insertCSS({
+            target: { tabId: tab.id },
+            files: ['css/widget.css'],
+            origin: 'USER'
+        });
+        
+        // Then inject JavaScript
         await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             files: ['js/content.js']
-        });
-        
-        await chrome.scripting.insertCSS({
-            target: { tabId: tab.id },
-            files: ['css/widget.css']
         });
     } catch (e) {
         // Script might already be injected, that's okay
@@ -526,7 +529,7 @@ async function selectGuide(guideId) {
     }
     
     // Small delay to ensure script is loaded
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     // Show widget on current tab
     await chrome.tabs.sendMessage(tab.id, {
