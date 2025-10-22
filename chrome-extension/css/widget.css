@@ -206,19 +206,19 @@
 .guidefloat-step-title {
     flex: 1;
     font-weight: 600;
-    color: #212529;
+    color: #1a1a1a !important;
     font-size: 15px;
     line-height: 1.4;
 }
 
 .guidefloat-step-number {
-    color: #6c757d;
+    color: #4a4a4a !important;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .guidefloat-expand-icon {
-    color: #6c757d;
+    color: #4a4a4a !important;
     font-size: 14px;
     transition: transform 0.3s ease;
     flex-shrink: 0;
@@ -241,11 +241,12 @@
 }
 
 .guidefloat-step-description {
-    color: #495057;
+    color: #2a2a2a !important;
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 12px;
     padding-left: 36px;
+    font-weight: 500;
 }
 
 .guidefloat-step-instructions {
@@ -256,12 +257,19 @@
     margin-left: 36px;
     font-size: 14px;
     line-height: 1.6;
-    color: #212529;
+    color: #1a1a1a !important;
+    font-weight: 500;
+    white-space: pre-line;
 }
 
 .guidefloat-step-tips {
     margin-left: 36px;
     margin-bottom: 12px;
+}
+
+.guidefloat-step-tips li {
+    color: #2a2a2a !important;
+    font-weight: 500;
 }
 
 .guidefloat-tip-title {
