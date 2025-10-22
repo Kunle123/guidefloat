@@ -323,6 +323,12 @@
                 completedSteps.splice(index, 1);
             } else {
                 completedSteps.push(step.id);
+                
+                // Auto-minimize the step when checked
+                const stepEl = this.widget.querySelector(`[data-step-index="${stepIndex}"]`);
+                if (stepEl) {
+                    stepEl.classList.remove('expanded');
+                }
             }
 
             await this.saveProgress(this.currentGuide.id, this.currentStepIndex + 1, completedSteps);
@@ -362,6 +368,13 @@
             // Add to completed if not already
             if (!completedSteps.includes(currentStep.id)) {
                 completedSteps.push(currentStep.id);
+                
+                // Auto-minimize the current step
+                const stepEl = this.widget.querySelector(`[data-step-index="${this.currentStepIndex}"]`);
+                if (stepEl) {
+                    stepEl.classList.remove('expanded');
+                }
+                
                 await chrome.storage.local.set({
                     [`guidefloat-progress-${this.currentGuide.id}`]: {
                         currentStep: this.currentStepIndex + 2,
