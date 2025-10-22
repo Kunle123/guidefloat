@@ -1,0 +1,5 @@
+Version: 1.1.0
+Last Updated: 2025-10-22
+Latest Commit: 1a08d5c
+Feature: Popup Mode - Guide stays visible across navigation
+
