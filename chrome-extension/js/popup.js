@@ -529,25 +529,19 @@ async function selectGuide(guideId) {
     
     // Check if we can inject on this URL
     if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
-        // Offer to navigate to GuideFloat landing page
-        const proceed = confirm(
-            'Cannot load guide on browser pages.\n\n' +
-            'Would you like to open the GuideFloat homepage where you can start using guides?\n\n' +
-            'Click OK to open https://kunle123.github.io/guidefloat/'
-        );
+        console.log('[GuideFloat] Cannot inject on restricted page, navigating to GuideFloat homepage...');
+        showStatus('Opening GuideFloat homepage...', 'info');
         
-        if (proceed) {
-            // Open GuideFloat homepage in this tab
-            await chrome.tabs.update(tab.id, { 
-                url: 'https://kunle123.github.io/guidefloat/' 
-            });
-            
-            // Wait for page to load, then try again
-            setTimeout(async () => {
-                // Re-select the guide on the new page
-                selectGuide(guideId);
-            }, 2000);
-        }
+        // Auto-navigate to GuideFloat homepage
+        await chrome.tabs.update(tab.id, { 
+            url: 'https://kunle123.github.io/guidefloat/' 
+        });
+        
+        // Wait for page to load, then show the guide
+        setTimeout(() => {
+            selectGuide(guideId);
+        }, 2000);
+        
         return;
     }
     
