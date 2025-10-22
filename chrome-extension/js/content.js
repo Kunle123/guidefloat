@@ -130,10 +130,12 @@
                         <span class="guidefloat-title-text">GuideFloat</span>
                     </div>
                     <div class="guidefloat-header-buttons">
+                        <button class="guidefloat-header-btn peek-btn" title="Peek Mode (Compact)">⚡</button>
                         <button class="guidefloat-header-btn minimize-btn" title="Minimize">−</button>
                         <button class="guidefloat-header-btn close-btn" title="Close">×</button>
                     </div>
                 </div>
+                <div class="guidefloat-keyboard-hint">Press ESC to toggle peek mode</div>
                 <div class="guidefloat-progress-section">
                     <div class="guidefloat-progress-text">
                         <span class="progress-label">Progress</span>
@@ -167,6 +169,11 @@
             const header = this.widget.querySelector('.guidefloat-header');
             this.makeDraggable(header);
 
+            this.widget.querySelector('.peek-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.togglePeekMode();
+            });
+
             this.widget.querySelector('.minimize-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.toggleMinimize();
@@ -182,7 +189,20 @@
             this.widget.querySelector('.skip-btn').addEventListener('click', () => this.skipStep());
             this.widget.querySelector('.reset-btn').addEventListener('click', () => this.resetProgress());
             this.widget.querySelector('.help-btn').addEventListener('click', () => {
-                alert('GuideFloat Help\n\n- Check boxes to mark steps complete\n- Click step headers to expand/collapse\n- Drag the header to move the widget\n- Click "Skip" button if step is already done\n- Progress is saved automatically');
+                alert('GuideFloat Help\n\n- Check boxes to mark steps complete\n- Click step headers to expand/collapse\n- Drag the header to move the widget\n- Click "Skip" button if step is already done\n- Press ESC to toggle peek mode (compact sidebar)\n- Progress is saved automatically');
+            });
+
+            // Keyboard shortcut: ESC to toggle peek mode
+            document.addEventListener('keydown', (e) => {
+                // Only toggle if widget is visible and not in an input field
+                if (e.key === 'Escape' && 
+                    this.widget && 
+                    this.widget.style.display !== 'none' &&
+                    !this.isMinimized &&
+                    !e.target.matches('input, textarea, [contenteditable="true"]')) {
+                    e.preventDefault();
+                    this.togglePeekMode();
+                }
             });
         },
 
@@ -445,6 +465,24 @@
         handleMinimizedClick: function(e) {
             if (GuideFloat.isMinimized) {
                 GuideFloat.toggleMinimize();
+            }
+        },
+
+        togglePeekMode: function() {
+            if (this.widget.classList.contains('peek-mode')) {
+                this.widget.classList.remove('peek-mode');
+                const peekBtn = this.widget.querySelector('.peek-btn');
+                if (peekBtn) {
+                    peekBtn.textContent = '⚡';
+                    peekBtn.title = 'Peek Mode (Compact)';
+                }
+            } else {
+                this.widget.classList.add('peek-mode');
+                const peekBtn = this.widget.querySelector('.peek-btn');
+                if (peekBtn) {
+                    peekBtn.textContent = '📖';
+                    peekBtn.title = 'Full Mode (Expand)';
+                }
             }
         },
 
