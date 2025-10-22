@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuideFloat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 400px;
+            min-height: 500px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 20px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+        
+        .guide-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .guide-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .guide-card.active {
+            border: 3px solid #10b981;
+            background: #f0fdf4;
+        }
+        
+        .guide-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .guide-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .guide-meta {
+            font-size: 12px;
+            color: #6b7280;
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .guide-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .toggle-btn {
+            width: 100%;
+            padding: 14px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s ease;
+        }
+        
+        .toggle-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .toggle-btn.hide {
+            background: #ef4444;
+        }
+        
+        .toggle-btn.hide:hover {
+            background: #dc2626;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 GuideFloat</h1>
+        <p>Choose a guide to get started</p>
+    </div>
+    
+    <div class="content">
+        <div id="status" class="status" style="display: none;"></div>
+        
+        <input 
+            type="text" 
+            id="searchInput" 
+            class="search-box" 
+            placeholder="🔍 Search guides..."
+        >
+        
+        <div id="guideList"></div>
+        
+        <div id="noResults" class="no-results" style="display: none;">
+            <div style="font-size: 48px; margin-bottom: 12px;">🔍</div>
+            <div>No guides found</div>
+        </div>
+        
+        <button id="toggleBtn" class="toggle-btn" style="display: none;">
+            Show Guide on This Page
+        </button>
+    </div>
+    
+    <script src="js/popup.js"></script>
+</body>
+</html>
+

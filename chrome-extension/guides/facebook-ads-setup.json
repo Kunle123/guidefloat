@@ -1,0 +1,294 @@
+{
+  "id": "facebook-ads-setup",
+  "title": "Facebook Ads Setup Guide",
+  "description": "Complete step-by-step guide to setting up Facebook Ads from scratch",
+  "category": "Marketing",
+  "difficulty": "Beginner",
+  "estimatedTime": "45 minutes",
+  "totalSteps": 15,
+  "steps": [
+    {
+      "id": 1,
+      "title": "Set up Facebook Business Manager",
+      "description": "Facebook Business Manager is required to run professional ads and track results properly.",
+      "instructions": "Go to business.facebook.com and click 'Create Account'. Enter your business name, your name, and business email. Click 'Submit' to create your Business Manager account.",
+      "actionButtons": [
+        {
+          "text": "Open Facebook Business Manager",
+          "url": "https://business.facebook.com?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Use your business email, not personal",
+        "Have your business details ready",
+        "You can manage multiple ad accounts from one Business Manager"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 2,
+      "title": "Connect Your Facebook Page",
+      "description": "Your ads will run from this page, and people will click through to learn about you.",
+      "instructions": "In Business Manager, click 'Business Settings' → 'Accounts' → 'Pages' → 'Add'. If you have a page, claim it. If not, create a new page first on Facebook.",
+      "actionButtons": [
+        {
+          "text": "Go to Business Settings",
+          "url": "https://business.facebook.com/settings?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Use a professional profile photo",
+        "Add a cover photo that represents your brand",
+        "Fill out all page information completely"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 3,
+      "title": "Create Ad Account",
+      "description": "This is where you'll create and manage all your ad campaigns.",
+      "instructions": "In Business Settings, go to 'Accounts' → 'Ad Accounts' → 'Add'. Choose 'Create a new ad account', name it, select your time zone and currency, then assign it to your Business Manager.",
+      "actionButtons": [
+        {
+          "text": "Create Ad Account",
+          "url": "https://business.facebook.com/settings/ad-accounts?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Currency cannot be changed later, choose carefully",
+        "Use a descriptive name if you'll manage multiple accounts",
+        "Make sure timezone matches your business location"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 4,
+      "title": "Add Payment Method",
+      "description": "You need a valid payment method before running ads.",
+      "instructions": "Go to 'Payment Settings' in Business Manager. Click 'Add Payment Method' and enter your credit card or PayPal information. Facebook will charge you based on your ad spend.",
+      "actionButtons": [
+        {
+          "text": "Add Payment Method",
+          "url": "https://business.facebook.com/settings/payment-methods?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Use a business credit card for easier accounting",
+        "Set a spending limit if you want to control costs",
+        "Facebook bills either when you reach $25 or monthly"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 5,
+      "title": "Install Facebook Pixel",
+      "description": "The Pixel tracks conversions and helps optimize your ads.",
+      "instructions": "Go to Events Manager → Pixels → Create a Pixel. Name it, then add the pixel code to your website header. If using WordPress, Shopify, or Wix, use their integrations.",
+      "actionButtons": [
+        {
+          "text": "Open Events Manager",
+          "url": "https://business.facebook.com/events_manager?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Use Facebook Pixel Helper Chrome extension to verify installation",
+        "Set up custom conversions for specific actions",
+        "Allow 24-48 hours for data to start showing"
+      ],
+      "estimatedTime": "10 minutes"
+    },
+    {
+      "id": 6,
+      "title": "Define Your Campaign Objective",
+      "description": "Choose what you want your ads to achieve.",
+      "instructions": "Click 'Create' in Ads Manager. Choose from objectives like Awareness, Traffic, Engagement, Leads, App Promotion, or Sales. For beginners, start with 'Traffic' or 'Conversions'.",
+      "actionButtons": [
+        {
+          "text": "Open Ads Manager",
+          "url": "https://adsmanager.facebook.com?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Traffic objective: Best for driving website visits",
+        "Conversions: Best if you have Pixel installed and want sales",
+        "Engagement: Best for building awareness and social proof"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 7,
+      "title": "Set Campaign Budget",
+      "description": "Decide how much you want to spend on this campaign.",
+      "instructions": "Choose between Daily Budget (spend X per day) or Lifetime Budget (spend X total over campaign duration). Start with $10-20/day for testing.",
+      "actionButtons": [],
+      "tips": [
+        "Start small and scale up what works",
+        "Daily budget gives you more control",
+        "Facebook needs at least 50 conversions/week to optimize effectively"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 8,
+      "title": "Define Your Target Audience",
+      "description": "Who do you want to see your ads?",
+      "instructions": "In the Ad Set section, select location, age, gender, and detailed targeting. Use interests, behaviors, and demographics to narrow down your ideal customer.",
+      "actionButtons": [
+        {
+          "text": "Use Audience Insights",
+          "url": "https://business.facebook.com/ads/audience-insights?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Don't target too broadly (over 1M people) when starting",
+        "Don't target too narrowly (under 50K people)",
+        "Test different audiences in separate ad sets",
+        "Use Lookalike Audiences if you have existing customers"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 9,
+      "title": "Choose Ad Placements",
+      "description": "Where your ads will appear across Facebook's platforms.",
+      "instructions": "Choose 'Automatic Placements' (recommended for beginners) or 'Manual Placements' to select specific locations like Facebook Feed, Instagram Feed, Stories, etc.",
+      "actionButtons": [],
+      "tips": [
+        "Automatic placements usually perform better",
+        "Mobile feeds get the most engagement",
+        "Remove Audience Network if you want more control",
+        "Create separate ads for Stories format"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 10,
+      "title": "Create Your Ad Creative",
+      "description": "Design the actual ad people will see.",
+      "instructions": "Choose ad format (Single Image, Video, Carousel, or Collection). Upload your image or video, write compelling primary text (125 characters or less recommended), add a headline (40 characters max), and include a clear call-to-action button.",
+      "actionButtons": [
+        {
+          "text": "Browse Free Stock Photos",
+          "url": "https://unsplash.com",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Use high-quality images (1080x1080 for feed, 1080x1920 for stories)",
+        "Keep text on images to less than 20%",
+        "Video ads often perform better than images",
+        "Test 3-5 different creatives to see what works",
+        "Bright, colorful images tend to stop the scroll"
+      ],
+      "estimatedTime": "10 minutes"
+    },
+    {
+      "id": 11,
+      "title": "Write Compelling Ad Copy",
+      "description": "The words that will convince people to click.",
+      "instructions": "Write clear, benefit-focused copy. Start with a hook, explain the benefit, include social proof if possible, and end with a strong call-to-action. Keep it conversational and authentic.",
+      "actionButtons": [],
+      "tips": [
+        "Use emojis sparingly to add personality",
+        "Ask questions to increase engagement",
+        "Mention specific benefits, not just features",
+        "Create urgency with limited-time offers",
+        "Use 'you' and 'your' to make it personal"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 12,
+      "title": "Set Up Conversion Tracking",
+      "description": "Track what happens after someone clicks your ad.",
+      "instructions": "Choose which conversion event you want to optimize for (Purchase, Lead, Add to Cart, etc.). Make sure your Pixel is firing this event correctly. You can verify in Events Manager.",
+      "actionButtons": [
+        {
+          "text": "Check Events Manager",
+          "url": "https://business.facebook.com/events_manager?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Test your conversion events before launching",
+        "Set up a conversion window (1-day, 7-day, etc.)",
+        "Track multiple events to see the full customer journey"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 13,
+      "title": "Review and Publish Campaign",
+      "description": "Final check before your ads go live.",
+      "instructions": "Review all settings: budget, audience, placements, creative, and tracking. Click 'Publish' to submit your campaign for review. Facebook typically reviews ads within 24 hours.",
+      "actionButtons": [],
+      "tips": [
+        "Double-check your website URL is correct",
+        "Make sure your landing page loads fast",
+        "Verify pixel is installed and working",
+        "Save your campaign settings as a template for future use"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 14,
+      "title": "Monitor Initial Performance",
+      "description": "Check how your ads are performing in the first 24-48 hours.",
+      "instructions": "Go to Ads Manager and look at key metrics: Reach, Impressions, CTR (Click-Through Rate), CPC (Cost Per Click), and Conversions. Don't make changes too quickly - give ads at least 3-4 days to optimize.",
+      "actionButtons": [
+        {
+          "text": "Open Ads Manager",
+          "url": "https://adsmanager.facebook.com?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Good CTR for most industries: 1-3%",
+        "If CTR is low, improve your creative",
+        "If CPC is high, try different audiences",
+        "Check frequency - if over 3, ad fatigue is setting in"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 15,
+      "title": "Optimize and Scale",
+      "description": "Improve results and increase budget for winning ads.",
+      "instructions": "After 5-7 days, analyze what's working. Pause underperforming ads, increase budget on winners by 20% every 3 days, and test new audiences. Create new ad variations to avoid fatigue.",
+      "actionButtons": [
+        {
+          "text": "Learn Advanced Strategies",
+          "url": "https://facebook.com/business/learn?ref=guidefloat",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Don't increase budget more than 20% at once",
+        "A/B test one element at a time",
+        "Keep winning ads running, duplicate and test variations",
+        "Use automated rules to pause poor performers",
+        "Refresh creative every 2-3 weeks to combat ad fatigue"
+      ],
+      "estimatedTime": "Ongoing"
+    }
+  ],
+  "resources": [
+    {
+      "title": "Facebook Ads Official Guide",
+      "url": "https://facebook.com/business/ads"
+    },
+    {
+      "title": "Facebook Blueprint Free Courses",
+      "url": "https://facebook.com/business/learn"
+    }
+  ],
+  "affiliateDisclosure": "This guide contains affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you."
+}
+

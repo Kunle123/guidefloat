@@ -1,0 +1,256 @@
+{
+  "id": "wordpress-website",
+  "title": "WordPress Website Setup",
+  "description": "Launch a professional WordPress website from scratch with hosting, theme, and essential plugins",
+  "category": "Website",
+  "difficulty": "Intermediate",
+  "estimatedTime": "90 minutes",
+  "totalSteps": 14,
+  "steps": [
+    {
+      "id": 1,
+      "title": "Choose a Web Hosting Provider",
+      "description": "Select reliable hosting for your WordPress site.",
+      "instructions": "Choose a hosting provider like Bluehost, SiteGround, or Hostinger. For beginners, shared hosting ($3-10/month) is sufficient. Look for one-click WordPress installation, SSL certificate, and good customer support.",
+      "actionButtons": [
+        {
+          "text": "Get Bluehost Hosting",
+          "url": "https://bluehost.com?ref=guidefloat",
+          "type": "affiliate"
+        },
+        {
+          "text": "Try SiteGround",
+          "url": "https://siteground.com?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Bluehost and SiteGround are officially recommended by WordPress",
+        "Look for hosting with at least 99.9% uptime guarantee",
+        "Make sure SSL certificate is included (for https)",
+        "Check if they offer daily backups"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 2,
+      "title": "Purchase Hosting Plan and Domain",
+      "description": "Sign up for hosting and register your domain name.",
+      "instructions": "Select a hosting plan (Basic/Starter is fine for new sites). Choose your domain name - most hosts offer one free for the first year. Complete the purchase with your payment information. Save your login credentials securely.",
+      "actionButtons": [],
+      "tips": [
+        "Choose .com if available for your domain",
+        "Keep domain name short, memorable, and easy to spell",
+        "Avoid hyphens and numbers in domain names",
+        "Consider privacy protection to hide your personal info in WHOIS"
+      ],
+      "estimatedTime": "7 minutes"
+    },
+    {
+      "id": 3,
+      "title": "Install WordPress",
+      "description": "Set up WordPress on your hosting account.",
+      "instructions": "Log into your hosting control panel (cPanel or custom dashboard). Look for 'WordPress' or 'Website' section. Click 'Install WordPress' or 'One-Click Install'. Choose your domain, create admin username and password. Click 'Install'.",
+      "actionButtons": [],
+      "tips": [
+        "Don't use 'admin' as your username (security risk)",
+        "Use a strong, unique password",
+        "Save your login URL (usually yoursite.com/wp-admin)",
+        "Installation typically takes 1-2 minutes"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 4,
+      "title": "Log Into WordPress Dashboard",
+      "description": "Access your WordPress admin panel.",
+      "instructions": "Go to yoursite.com/wp-admin (or the URL provided after installation). Enter your username and password. You'll see the WordPress dashboard - this is your command center for managing your site.",
+      "actionButtons": [],
+      "tips": [
+        "Bookmark your login page for easy access",
+        "Enable two-factor authentication for security",
+        "Familiarize yourself with the dashboard layout",
+        "The dashboard is only visible to you, not visitors"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 5,
+      "title": "Configure General Settings",
+      "description": "Set up basic site information.",
+      "instructions": "Go to 'Settings' → 'General'. Set your site title, tagline, WordPress address, timezone, date format, and language. Make sure both URL fields match (with or without www). Save changes.",
+      "actionButtons": [],
+      "tips": [
+        "Site title appears in browser tabs and search results",
+        "Tagline should briefly describe what you do",
+        "Correct timezone ensures posts publish at right time",
+        "You can change these settings anytime"
+      ],
+      "estimatedTime": "3 minutes"
+    },
+    {
+      "id": 6,
+      "title": "Set Up Permalinks",
+      "description": "Configure SEO-friendly URL structure.",
+      "instructions": "Go to 'Settings' → 'Permalinks'. Select 'Post name' structure (recommended for SEO). This makes URLs readable like yoursite.com/about instead of yoursite.com/?p=123. Click 'Save Changes'.",
+      "actionButtons": [],
+      "tips": [
+        "Post name structure is best for SEO",
+        "Don't change this later - it breaks existing links",
+        "Clean URLs are easier for users to remember",
+        "Search engines prefer descriptive URLs"
+      ],
+      "estimatedTime": "2 minutes"
+    },
+    {
+      "id": 7,
+      "title": "Choose and Install a Theme",
+      "description": "Select a professional design for your website.",
+      "instructions": "Go to 'Appearance' → 'Themes' → 'Add New'. Browse free themes or upload a premium theme. Popular free options: Astra, GeneratePress, OceanWP. Click 'Install' then 'Activate'. Customize colors, fonts, and layout in 'Appearance' → 'Customize'.",
+      "actionButtons": [
+        {
+          "text": "Browse Premium Themes",
+          "url": "https://themeforest.net/category/wordpress?ref=guidefloat",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Choose a lightweight, fast-loading theme",
+        "Make sure theme is mobile-responsive",
+        "Check theme ratings and recent updates",
+        "Free themes are good for starting, premium offer more features",
+        "Astra and GeneratePress are excellent free options"
+      ],
+      "estimatedTime": "10 minutes"
+    },
+    {
+      "id": 8,
+      "title": "Install Essential Plugins",
+      "description": "Add functionality to your WordPress site.",
+      "instructions": "Go to 'Plugins' → 'Add New'. Search and install these essential plugins: Yoast SEO (for search optimization), Wordfence Security (protection), WPForms (contact forms), and WP Super Cache (speed). Click 'Install Now' then 'Activate' for each.",
+      "actionButtons": [],
+      "tips": [
+        "Don't install too many plugins - they slow your site",
+        "Essential plugins: SEO, Security, Forms, Caching, Backup",
+        "Check plugin compatibility with your theme",
+        "Only install plugins from trusted developers",
+        "Update plugins regularly for security"
+      ],
+      "estimatedTime": "8 minutes"
+    },
+    {
+      "id": 9,
+      "title": "Set Up SSL Certificate",
+      "description": "Enable HTTPS for security and trust.",
+      "instructions": "Most hosts provide free SSL (Let's Encrypt). In your hosting control panel, find SSL/TLS section and install the certificate. Then install 'Really Simple SSL' plugin in WordPress to force HTTPS across your entire site. Activate and follow setup wizard.",
+      "actionButtons": [],
+      "tips": [
+        "SSL is essential - browsers warn users about non-HTTPS sites",
+        "Search engines rank HTTPS sites higher",
+        "Green padlock icon builds visitor trust",
+        "Most modern hosts include free SSL"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 10,
+      "title": "Create Essential Pages",
+      "description": "Add important pages to your website.",
+      "instructions": "Go to 'Pages' → 'Add New'. Create these pages: Home, About, Services/Products, Blog, Contact. Write content for each page. Use the block editor (Gutenberg) to add text, images, buttons, etc. Click 'Publish' when done.",
+      "actionButtons": [],
+      "tips": [
+        "Homepage should clearly explain what you offer",
+        "About page builds trust - include your story",
+        "Contact page needs a form and your email",
+        "Write naturally - avoid corporate jargon",
+        "Use high-quality images",
+        "Include call-to-action buttons"
+      ],
+      "estimatedTime": "20 minutes"
+    },
+    {
+      "id": 11,
+      "title": "Set Up Navigation Menus",
+      "description": "Create menus for site navigation.",
+      "instructions": "Go to 'Appearance' → 'Menus'. Create a new menu, name it 'Main Menu'. Add your pages by checking boxes and clicking 'Add to Menu'. Drag to reorder. Assign menu to 'Primary Menu' location. Save.",
+      "actionButtons": [],
+      "tips": [
+        "Keep main menu simple - 5-7 items max",
+        "Most important pages go first",
+        "Use dropdown menus for subcategories",
+        "Create separate footer menu for legal pages",
+        "Test menu on mobile devices"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 12,
+      "title": "Configure Contact Form",
+      "description": "Set up a contact form so visitors can reach you.",
+      "instructions": "Open WPForms plugin → 'Add New'. Choose 'Simple Contact Form' template. Customize fields (Name, Email, Message). Go to 'Settings' to set notification email. Copy the shortcode, then paste it on your Contact page. Update the page.",
+      "actionButtons": [],
+      "tips": [
+        "Keep forms short - ask only necessary info",
+        "Enable spam protection (reCAPTCHA)",
+        "Test form submissions to make sure you receive emails",
+        "Add form to sidebar or footer for easy access",
+        "Respond to inquiries within 24 hours"
+      ],
+      "estimatedTime": "5 minutes"
+    },
+    {
+      "id": 13,
+      "title": "Set Up Google Analytics",
+      "description": "Track your website visitors and traffic.",
+      "instructions": "Create a Google Analytics account. Get your tracking ID. Install 'MonsterInsights' plugin (free version) or use your theme's built-in Analytics field. Paste your tracking ID in the settings. Verify data is being collected in Google Analytics dashboard.",
+      "actionButtons": [
+        {
+          "text": "Set Up Google Analytics",
+          "url": "https://analytics.google.com",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Analytics shows who visits, where they're from, and what they do",
+        "Allow 24-48 hours for data to start showing",
+        "Check reports weekly to understand your audience",
+        "Use insights to improve your content"
+      ],
+      "estimatedTime": "8 minutes"
+    },
+    {
+      "id": 14,
+      "title": "Launch Your Website",
+      "description": "Final checks and go live!",
+      "instructions": "Test all pages and links. Check mobile responsiveness using phone or browser dev tools. Verify forms work. Check spelling and grammar. Set up regular backups. Share on social media. Consider submitting to Google Search Console for better indexing.",
+      "actionButtons": [
+        {
+          "text": "Submit to Google Search Console",
+          "url": "https://search.google.com/search-console",
+          "type": "resource"
+        }
+      ],
+      "tips": [
+        "Test site on multiple browsers (Chrome, Firefox, Safari)",
+        "Ask friends to review before announcing",
+        "Set up weekly automatic backups",
+        "Plan to update content regularly",
+        "Install security plugin and keep WordPress updated",
+        "Consider SEO optimization for better search rankings"
+      ],
+      "estimatedTime": "10 minutes"
+    }
+  ],
+  "resources": [
+    {
+      "title": "WordPress.org Support",
+      "url": "https://wordpress.org/support/"
+    },
+    {
+      "title": "WPBeginner Tutorials",
+      "url": "https://wpbeginner.com"
+    }
+  ],
+  "affiliateDisclosure": "This guide contains affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you."
+}
+
