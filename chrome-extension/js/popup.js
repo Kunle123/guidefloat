@@ -570,6 +570,12 @@ function setupEventListeners() {
             return;
         }
         
+        // Show confirmation
+        const guide = guides.find(g => g.id === currentGuideId);
+        if (!confirm(`Close "${guide?.title || 'this guide'}"?\n\nThis will:\n✗ Close the guide overlay\n✗ Keep your progress saved\n\nYou can restart anytime by selecting the guide again.`)) {
+            return;
+        }
+        
         // Close the guide completely
         await closeAllGuides();
         
@@ -584,7 +590,7 @@ function setupEventListeners() {
         
         renderGuides();
         updateStatus();
-        showStatus('Guide closed', 'success');
+        showStatus('✓ Guide closed. Your progress is saved!', 'success');
     });
 }
 
@@ -617,17 +623,25 @@ async function updateStatus() {
                 goBtn.addEventListener('click', async () => {
                     if (result.activeTabId) {
                         try {
+                            // Switch to the tab
                             await chrome.tabs.update(result.activeTabId, { active: true });
+                            
+                            // Make sure widget is visible and maximized
+                            await chrome.tabs.sendMessage(result.activeTabId, {
+                                action: 'showWidget'
+                            }).catch(() => {
+                                // Widget not responding, might need re-injection
+                                console.log('Widget not responding');
+                            });
+                            
                             window.close(); // Close popup
                         } catch (e) {
-                            alert('The tab with the guide was closed. The guide will appear on your current tab.');
-                            // Show on current tab instead
-                            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-                            await chrome.tabs.sendMessage(tab.id, {
-                                action: 'showGuide',
-                                guideId: currentGuideId
-                            });
-                            await chrome.storage.local.set({ activeTabId: tab.id });
+                            showStatus('Tab was closed. Click a guide to restart.', 'error');
+                            // Clear the invalid tab reference
+                            currentGuideId = null;
+                            await chrome.storage.local.remove(['currentGuide', 'widgetVisible', 'activeTabId']);
+                            renderGuides();
+                            updateStatus();
                         }
                     }
                 });

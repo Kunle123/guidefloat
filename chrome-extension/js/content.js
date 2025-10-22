@@ -496,6 +496,13 @@
             GuideFloat.loadGuide(message.guideId);
         } else if (message.action === 'hideGuide') {
             GuideFloat.hide();
+        } else if (message.action === 'showWidget') {
+            // Show and un-minimize the widget if it exists
+            if (GuideFloat.widget) {
+                GuideFloat.widget.style.display = 'flex';
+                GuideFloat.widget.classList.remove('minimized');
+                GuideFloat.isMinimized = false;
+            }
         }
     });
 
