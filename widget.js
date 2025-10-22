@@ -22,7 +22,32 @@
                 return;
             }
             
+            // Check if user wants popup mode
+            const usePopup = localStorage.getItem('guidefloat-use-popup') === 'true';
+            
+            if (usePopup && !window.opener) {
+                // Open guide in popup window instead
+                this.openInPopup(guideId);
+                return;
+            }
+            
             this.loadGuide(guideId);
+        },
+        
+        // Open guide in popup window (stays on top, follows across pages)
+        openInPopup: function(guideId) {
+            const popupUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '') + 'popup.html?guide=' + guideId;
+            const popup = window.open(
+                popupUrl,
+                'guidefloat-popup',
+                'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no'
+            );
+            
+            if (!popup) {
+                alert('Please allow popups for GuideFloat to work in floating mode!');
+                // Fallback to inline mode
+                this.loadGuide(guideId);
+            }
         },
 
         // Load a guide from JSON

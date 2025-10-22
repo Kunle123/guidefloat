@@ -173,13 +173,52 @@ function startGuide(guideId) {
     // Save the guide ID to localStorage
     localStorage.setItem('guidefloat-current-guide', guideId);
     
-    // Check if widget script is already loaded
-    if (window.GuideFloat) {
-        // Widget is already loaded, just initialize with new guide
-        GuideFloat.loadGuide(guideId);
+    // Ask user which mode they prefer (only first time)
+    const hasChosenMode = localStorage.getItem('guidefloat-mode-chosen');
+    
+    if (!hasChosenMode) {
+        const usePopup = confirm(
+            "🚀 How would you like to use GuideFloat?\n\n" +
+            "Click OK for POPUP MODE (Recommended):\n" +
+            "• Opens in separate window\n" +
+            "• Stays visible while you navigate\n" +
+            "• Floats above all tabs\n\n" +
+            "Click Cancel for OVERLAY MODE:\n" +
+            "• Appears on current page only\n" +
+            "• Click bookmarklet again on new pages\n\n" +
+            "You can change this anytime in settings."
+        );
+        
+        localStorage.setItem('guidefloat-use-popup', usePopup ? 'true' : 'false');
+        localStorage.setItem('guidefloat-mode-chosen', 'true');
+    }
+    
+    const usePopup = localStorage.getItem('guidefloat-use-popup') === 'true';
+    
+    if (usePopup) {
+        // Open in popup window
+        const popup = window.open(
+            'popup.html?guide=' + guideId,
+            'guidefloat-popup',
+            'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no'
+        );
+        
+        if (!popup) {
+            alert('Please allow popups for GuideFloat!\n\nOr use overlay mode by changing settings.');
+            localStorage.setItem('guidefloat-use-popup', 'false');
+        } else {
+            // Show instructions
+            setTimeout(() => {
+                alert('✅ Guide opened in popup window!\n\nThe guide will stay visible while you work.\nNow you can navigate to Facebook or any other site.');
+            }, 500);
+        }
     } else {
-        // Load the widget
-        loadWidget(guideId);
+        // Load inline widget
+        if (window.GuideFloat) {
+            GuideFloat.loadGuide(guideId);
+        } else {
+            loadWidget(guideId);
+        }
     }
 }
 
@@ -225,4 +264,27 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Toggle between popup and overlay mode
+function toggleMode() {
+    const currentMode = localStorage.getItem('guidefloat-use-popup') === 'true';
+    const newMode = !currentMode;
+    
+    const modeNames = newMode ? 'POPUP MODE' : 'OVERLAY MODE';
+    const modeDescription = newMode 
+        ? '• Guide opens in separate window\n• Stays visible while you navigate\n• Floats above all tabs' 
+        : '• Guide appears on current page\n• Click bookmarklet on each new page\n• No popup windows needed';
+    
+    const confirm = window.confirm(
+        `Switch to ${modeNames}?\n\n${modeDescription}\n\nYour preference will be saved.`
+    );
+    
+    if (confirm) {
+        localStorage.setItem('guidefloat-use-popup', newMode ? 'true' : 'false');
+        alert(`✅ Switched to ${modeNames}!\n\nThis will take effect when you start your next guide.`);
+    }
+}
+
+// Make toggleMode globally accessible
+window.toggleMode = toggleMode;
 

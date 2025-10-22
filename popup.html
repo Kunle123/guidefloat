@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuideFloat - Guide Window</title>
+    <link rel="stylesheet" href="widget.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f9fafb;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        #guidefloat-widget {
+            position: relative !important;
+            top: 0 !important;
+            left: 0 !important;
+            transform: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        
+        .guidefloat-header {
+            border-radius: 0 !important;
+            cursor: default !important;
+        }
+        
+        .guidefloat-content {
+            max-height: calc(100vh - 200px) !important;
+        }
+        
+        .popup-indicator {
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .minimize-btn {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-indicator">
+        ✨ Popup Mode: This window stays on top while you work
+    </div>
+    
+    <script src="widget.js"></script>
+    <script>
+        // Get guide ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const guideId = urlParams.get('guide');
+        
+        if (guideId) {
+            // Load the guide
+            GuideFloat.init({ guideId: guideId });
+        } else {
+            document.body.innerHTML = '<div style="padding: 40px; text-align: center;"><h2>No guide selected</h2><p>Please select a guide from the main GuideFloat page.</p></div>';
+        }
+        
+        // Keep window on top (browser permitting)
+        window.focus();
+        
+        // Prevent accidental closing
+        window.onbeforeunload = function() {
+            return "Are you sure you want to close the guide?";
+        };
+    </script>
+</body>
+</html>
+
