@@ -339,15 +339,45 @@
             const isCompleted = completedSteps.includes(step.id);
 
             if (isCompleted) {
+                // Unchecking - just remove from completed
                 const index = completedSteps.indexOf(step.id);
                 completedSteps.splice(index, 1);
             } else {
+                // Checking - mark complete and advance to next step
                 completedSteps.push(step.id);
                 
-                // Auto-minimize the step when checked
+                // Auto-minimize the completed step
                 const stepEl = this.widget.querySelector(`[data-step-index="${stepIndex}"]`);
                 if (stepEl) {
                     stepEl.classList.remove('expanded');
+                }
+                
+                // If there's a next step, expand it and scroll to it
+                const nextStepIndex = stepIndex + 1;
+                if (nextStepIndex < this.currentGuide.steps.length) {
+                    // Wait for re-render, then expand and scroll to next step
+                    setTimeout(() => {
+                        const nextStepEl = this.widget.querySelector(`[data-step-index="${nextStepIndex}"]`);
+                        if (nextStepEl) {
+                            // Expand the next step
+                            nextStepEl.classList.add('expanded');
+                            
+                            // Scroll to top of next step
+                            const content = this.widget.querySelector('.guidefloat-content');
+                            if (content) {
+                                // Get position of next step relative to content container
+                                const contentRect = content.getBoundingClientRect();
+                                const stepRect = nextStepEl.getBoundingClientRect();
+                                const scrollOffset = stepRect.top - contentRect.top + content.scrollTop;
+                                
+                                // Smooth scroll to the next step
+                                content.scrollTo({
+                                    top: scrollOffset,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }, 100); // Small delay to ensure render completes
                 }
             }
 
