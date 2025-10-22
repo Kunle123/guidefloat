@@ -101,39 +101,34 @@
             
             <!-- Bookmarklet Section -->
             <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border-2 border-white/20">
-                <p class="text-lg mb-4 font-semibold">🎯 How to Use GuideFloat:</p>
-                <ol class="text-left space-y-3 mb-6">
+                <p class="text-lg mb-4 font-semibold">🎯 How it works:</p>
+                <ol class="text-left space-y-4 mb-6">
                     <li class="flex items-start">
-                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">1</span>
-                        <span><strong>Drag bookmarklet</strong> button below to your bookmarks bar</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">2</span>
-                        <span><strong>Choose a guide</strong> below (saves your selection)</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">3</span>
-                        <span><strong>Go to the work site</strong> (e.g., Facebook.com)</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="bg-white text-purple-600 rounded-full w-6 h-6 flex items-center justify-center font-bold mr-3 flex-shrink-0">4</span>
-                        <span><strong>Click bookmarklet</strong> - guide floats on that page!</span>
+                        <span class="bg-white text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 flex-shrink-0 text-lg">1</span>
+                        <div>
+                            <strong class="text-base">Drag this button to your bookmarks bar:</strong>
+                            <div class="mt-2"></div>
+                        </div>
                     </li>
                 </ol>
-                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">
-                    <strong>💡 Pro Tip:</strong> Drag the guide to the side of your screen. Button links open in NEW tabs so the guide stays visible!
-                </div>
                 
                 <a href="javascript:(function(){if(document.getElementById('guidefloat-widget')){alert('GuideFloat is already running!');return;}var css=document.createElement('link');css.rel='stylesheet';css.href='https://kunle123.github.io/guidefloat/widget.css';document.head.appendChild(css);var script=document.createElement('script');script.src='https://kunle123.github.io/guidefloat/widget.js';script.onload=function(){GuideFloat.init({guideId:localStorage.getItem('guidefloat-current-guide')||null});};document.body.appendChild(script);})();" 
-                   class="bookmarklet-button inline-flex items-center"
-                   onclick="alert('Drag this button to your bookmarks bar instead of clicking!'); return false;">
-                    <i class="fas fa-rocket mr-2"></i>
-                    📌 GuideFloat Bookmarklet
+                   class="bookmarklet-button inline-flex items-center text-xl"
+                   onclick="alert('👆 Drag this button UP to your bookmarks bar!\n\n(Don\\'t click - drag it!)'); return false;"
+                   style="margin: 20px 0;">
+                    📌 GuideFloat
                 </a>
                 
-                <p class="text-sm mt-4 text-purple-100">
-                    <i class="fas fa-info-circle"></i> Drag this to your bookmarks bar (don't click)
-                </p>
+                <div class="text-left mt-6 pt-6 border-t border-white/20">
+                    <p class="flex items-start mb-3">
+                        <span class="bg-white text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 flex-shrink-0 text-lg">2</span>
+                        <span class="pt-1"><strong class="text-base">Pick a guide below</strong> (just click "Start Guide")</span>
+                    </p>
+                    <p class="flex items-start">
+                        <span class="bg-white text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 flex-shrink-0 text-lg">3</span>
+                        <span class="pt-1"><strong class="text-base">Go to that website, click the bookmark</strong> - done! ✨</span>
+                    </p>
+                </div>
             </div>
         </div>
     </section>

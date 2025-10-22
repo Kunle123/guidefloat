@@ -168,53 +168,23 @@ function createGuideCard(guide) {
     `;
 }
 
-// Start a guide
+// Start a guide - SIMPLIFIED!
 function startGuide(guideId) {
-    // Save the guide ID to localStorage
+    // Save the guide ID
     localStorage.setItem('guidefloat-current-guide', guideId);
     
-    // Set to overlay mode (most reliable)
-    // Users can change via Mode button if they want popup
-    const hasChosenMode = localStorage.getItem('guidefloat-mode-chosen');
+    // Show simple instructions
+    const guideData = guidesData.find(g => g.id === guideId);
+    const guideName = guideData ? guideData.title : 'this guide';
     
-    if (!hasChosenMode) {
-        // Default to overlay mode - more reliable
-        localStorage.setItem('guidefloat-use-popup', 'false');
-        localStorage.setItem('guidefloat-mode-chosen', 'true');
-    }
-    
-    const usePopup = localStorage.getItem('guidefloat-use-popup') === 'true';
-    
-    if (usePopup) {
-        // Open in popup window
-        const currentPath = window.location.pathname;
-        const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
-        const popupUrl = window.location.origin + basePath + 'popup.html?guide=' + guideId;
-        
-        const popup = window.open(
-            popupUrl,
-            'guidefloat-popup',
-            'width=450,height=700,left=100,top=100,resizable=yes,scrollbars=yes,alwaysRaised=yes'
-        );
-        
-        if (!popup) {
-            alert('❌ Popup was blocked!\n\n1. Look for a popup blocker icon in your address bar\n2. Click it and allow popups for this site\n3. Try again\n\nOr click Mode button to switch to Overlay mode.');
-            localStorage.setItem('guidefloat-use-popup', 'false');
-        } else {
-            popup.focus();
-            // Show instructions
-            setTimeout(() => {
-                alert('✅ Guide opened in separate window!\n\nYou can now:\n• Navigate to Facebook.com (or any site)\n• Keep the guide window visible\n• Arrange windows side-by-side\n\nThe guide stays with you wherever you go!');
-            }, 500);
-        }
-    } else {
-        // Load inline widget
-        if (window.GuideFloat) {
-            GuideFloat.loadGuide(guideId);
-        } else {
-            loadWidget(guideId);
-        }
-    }
+    alert(
+        `✅ ${guideName} is ready!\n\n` +
+        `Now:\n` +
+        `1. Go to Facebook.com (or wherever you need to work)\n` +
+        `2. Click the 📌 GuideFloat button in your bookmarks bar\n` +
+        `3. Follow the steps!\n\n` +
+        `(If you don't see the bookmark, drag the purple button above to your bookmarks bar first)`
+    );
 }
 
 // Load the widget on the current page
