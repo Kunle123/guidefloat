@@ -1250,6 +1250,161 @@
             let allProgress = result.progress || {};
             delete allProgress[guideId];
             await chrome.storage.local.set({ progress: allProgress });
+        },
+
+        // Show spotlight for current step
+        showSpotlight: function() {
+            if (!this.currentGuide || !this.currentGuide.steps) {
+                console.log('[GuideFloat] No guide or steps available for spotlight');
+                return;
+            }
+
+            const currentStep = this.currentGuide.steps[this.currentStepIndex];
+            if (!currentStep || !currentStep.spotlight) {
+                console.log('[GuideFloat] No spotlight configuration for current step');
+                return;
+            }
+
+            console.log('[GuideFloat] Showing spotlight for step:', currentStep.title);
+            console.log('[GuideFloat] Spotlight target:', currentStep.spotlight.target);
+            console.log('[GuideFloat] Spotlight message:', currentStep.spotlight.message);
+
+            // Remove any existing spotlight
+            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
+                window.Spotlight.remove();
+            }
+
+            // Wait a bit for page to load, then show spotlight
+            setTimeout(() => {
+                if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+                    window.Spotlight.create({
+                        target: currentStep.spotlight.target,
+                        message: currentStep.spotlight.message,
+                        type: currentStep.spotlight.type || 'info',
+                        position: currentStep.spotlight.position || 'auto'
+                    });
+                } else {
+                    console.error('[GuideFloat] Spotlight not available');
+                }
+            }, 2000); // 2 second delay to allow page to load
+
+            // If field progression is enabled, start it after a longer delay
+            if (currentStep.fieldProgression && currentStep.fieldProgression.enabled) {
+                setTimeout(() => {
+                    this.startFieldProgression(currentStep.fieldProgression);
+                }, 5000); // 5 second delay to allow auto-navigation to complete
+            }
+        },
+
+        // Start field progression mode
+        startFieldProgression: function(fieldProgression) {
+            console.log('[GuideFloat] Starting field progression mode');
+            
+            // Add field progression mode class to widget
+            if (this.widget) {
+                this.widget.classList.add('field-progression-mode');
+            }
+            
+            this.currentFieldIndex = 0;
+            this.fieldProgression = fieldProgression;
+            this.showNextField();
+        },
+
+        // Show next field in progression
+        showNextField: function() {
+            if (!this.fieldProgression || !this.fieldProgression.fields) {
+                console.log('[GuideFloat] No field progression available');
+                return;
+            }
+
+            const field = this.fieldProgression.fields[this.currentFieldIndex];
+            if (!field) {
+                console.log('[GuideFloat] Field progression complete');
+                this.endFieldProgression();
+                return;
+            }
+
+            console.log('[GuideFloat] Showing field:', field.selector, field.message);
+
+            // Find the field element
+            const fieldElement = this.findFieldElement(field.selector);
+            if (fieldElement) {
+                // Show spotlight on the field
+                if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+                    window.Spotlight.create({
+                        target: fieldElement,
+                        message: field.message,
+                        type: 'info',
+                        position: 'auto'
+                    });
+                }
+
+                // Set up completion detection
+                this.setupFieldCompletionDetection(fieldElement, field);
+            } else {
+                console.log('[GuideFloat] Field not found:', field.selector);
+                // Try next field
+                this.currentFieldIndex++;
+                setTimeout(() => this.showNextField(), 1000);
+            }
+        },
+
+        // Find field element by selector
+        findFieldElement: function(selector) {
+            try {
+                return document.querySelector(selector);
+            } catch (e) {
+                console.error('[GuideFloat] Invalid selector:', selector);
+                return null;
+            }
+        },
+
+        // Set up field completion detection
+        setupFieldCompletionDetection: function(element, field) {
+            const checkCompletion = () => {
+                if (this.isFieldCompleted(element, field)) {
+                    console.log('[GuideFloat] Field completed:', field.selector);
+                    this.currentFieldIndex++;
+                    setTimeout(() => this.showNextField(), 1000);
+                }
+            };
+
+            // Check on various events
+            element.addEventListener('input', checkCompletion);
+            element.addEventListener('change', checkCompletion);
+            element.addEventListener('click', checkCompletion);
+            element.addEventListener('blur', checkCompletion);
+        },
+
+        // Check if field is completed
+        isFieldCompleted: function(element, field) {
+            if (element.type === 'checkbox' || element.type === 'radio') {
+                return element.checked;
+            } else if (element.type === 'text' || element.type === 'email' || element.type === 'password') {
+                return element.value.trim().length > 0;
+            } else if (element.tagName === 'BUTTON') {
+                // For buttons, consider it "completed" when clicked
+                return true;
+            }
+            return false;
+        },
+
+        // End field progression mode
+        endFieldProgression: function() {
+            console.log('[GuideFloat] Ending field progression mode');
+            
+            // Remove field progression mode class
+            if (this.widget) {
+                this.widget.classList.remove('field-progression-mode');
+            }
+            
+            // Remove spotlight
+            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
+                window.Spotlight.remove();
+            }
+            
+            this.fieldProgression = null;
+            this.currentFieldIndex = 0;
         }
     };
 
