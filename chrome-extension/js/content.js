@@ -1405,8 +1405,12 @@
                     // Ensure element is visible and in viewport
                     this.ensureElementVisible(fieldElement);
                     
+                    // Create a unique selector for this element
+                    const elementSelector = this.createElementSelector(fieldElement);
+                    console.log('[GuideFloat] Created selector for element:', elementSelector);
+                    
                     window.Spotlight.create({
-                        target: fieldElement,
+                        target: elementSelector,
                         message: field.message,
                         type: 'info',
                         position: 'auto'
@@ -1660,13 +1664,15 @@
             
             console.log('[GuideFloat] Setting up spotlight persistence');
             
+            const elementSelector = this.createElementSelector(element);
+            
             const checkSpotlight = () => {
                 // Check if spotlight still exists
                 const existingSpotlight = document.querySelector('.guidefloat-spotlight-dot');
                 if (!existingSpotlight) {
                     console.log('[GuideFloat] Spotlight disappeared, recreating...');
                     window.Spotlight.create({
-                        target: element,
+                        target: elementSelector,
                         message: message,
                         type: 'info',
                         position: 'auto'
@@ -1682,6 +1688,52 @@
                 clearInterval(intervalId);
                 console.log('[GuideFloat] Stopped checking spotlight persistence');
             }, 30000); // 30 second timeout
+        },
+
+        // Create a unique CSS selector for an element
+        createElementSelector: function(element) {
+            if (!element) return '';
+            
+            // Try to create a unique selector
+            let selector = '';
+            
+            // If element has an ID, use it
+            if (element.id) {
+                selector = `#${element.id}`;
+                console.log('[GuideFloat] Using ID selector:', selector);
+                return selector;
+            }
+            
+            // If element has a unique name attribute, use it
+            if (element.name) {
+                selector = `[name="${element.name}"]`;
+                console.log('[GuideFloat] Using name selector:', selector);
+                return selector;
+            }
+            
+            // If element has a unique class, use it
+            if (element.className && typeof element.className === 'string') {
+                const classes = element.className.split(' ').filter(c => c.trim());
+                if (classes.length > 0) {
+                    selector = `.${classes[0]}`;
+                    console.log('[GuideFloat] Using class selector:', selector);
+                    return selector;
+                }
+            }
+            
+            // Use tag name with attributes
+            selector = element.tagName.toLowerCase();
+            
+            if (element.type) {
+                selector += `[type="${element.type}"]`;
+            }
+            
+            if (element.placeholder) {
+                selector += `[placeholder="${element.placeholder}"]`;
+            }
+            
+            console.log('[GuideFloat] Using fallback selector:', selector);
+            return selector;
         }
     };
 
