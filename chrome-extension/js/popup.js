@@ -2,6 +2,7 @@
 
 // Category definitions
 const categories = {
+    testing: { name: 'Testing & Development', icon: '🧪', color: '#f59e0b' },
     marketing: { name: 'Marketing & Ads', icon: '📱', color: '#3b82f6' },
     ecommerce: { name: 'E-commerce', icon: '🛒', color: '#10b981' },
     email: { name: 'Email Marketing', icon: '📧', color: '#8b5cf6' },
@@ -10,6 +11,16 @@ const categories = {
 };
 
 const guides = [
+    {
+        id: 'test-signup-flow',
+        title: '🧪 Test Signup Flow Guide',
+        description: 'Test guide for the GuideFloat test page - demonstrates all features',
+        category: 'testing',
+        difficulty: 'Beginner',
+        estimatedTime: '5 minutes',
+        totalSteps: 4,
+        icon: '🧪'
+    },
     {
         id: 'facebook-ads-setup',
         title: 'Facebook Ads Setup Guide',
