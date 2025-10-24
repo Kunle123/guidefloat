@@ -57,6 +57,12 @@
         "Skip if you prefer (optional questions)"
       ],
       "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "button:contains('Next'), button:contains('Continue'), input[type='submit']",
+        "message": "Answer the questions and click 'Next' to continue with store setup",
+        "type": "info",
+        "position": "auto"
+      },
       "autoNavigate": {
         "url": "https://accounts.shopify.com/store-create",
         "message": "Taking you to store setup..."

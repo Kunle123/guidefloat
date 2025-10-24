@@ -473,6 +473,11 @@
         showSpotlight: function() {
             const step = this.currentGuide.steps[this.currentStepIndex];
             
+            // Always clear any existing spotlight first
+            if (window.Spotlight) {
+                window.Spotlight.destroy();
+            }
+            
             // Check if step has spotlight data
             if (step.spotlight && window.Spotlight) {
                 console.log('[GuideFloat] Showing spotlight for step', step.id);
@@ -486,6 +491,8 @@
                         position: step.spotlight.position || 'auto'
                     });
                 }, 2000);
+            } else {
+                console.log('[GuideFloat] Step', step.id, 'has no spotlight data, clearing any existing spotlight');
             }
         },
 
