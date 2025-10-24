@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuideFloat Extension Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .debug-section h2 {
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>🔍 GuideFloat Extension Debug Guide</h1>
+    
+    <div class="debug-section">
+        <h2>📋 Quick Debug Checklist</h2>
+        <div class="step">
+            <strong>1. Load Extension</strong>
+            <ul>
+                <li>Go to <code>chrome://extensions/</code></li>
+                <li>Enable "Developer mode" (top right)</li>
+                <li>Click "Load unpacked" and select your GuideFloat folder</li>
+                <li>Verify extension appears in toolbar</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>2. Test Shopify Guide</strong>
+            <ul>
+                <li>Click extension icon</li>
+                <li>Select "🛍️ Shopify Store Setup"</li>
+                <li>Should navigate to <code>https://www.shopify.com/free-trial</code></li>
+                <li>Widget should appear on Shopify page</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>3. Check Console Logs</strong>
+            <ul>
+                <li>Press <code>F12</code> on the Shopify page</li>
+                <li>Go to <strong>Console</strong> tab</li>
+                <li>Look for <span class="highlight">[GuideFloat]</span> messages</li>
+                <li>Should see spotlight creation logs</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🔧 Debug Console Commands</h2>
+        <p>Run these in the browser console to debug:</p>
+        
+        <div class="code">
+// Check if GuideFloat is loaded
+console.log('GuideFloat:', window.GuideFloat);
+
+// Check if Spotlight is loaded  
+console.log('Spotlight:', window.Spotlight);
+
+// Check current guide state
+chrome.storage.local.get(['currentGuide', 'widgetVisible'], (result) => {
+    console.log('Extension state:', result);
+});
+
+// Manually trigger spotlight (if on Shopify page)
+if (window.GuideFloat) {
+    window.GuideFloat.showSpotlight();
+}
+
+// Check for target elements
+console.log('Email inputs:', document.querySelectorAll('input[type="email"]'));
+console.log('All inputs:', document.querySelectorAll('input'));
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🐛 Common Issues & Solutions</h2>
+        
+        <div class="step">
+            <strong>Issue: Blue dot not appearing</strong>
+            <ul>
+                <li>Check console for <span class="error">❌ Spotlight not available</span></li>
+                <li>Verify spotlight.js is injected</li>
+                <li>Check if target elements exist on page</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>Issue: Widget not showing</strong>
+            <ul>
+                <li>Check console for <span class="error">❌ Failed to inject script</span></li>
+                <li>Verify content.js is injected</li>
+                <li>Check if widget.css is loaded</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>Issue: Navigation not working</strong>
+            <ul>
+                <li>Check background script logs</li>
+                <li>Go to <code>chrome://extensions/</code></li>
+                <li>Click "Inspect views: background page"</li>
+                <li>Look for navigation logs</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>📊 Expected Console Output</h2>
+        <p>When working correctly, you should see:</p>
+        
+        <div class="code">
+[GuideFloat Content] GuideFloat object ready
+[GuideFloat] Loading guide: shopify-store-setup
+[GuideFloat] Current URL when loading guide: https://www.shopify.com/free-trial
+[GuideFloat] Found autoNavigate URL: https://www.shopify.com/free-trial
+[GuideFloat] ===== SHOWSPOTLIGHT DEBUG =====
+[GuideFloat] Current guide: shopify-store-setup
+[GuideFloat] Current step index: 0
+[GuideFloat] ✅ Showing spotlight for step: Sign Up for Shopify
+[GuideFloat] ✅ Spotlight target: input[type='email'], input[name*='email']
+[GuideFloat] ===== CREATING SPOTLIGHT =====
+[GuideFloat] Window.Spotlight exists: true
+[GuideFloat] ✅ Creating spotlight with options: {...}
+[Spotlight] Loaded successfully
+[Spotlight] Creating spotlight for: input[type='email']
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h2>🚀 Quick Test</h2>
+        <p>Try this test sequence:</p>
+        <ol>
+            <li>Open <a href="https://www.shopify.com/free-trial" target="_blank">Shopify Free Trial</a></li>
+            <li>Open Developer Tools (F12)</li>
+            <li>Go to Console tab</li>
+            <li>Click GuideFloat extension</li>
+            <li>Select Shopify guide</li>
+            <li>Watch console for debug messages</li>
+            <li>Look for blue dot on email input field</li>
+        </ol>
+    </div>
+
+    <script>
+        // Add some test elements to this page for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add test form for debugging
+            const testForm = document.createElement('div');
+            testForm.innerHTML = `
+                <div style="margin-top: 20px; padding: 20px; background: #e9ecef; border-radius: 8px;">
+                    <h3>Test Form (for debugging)</h3>
+                    <input type="email" placeholder="Test email input" style="width: 100%; padding: 10px; margin: 5px 0;">
+                    <input type="password" placeholder="Test password input" style="width: 100%; padding: 10px; margin: 5px 0;">
+                    <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 4px;">Test Button</button>
+                </div>
+            `;
+            document.body.appendChild(testForm);
+        });
+    </script>
+</body>
+</html>

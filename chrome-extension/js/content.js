@@ -1254,20 +1254,31 @@
 
         // Show spotlight for current step
         showSpotlight: function() {
+            console.log('[GuideFloat] ===== SHOWSPOTLIGHT DEBUG =====');
+            console.log('[GuideFloat] Current guide:', this.currentGuide?.id);
+            console.log('[GuideFloat] Current step index:', this.currentStepIndex);
+            console.log('[GuideFloat] Total steps:', this.currentGuide?.steps?.length);
+            console.log('[GuideFloat] Current URL:', window.location.href);
+            
             if (!this.currentGuide || !this.currentGuide.steps) {
-                console.log('[GuideFloat] No guide or steps available for spotlight');
+                console.log('[GuideFloat] ❌ No guide or steps available for spotlight');
                 return;
             }
 
             const currentStep = this.currentGuide.steps[this.currentStepIndex];
+            console.log('[GuideFloat] Current step:', currentStep);
+            
             if (!currentStep || !currentStep.spotlight) {
-                console.log('[GuideFloat] No spotlight configuration for current step');
+                console.log('[GuideFloat] ❌ No spotlight configuration for current step');
+                console.log('[GuideFloat] Step has spotlight:', !!currentStep?.spotlight);
                 return;
             }
 
-            console.log('[GuideFloat] Showing spotlight for step:', currentStep.title);
-            console.log('[GuideFloat] Spotlight target:', currentStep.spotlight.target);
-            console.log('[GuideFloat] Spotlight message:', currentStep.spotlight.message);
+            console.log('[GuideFloat] ✅ Showing spotlight for step:', currentStep.title);
+            console.log('[GuideFloat] ✅ Spotlight target:', currentStep.spotlight.target);
+            console.log('[GuideFloat] ✅ Spotlight message:', currentStep.spotlight.message);
+            console.log('[GuideFloat] ✅ Spotlight type:', currentStep.spotlight.type);
+            console.log('[GuideFloat] ✅ Spotlight position:', currentStep.spotlight.position);
 
             // Remove any existing spotlight
             if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
@@ -1276,15 +1287,29 @@
 
             // Wait a bit for page to load, then show spotlight
             setTimeout(() => {
+                console.log('[GuideFloat] ===== CREATING SPOTLIGHT =====');
+                console.log('[GuideFloat] Window.Spotlight exists:', !!window.Spotlight);
+                console.log('[GuideFloat] Spotlight.create function exists:', !!(window.Spotlight && typeof window.Spotlight.create === 'function'));
+                
                 if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+                    console.log('[GuideFloat] ✅ Creating spotlight with options:', {
+                        target: currentStep.spotlight.target,
+                        message: currentStep.spotlight.message,
+                        type: currentStep.spotlight.type || 'info',
+                        position: currentStep.spotlight.position || 'auto'
+                    });
+                    
                     window.Spotlight.create({
                         target: currentStep.spotlight.target,
                         message: currentStep.spotlight.message,
                         type: currentStep.spotlight.type || 'info',
                         position: currentStep.spotlight.position || 'auto'
                     });
+                    
+                    console.log('[GuideFloat] ✅ Spotlight creation called');
                 } else {
-                    console.error('[GuideFloat] Spotlight not available');
+                    console.error('[GuideFloat] ❌ Spotlight not available');
+                    console.error('[GuideFloat] window.Spotlight:', window.Spotlight);
                 }
             }, 2000); // 2 second delay to allow page to load
 
