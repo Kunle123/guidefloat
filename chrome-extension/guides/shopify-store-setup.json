@@ -44,6 +44,10 @@
         "type": "success",
         "position": "auto"
       },
+      "autoNavigate": {
+        "url": "https://www.shopify.com/free-trial",
+        "message": "Taking you to Shopify to start your free trial..."
+      },
       "fieldProgression": {
         "enabled": true,
         "fields": [

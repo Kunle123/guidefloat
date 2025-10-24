@@ -95,19 +95,6 @@
                 const progress = await this.loadProgress(guideId);
                 this.currentStepIndex = progress ? progress.currentStep - 1 : 0;
                 
-                this.show();
-                
-                // Smart detection: Check if user has already completed some steps
-                if (window.PageDetector) {
-                    console.log('[GuideFloat] Running smart page detection...');
-                    const detectedState = await window.PageDetector.detectGuideState(guideId);
-                    const suggestion = window.PageDetector.getSuggestionMessage(detectedState, guideId);
-                    
-                    if (suggestion && suggestion.steps && suggestion.steps.length > 0) {
-                        this.showSmartSuggestion(suggestion);
-                    }
-                }
-                
                 // Auto-navigate to first step if needed
                 const firstStep = this.currentGuide.steps[this.currentStepIndex];
                 let shouldNavigate = false;
@@ -181,6 +168,20 @@
                     } catch (error) {
                         console.error('[GuideFloat] Error comparing URLs in loadGuide:', error);
                         // If URL parsing fails, don't navigate to avoid loops
+                    }
+                }
+                
+                // Show widget after navigation logic
+                this.show();
+                
+                // Smart detection: Check if user has already completed some steps
+                if (window.PageDetector) {
+                    console.log('[GuideFloat] Running smart page detection...');
+                    const detectedState = await window.PageDetector.detectGuideState(guideId);
+                    const suggestion = window.PageDetector.getSuggestionMessage(detectedState, guideId);
+                    
+                    if (suggestion && suggestion.steps && suggestion.steps.length > 0) {
+                        this.showSmartSuggestion(suggestion);
                     }
                 }
                 
