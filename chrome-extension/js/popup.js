@@ -590,6 +590,10 @@ async function selectGuide(guideId) {
     
     // Inject CSS and script into this specific tab (CSS first!)
     try {
+        console.log('[GuideFloat] Starting injection process...');
+        console.log('[GuideFloat] Tab ID:', tab.id);
+        console.log('[GuideFloat] Tab URL:', tab.url);
+        
         console.log('[GuideFloat] Injecting CSS...');
         // Inject CSS first with USER origin for highest priority
         await chrome.scripting.insertCSS({
@@ -620,6 +624,11 @@ async function selectGuide(guideId) {
             files: ['js/content.js']
         });
         console.log('[GuideFloat] ✓ Content script injected, result:', injection);
+        
+        // Add a small delay to let scripts initialize
+        await new Promise(resolve => setTimeout(resolve, 500));
+        console.log('[GuideFloat] Scripts should be ready now');
+        
     } catch (e) {
         console.error('[GuideFloat] ❌ Injection failed:', e);
         showStatus('❌ Failed to inject script. See console for details.', 'error');
@@ -627,36 +636,92 @@ async function selectGuide(guideId) {
             message: e.message,
             stack: e.stack,
             tabId: tab.id,
-            tabUrl: tab.url
+            tabUrl: tab.url,
+            errorName: e.name
         });
+        
+        // Try to get more info about the tab
+        try {
+            const tabInfo = await chrome.tabs.get(tab.id);
+            console.log('[GuideFloat] Tab info:', tabInfo);
+        } catch (tabError) {
+            console.error('[GuideFloat] Could not get tab info:', tabError);
+        }
+        
         return; // Stop here if injection failed
     }
     
     // Wait for script to be ready with ping checks
     console.log('[GuideFloat] Waiting for content script to be ready...');
     let scriptReady = false;
-    let maxPingAttempts = 5;
+    let maxPingAttempts = 10; // Increased attempts
     
     for (let i = 0; i < maxPingAttempts; i++) {
-        const delay = 200 * (i + 1);
+        const delay = 300 * (i + 1); // Increased delay
         console.log(`[GuideFloat] Ping attempt ${i + 1}/${maxPingAttempts} (waiting ${delay}ms)...`);
-        await new Promise(resolve => setTimeout(resolve, delay)); // Increasing delay
+        await new Promise(resolve => setTimeout(resolve, delay));
         
         try {
+            console.log(`[GuideFloat] Sending ping to tab ${tab.id}...`);
             const response = await chrome.tabs.sendMessage(tab.id, { action: 'ping' });
+            console.log(`[GuideFloat] Ping response:`, response);
+            
             if (response && response.status === 'ready') {
                 scriptReady = true;
                 console.log('[GuideFloat] ✓ Content script is ready!');
                 break;
+            } else {
+                console.log(`[GuideFloat] Unexpected ping response:`, response);
             }
         } catch (e) {
             console.log(`[GuideFloat] Ping attempt ${i + 1} failed:`, e.message);
+            console.log(`[GuideFloat] Error details:`, e);
+            
+            // Check if tab still exists
+            try {
+                const tabInfo = await chrome.tabs.get(tab.id);
+                console.log(`[GuideFloat] Tab still exists:`, tabInfo.url);
+            } catch (tabError) {
+                console.error(`[GuideFloat] Tab no longer exists:`, tabError);
+                break;
+            }
         }
     }
     
     if (!scriptReady) {
-        console.warn('[GuideFloat] ⚠️ Script did not respond to ping, trying anyway...');
-        showStatus('⚠️ Loading slowly... check your tab', 'error');
+        console.warn('[GuideFloat] ⚠️ Script did not respond to ping after all attempts');
+        console.warn('[GuideFloat] This might be due to:');
+        console.warn('[GuideFloat] - Content script not loading properly');
+        console.warn('[GuideFloat] - Page security restrictions');
+        console.warn('[GuideFloat] - Extension permissions issues');
+        
+        // Try one more injection attempt
+        console.log('[GuideFloat] Attempting one more injection...');
+        try {
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ['js/content.js']
+            });
+            console.log('[GuideFloat] ✓ Retry injection successful');
+            
+            // Wait a bit more and try ping again
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            try {
+                const response = await chrome.tabs.sendMessage(tab.id, { action: 'ping' });
+                if (response && response.status === 'ready') {
+                    scriptReady = true;
+                    console.log('[GuideFloat] ✓ Content script ready after retry!');
+                }
+            } catch (retryError) {
+                console.log('[GuideFloat] Retry ping failed:', retryError);
+            }
+        } catch (retryInjectionError) {
+            console.error('[GuideFloat] Retry injection failed:', retryInjectionError);
+        }
+        
+        if (!scriptReady) {
+            showStatus('⚠️ Script not responding. Check console for details.', 'error');
+        }
     }
     
     // Now show the guide
