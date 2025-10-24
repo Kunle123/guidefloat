@@ -1,6 +1,10 @@
 // GuideFloat Page Detector - Smart detection of user's account status
 
-const PageDetector = {
+// Prevent duplicate declarations
+if (typeof window.PageDetector !== 'undefined') {
+    console.log('[PageDetector] Already loaded, skipping...');
+} else {
+    const PageDetector = {
     // Facebook Business Manager Detection
     facebook: {
         // Check if user has Business Manager
@@ -175,10 +179,11 @@ const PageDetector = {
         
         return null;
     }
-};
+    };
 
-// Make it globally accessible
-window.PageDetector = PageDetector;
+    // Make it globally accessible
+    window.PageDetector = PageDetector;
 
-console.log('[PageDetector] Loaded successfully');
+    console.log('[PageDetector] Loaded successfully');
+}
 

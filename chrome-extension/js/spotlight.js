@@ -1,6 +1,10 @@
 // GuideFloat Spotlight - Visual indicator showing where to interact on the page
 
-const Spotlight = {
+// Prevent duplicate declarations
+if (typeof window.Spotlight !== 'undefined') {
+    console.log('[Spotlight] Already loaded, skipping...');
+} else {
+    const Spotlight = {
     activeSpotlight: null,
     activeDialog: null,
     
@@ -441,10 +445,11 @@ const Spotlight = {
             // (stored options would be needed for this)
         }
     }
-};
+    };
 
-// Make globally accessible
-window.Spotlight = Spotlight;
+    // Make globally accessible
+    window.Spotlight = Spotlight;
 
-console.log('[Spotlight] Loaded successfully');
+    console.log('[Spotlight] Loaded successfully');
+}
 

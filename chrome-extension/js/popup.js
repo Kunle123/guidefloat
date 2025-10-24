@@ -530,8 +530,31 @@ async function selectGuide(guideId) {
     
     // Check if we can inject on this URL
     if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
-        console.log('[GuideFloat] Cannot inject on restricted page, navigating to GuideFloat homepage...');
-        showStatus('Opening GuideFloat homepage...', 'info');
+        console.log('[GuideFloat] Cannot inject on restricted page, navigating to guide target...');
+        
+        // Get the guide's target URL
+        const guide = guides.find(g => g.id === guideId);
+        let targetUrl = 'https://kunle123.github.io/guidefloat/'; // Default fallback
+        
+        if (guide) {
+            // Try to get the first step's autoNavigate URL or action button URL
+            try {
+                const guideUrl = chrome.runtime.getURL(`guides/${guideId}.json`);
+                const response = await fetch(guideUrl);
+                const guideData = await response.json();
+                
+                const firstStep = guideData.steps[0];
+                if (firstStep.autoNavigate && firstStep.autoNavigate.url) {
+                    targetUrl = firstStep.autoNavigate.url;
+                } else if (firstStep.actionButtons && firstStep.actionButtons.length > 0) {
+                    targetUrl = firstStep.actionButtons[0].url;
+                }
+            } catch (e) {
+                console.log('[GuideFloat] Could not load guide data, using default URL');
+            }
+        }
+        
+        showStatus(`Opening ${guide?.title || 'guide'}...`, 'info');
         
         // Store that we want to load this guide after navigation
         await chrome.storage.local.set({ 
@@ -540,9 +563,9 @@ async function selectGuide(guideId) {
             activeTabId: tab.id
         });
         
-        // Auto-navigate to GuideFloat homepage
+        // Auto-navigate to the guide's target URL
         await chrome.tabs.update(tab.id, { 
-            url: 'https://kunle123.github.io/guidefloat/' 
+            url: targetUrl
         });
         
         // Close popup - background script will handle loading the guide
