@@ -447,7 +447,7 @@
                         type: step.spotlight.type || 'info',
                         position: step.spotlight.position || 'auto'
                     });
-                }, 500);
+                }, 2000);
             }
         },
 

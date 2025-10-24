@@ -26,14 +26,48 @@ const Spotlight = {
             targetElement = document.querySelector(target);
             if (!targetElement) {
                 console.warn('[Spotlight] Target element not found:', target);
-                // Try waiting a bit for dynamic content
-                setTimeout(() => {
-                    const retryElement = document.querySelector(target);
-                    if (retryElement) {
-                        this.create(options);
+                
+                // Try multiple fallback selectors for common patterns
+                const fallbackSelectors = [
+                    'button[type="submit"]',
+                    'button:contains("Create")',
+                    'button:contains("Sign up")',
+                    'button:contains("Get started")',
+                    'a[role="button"]',
+                    'button',
+                    'a[href*="signup"]',
+                    'a[href*="create"]'
+                ];
+                
+                let foundElement = null;
+                for (const selector of fallbackSelectors) {
+                    try {
+                        foundElement = document.querySelector(selector);
+                        if (foundElement) {
+                            console.log('[Spotlight] Found fallback element:', selector);
+                            targetElement = foundElement;
+                            break;
+                        }
+                    } catch (e) {
+                        // Skip invalid selectors
+                        continue;
                     }
-                }, 1000);
-                return;
+                }
+                
+                if (!targetElement) {
+                    // Try waiting a bit for dynamic content
+                    setTimeout(() => {
+                        const retryElement = document.querySelector(target);
+                        if (retryElement) {
+                            this.create(options);
+                        } else {
+                            console.log('[Spotlight] No suitable target found, showing general guidance');
+                            // Show a general guidance message instead of specific targeting
+                            this.showGeneralGuidance(message);
+                        }
+                    }, 2000);
+                    return;
+                }
             }
             targetRect = targetElement.getBoundingClientRect();
         } else if (target && target.x !== undefined && target.y !== undefined) {
@@ -339,6 +373,54 @@ const Spotlight = {
             this.activeSpotlight = null;
             console.log('[Spotlight] Removed');
         }
+    },
+    
+    showGeneralGuidance: function(message) {
+        // Create a general guidance overlay when no specific target is found
+        const guidance = document.createElement('div');
+        guidance.className = 'guidefloat-spotlight-guidance';
+        guidance.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 2147483647;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            font-size: 14px;
+            text-align: center;
+            max-width: 400px;
+            animation: guidefloat-guidance-fadeIn 0.3s ease-out;
+        `;
+        
+        guidance.innerHTML = `
+            <div style="font-size: 24px; margin-bottom: 10px;">🎯</div>
+            <div style="font-weight: 600; margin-bottom: 8px;">Look for:</div>
+            <div>${message}</div>
+            <button onclick="this.parentElement.remove()" style="
+                background: rgba(255, 255, 255, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 6px;
+                margin-top: 12px;
+                cursor: pointer;
+                font-size: 12px;
+            ">Got it!</button>
+        `;
+        
+        document.body.appendChild(guidance);
+        
+        // Auto-remove after 10 seconds
+        setTimeout(() => {
+            if (guidance.parentElement) {
+                guidance.remove();
+            }
+        }, 10000);
     },
     
     // Point to element by selector with custom message

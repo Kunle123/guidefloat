@@ -50,7 +50,7 @@
       ],
       "estimatedTime": "5 minutes",
       "spotlight": {
-        "target": "button[type='submit'], a[role='button']",
+        "target": "button[type='submit'], button:contains('Create'), button:contains('Sign up'), a[role='button'], button",
         "message": "Look for the blue 'Create Account' button. It's usually in the center or top-right of the page.",
         "type": "info",
         "position": "auto"
@@ -78,7 +78,7 @@
       ],
       "estimatedTime": "5 minutes",
       "spotlight": {
-        "target": "[data-testid='add-page-button'], button:contains('Add'), a[href*='pages']",
+        "target": "[data-testid='add-page-button'], button:contains('Add'), button:contains('Page'), a[href*='pages'], button",
         "message": "Look for 'Accounts' in the left sidebar, then click 'Pages', then look for the '+ Add' or 'Add Page' button.",
         "type": "info",
         "position": "auto"
