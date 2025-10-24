@@ -5,7 +5,7 @@
   "category": "E-commerce",
   "difficulty": "Beginner",
   "estimatedTime": "90 minutes",
-  "totalSteps": 12,
+  "totalSteps": 14,
   "affiliateDisclosure": "This guide contains affiliate links. We earn a commission if you sign up through our links, at no extra cost to you. This helps us create more free guides!",
   "prerequisites": {
     "title": "What You'll Need",
@@ -39,10 +39,30 @@
       ],
       "estimatedTime": "3 minutes",
       "spotlight": {
-        "target": "button[type='submit'], a[href*='signup']",
-        "message": "Look for the 'Start free trial' button and enter your email",
+        "target": "input[type='email'], input[name*='email']",
+        "message": "Enter your email address to start your free trial",
         "type": "success",
         "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='email'], input[name*='email']",
+            "message": "Enter your email address",
+            "required": true
+          },
+          {
+            "selector": "input[type='password'], input[name*='password']",
+            "message": "Create a secure password (8+ characters)",
+            "required": true
+          },
+          {
+            "selector": "button[type='submit'], button",
+            "message": "Click 'Create Shopify account' to continue",
+            "required": true
+          }
+        ]
       }
     },
     {
@@ -58,10 +78,25 @@
       ],
       "estimatedTime": "2 minutes",
       "spotlight": {
-        "target": "button[type='submit'], input[type='submit'], button",
-        "message": "Answer the questions and click 'Next' to continue with store setup",
+        "target": "input[type='radio'], input[type='checkbox'], button",
+        "message": "Select your business type and click 'Next' to continue",
         "type": "info",
         "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='radio'], input[type='checkbox']",
+            "message": "Select your business type (New business or Existing business)",
+            "required": true
+          },
+          {
+            "selector": "button, a[href*='next']",
+            "message": "Click 'Next' to continue with setup",
+            "required": true
+          }
+        ]
       },
       "autoNavigate": {
         "url": "https://accounts.shopify.com/store-create",
@@ -70,6 +105,74 @@
     },
     {
       "id": 3,
+      "title": "Choose What You Plan to Sell",
+      "description": "Select the type of products or services you want to sell",
+      "instructions": "1. Review the different selling options\n2. Check the box for what you plan to sell\n3. You can select multiple options if applicable\n4. Click 'Next' to continue\n\n💡 Popular options: 'Products I buy or make myself' or 'I'll decide later'",
+      "tips": [
+        "You can change this later in settings",
+        "Multiple options can be selected",
+        "Choose what best describes your business",
+        "Don't worry if you're unsure - you can decide later"
+      ],
+      "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "input[type='checkbox'], button",
+        "message": "Select what you plan to sell and click 'Next'",
+        "type": "info",
+        "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='checkbox']",
+            "message": "Check the box for what you plan to sell",
+            "required": true
+          },
+          {
+            "selector": "button, a[href*='next']",
+            "message": "Click 'Next' to continue",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "title": "Choose Where You Want to Sell",
+      "description": "Select your selling channels - you can add more later",
+      "instructions": "1. Review the different selling options\n2. Check the boxes for where you want to sell\n3. 'An online store' is usually selected by default\n4. Click 'Next' to continue\n\n💡 Most stores start with just 'An online store'",
+      "tips": [
+        "You can add more channels later",
+        "Start simple with just online store",
+        "Social media integration is easy to add",
+        "Don't overcomplicate at first"
+      ],
+      "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "input[type='checkbox'], button",
+        "message": "Select where you want to sell and click 'Next'",
+        "type": "info",
+        "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='checkbox']",
+            "message": "Check the boxes for where you want to sell",
+            "required": true
+          },
+          {
+            "selector": "button, a[href*='next']",
+            "message": "Click 'Next' to continue",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
       "title": "Add Your First Product",
       "description": "Let's add a product to your store - you can edit or delete this later",
       "instructions": "1. In Shopify admin, click 'Products' in left sidebar\n2. Click 'Add product' button\n3. Fill in:\n   - Title: Product name\n   - Description: What it is, why buy it\n   - Price: Your selling price\n   - Upload at least 1 image\n4. Scroll down and click 'Save'\n\n💡 You can add more details later (variants, inventory, SEO)",
@@ -93,13 +196,43 @@
         "type": "info",
         "position": "auto"
       },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[name*='title'], input[placeholder*='title'], input[placeholder*='product']",
+            "message": "Enter your product title (e.g., 'Short sleeve t-shirt')",
+            "required": true
+          },
+          {
+            "selector": "textarea[name*='description'], div[contenteditable='true'], .rich-text-editor",
+            "message": "Add a product description - what makes it special?",
+            "required": false
+          },
+          {
+            "selector": "input[name*='price'], input[placeholder*='price'], input[type='number']",
+            "message": "Set your selling price (e.g., £19.99)",
+            "required": true
+          },
+          {
+            "selector": "input[type='file'], button, .media-upload",
+            "message": "Upload at least one product image",
+            "required": true
+          },
+          {
+            "selector": "button[type='submit'], button, input[type='submit']",
+            "message": "Click 'Save' to create your product",
+            "required": true
+          }
+        ]
+      },
       "autoNavigate": {
         "url": "https://admin.shopify.com/store/products",
         "message": "Opening Products page..."
       }
     },
     {
-      "id": 4,
+      "id": 6,
       "title": "Choose and Customize Your Theme",
       "description": "Pick a professional design for your store - many free options available",
       "instructions": "1. Click 'Online Store' in left sidebar\n2. Click 'Themes'\n3. Browse free themes or explore paid ones\n4. Click 'Add' on a theme you like\n5. Once added, click 'Customize' to edit it\n6. Customize: Logo, colors, fonts, homepage layout\n7. Click 'Save' in top right when done\n\n🎨 Recommended free themes: Dawn, Sense, Craft",
@@ -130,7 +263,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 7,
       "title": "Set Up Payment Methods",
       "description": "Enable customers to pay you - Shopify Payments is easiest",
       "instructions": "1. Go to Settings (bottom left)\n2. Click 'Payments'\n3. For Shopify Payments:\n   - Click 'Complete account setup'\n   - Fill in business details\n   - Bank account for payouts\n   - Verify identity (may need ID)\n4. Alternatively, add PayPal, Stripe, or others\n5. Click 'Save'\n\n💳 Shopify Payments: 2.9% + 30¢ per transaction (no extra fees)",
@@ -161,7 +294,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 8,
       "title": "Configure Shipping Settings",
       "description": "Set up how you'll ship products to customers",
       "instructions": "1. Go to Settings → Shipping and delivery\n2. Under Shipping, click 'Manage rates'\n3. Add shipping zones (countries you ship to)\n4. For each zone, add rates:\n   - Free shipping (set minimum order)\n   - Flat rate (single price)\n   - Calculated (real-time carrier rates)\n5. Set handling time (how long to ship)\n6. Click 'Save'\n\n📦 For digital products: Create a zone with $0 shipping",
@@ -186,7 +319,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 9,
       "title": "Set Up Tax Settings",
       "description": "Configure automatic tax collection (required in most regions)",
       "instructions": "1. Go to Settings → Taxes and duties\n2. Your location is auto-detected\n3. Enable 'Collect sales tax' for your region\n4. For US: Shopify calculates state tax automatically\n5. For EU: Enable VAT collection if applicable\n6. Set tax-exempt products if needed\n7. Click 'Save'\n\n⚖️ Note: You're responsible for remitting collected taxes",
@@ -211,7 +344,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 10,
       "title": "Add Essential Pages",
       "description": "Create required legal pages and about/contact pages",
       "instructions": "1. Go to Online Store → Pages\n2. Click 'Add page'\n3. Create these pages:\n   - About Us (your story)\n   - Contact (email/phone/form)\n   - Shipping Policy (auto-generated)\n   - Refund Policy (auto-generated)\n   - Privacy Policy (auto-generated)\n   - Terms of Service (auto-generated)\n4. For legal pages: Use Shopify's policy generator\n5. Customize each page content\n6. Click 'Save' for each\n\n⚖️ Legal pages are required by law in most countries",
@@ -236,7 +369,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 11,
       "title": "Set Up Your Domain",
       "description": "Connect your custom domain or buy one through Shopify",
       "instructions": "Option 1: Buy domain through Shopify\n1. Go to Settings → Domains\n2. Click 'Buy new domain'\n3. Search for available domain\n4. Purchase (around $14/year)\n5. Done! Auto-configured.\n\nOption 2: Connect existing domain\n1. Go to Settings → Domains\n2. Click 'Connect existing domain'\n3. Enter your domain name\n4. Follow DNS setup instructions\n5. Wait 24-48 hours for propagation\n\n💡 Can keep free .myshopify.com if not ready",
@@ -261,7 +394,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 12,
       "title": "Install Essential Apps",
       "description": "Add functionality with apps - many are free",
       "instructions": "1. Click 'Apps' in left sidebar\n2. Click 'Customize your store'\n3. Browse Shopify App Store\n4. Recommended apps to install:\n   - Email marketing (Klaviyo/Omnisend - free tier)\n   - Reviews (Judge.me - free)\n   - SEO optimizer (Plug in SEO - free)\n   - Live chat (Tidio - free tier)\n   - Analytics (Google Analytics - free)\n5. Click 'Add app' for each\n6. Follow setup wizard for each app\n\n💡 Start with free apps, upgrade as you grow",
@@ -288,7 +421,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 13,
       "title": "Test Your Checkout",
       "description": "Make sure customers can complete purchases successfully",
       "instructions": "1. Go to your store (click eye icon in Shopify admin)\n2. Add a product to cart\n3. Go to checkout\n4. Use Shopify's test credit card:\n   - Number: 1 (then any 15 digits)\n   - Expiry: Any future date\n   - CVV: Any 3 digits\n5. Complete the test order\n6. Check that:\n   - Taxes calculate correctly\n   - Shipping rates appear\n   - Order confirmation email arrives\n   - Order appears in Shopify admin\n7. Cancel/refund the test order\n\n✅ Test on both desktop and mobile!",
@@ -308,7 +441,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 14,
       "title": "Launch Your Store!",
       "description": "Remove password protection and go live",
       "instructions": "1. Go to Online Store → Preferences\n2. Scroll to 'Password protection' section\n3. Uncheck 'Enable password'\n4. Click 'Save'\n5. Your store is now live! 🎉\n\nNext steps:\n- Share on social media\n- Start marketing (SEO, ads, social)\n- Add more products\n- Set up Google Analytics\n- Create email marketing campaigns\n\n💡 Keep improving based on customer feedback!",

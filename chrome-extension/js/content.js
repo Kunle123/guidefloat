@@ -478,6 +478,13 @@
                 window.Spotlight.destroy();
             }
             
+            // Check if step has field progression enabled
+            if (step.fieldProgression && step.fieldProgression.enabled) {
+                console.log('[GuideFloat] Starting field progression for step', step.id);
+                this.startFieldProgression(step.fieldProgression);
+                return;
+            }
+            
             // Check if step has spotlight data
             if (step.spotlight && window.Spotlight) {
                 console.log('[GuideFloat] Showing spotlight for step', step.id);
@@ -494,6 +501,114 @@
             } else {
                 console.log('[GuideFloat] Step', step.id, 'has no spotlight data, clearing any existing spotlight');
             }
+        },
+
+        // Start field-by-field progression
+        startFieldProgression: function(fieldConfig) {
+            this.currentFieldIndex = 0;
+            this.fieldConfig = fieldConfig;
+            this.fieldCompletionStatus = new Array(fieldConfig.fields.length).fill(false);
+            
+            // Start with the first field
+            this.showNextField();
+        },
+
+        // Show the next field in progression
+        showNextField: function() {
+            if (!this.fieldConfig || this.currentFieldIndex >= this.fieldConfig.fields.length) {
+                console.log('[GuideFloat] Field progression complete');
+                return;
+            }
+
+            const field = this.fieldConfig.fields[this.currentFieldIndex];
+            console.log('[GuideFloat] Showing field', this.currentFieldIndex + 1, 'of', this.fieldConfig.fields.length);
+
+            // Find the target element
+            const targetElement = this.findFieldElement(field.selector);
+            
+            if (targetElement && window.Spotlight) {
+                // Create spotlight for this field
+                window.Spotlight.create({
+                    target: field.selector,
+                    message: field.message,
+                    type: 'info',
+                    position: 'auto'
+                });
+
+                // Set up field completion detection
+                this.setupFieldCompletionDetection(targetElement, field);
+            } else {
+                console.log('[GuideFloat] Field element not found:', field.selector);
+                // Try next field after a delay
+                setTimeout(() => {
+                    this.currentFieldIndex++;
+                    this.showNextField();
+                }, 2000);
+            }
+        },
+
+        // Find field element using selector
+        findFieldElement: function(selector) {
+            const selectors = selector.split(', ');
+            for (const sel of selectors) {
+                try {
+                    const element = document.querySelector(sel);
+                    if (element) {
+                        return element;
+                    }
+                } catch (e) {
+                    console.warn('[GuideFloat] Invalid selector:', sel);
+                }
+            }
+            return null;
+        },
+
+        // Set up detection for when field is completed
+        setupFieldCompletionDetection: function(element, field) {
+            const checkCompletion = () => {
+                if (this.isFieldCompleted(element, field)) {
+                    console.log('[GuideFloat] Field completed:', field.message);
+                    this.fieldCompletionStatus[this.currentFieldIndex] = true;
+                    
+                    // Move to next field
+                    this.currentFieldIndex++;
+                    setTimeout(() => {
+                        this.showNextField();
+                    }, 1000);
+                }
+            };
+
+            // Check on various events
+            element.addEventListener('input', checkCompletion);
+            element.addEventListener('change', checkCompletion);
+            element.addEventListener('blur', checkCompletion);
+            
+            // Also check periodically for dynamic content
+            const interval = setInterval(() => {
+                if (this.currentFieldIndex >= this.fieldConfig.fields.length) {
+                    clearInterval(interval);
+                    return;
+                }
+                checkCompletion();
+            }, 2000);
+
+            // Store interval for cleanup
+            if (!this.fieldIntervals) this.fieldIntervals = [];
+            this.fieldIntervals.push(interval);
+        },
+
+        // Check if a field is completed
+        isFieldCompleted: function(element, field) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                return element.value && element.value.trim().length > 0;
+            } else if (element.tagName === 'BUTTON') {
+                // For buttons, check if they've been clicked or if form is submitted
+                return element.classList.contains('clicked') || 
+                       document.querySelector('form[data-submitted="true"]');
+            } else if (element.contentEditable === 'true') {
+                return element.textContent && element.textContent.trim().length > 0;
+            }
+            return false;
         },
 
         // Check and handle auto-navigation
