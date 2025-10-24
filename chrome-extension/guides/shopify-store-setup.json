@@ -58,7 +58,7 @@
       ],
       "estimatedTime": "2 minutes",
       "spotlight": {
-        "target": "button:contains('Next'), button:contains('Continue'), input[type='submit']",
+        "target": "button[type='submit'], input[type='submit'], button",
         "message": "Answer the questions and click 'Next' to continue with store setup",
         "type": "info",
         "position": "auto"
@@ -88,7 +88,7 @@
       ],
       "estimatedTime": "10 minutes",
       "spotlight": {
-        "target": "button:contains('Add product'), a[href*='products/new']",
+        "target": "button, a[href*='products/new'], a[href*='products']",
         "message": "Click 'Add product' to create your first product listing",
         "type": "info",
         "position": "auto"
@@ -119,7 +119,7 @@
       ],
       "estimatedTime": "15 minutes",
       "spotlight": {
-        "target": "[data-polaris-unstyled='true']:contains('Customize'), button:contains('Customize')",
+        "target": "[data-polaris-unstyled='true'], button, a[href*='customize']",
         "message": "Click 'Customize' to design your store",
         "type": "info",
         "position": "auto"
@@ -150,7 +150,7 @@
       ],
       "estimatedTime": "8 minutes",
       "spotlight": {
-        "target": "button:contains('Complete'), a:contains('Activate')",
+        "target": "button, a[href*='complete'], a[href*='activate']",
         "message": "Complete your Shopify Payments setup to accept payments",
         "type": "warning",
         "position": "auto"
@@ -333,7 +333,7 @@
       ],
       "estimatedTime": "2 minutes",
       "spotlight": {
-        "target": "input[type='checkbox']:contains('password'), label:contains('password')",
+        "target": "input[type='checkbox'], label, input[name*='password']",
         "message": "Uncheck 'Enable password' to make your store public",
         "type": "success",
         "position": "auto"

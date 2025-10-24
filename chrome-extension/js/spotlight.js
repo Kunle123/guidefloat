@@ -30,13 +30,14 @@ const Spotlight = {
                 // Try multiple fallback selectors for common patterns
                 const fallbackSelectors = [
                     'button[type="submit"]',
-                    'button:contains("Create")',
-                    'button:contains("Sign up")',
-                    'button:contains("Get started")',
+                    'button[type="button"]',
+                    'input[type="submit"]',
                     'a[role="button"]',
                     'button',
                     'a[href*="signup"]',
-                    'a[href*="create"]'
+                    'a[href*="create"]',
+                    'a[href*="next"]',
+                    'a[href*="continue"]'
                 ];
                 
                 let foundElement = null;
