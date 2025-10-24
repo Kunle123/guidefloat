@@ -128,17 +128,35 @@
                         const currentUrlObj = new URL(currentUrl);
                         const targetUrlObj = new URL(targetUrl);
                         
+                        console.log('[GuideFloat] Checking navigation for first step:');
+                        console.log('[GuideFloat] Current URL:', currentUrl);
+                        console.log('[GuideFloat] Target URL:', targetUrl);
+                        console.log('[GuideFloat] Current domain:', currentUrlObj.origin);
+                        console.log('[GuideFloat] Target domain:', targetUrlObj.origin);
+                        
                         // More flexible URL comparison
                         const isSameDomain = currentUrlObj.origin === targetUrlObj.origin;
                         const currentPath = currentUrlObj.pathname;
                         const targetPath = targetUrlObj.pathname;
                         
-                        // Check if we're already on the target page or a sub-page
-                        const isOnTargetPage = isSameDomain && (
-                            currentPath === targetPath || 
-                            currentPath.startsWith(targetPath + '/') ||
-                            targetPath.startsWith(currentPath + '/')
-                        );
+                        // Special handling for Shopify URLs
+                        const isShopifyDomain = currentUrlObj.hostname.includes('shopify.com') || 
+                                              targetUrlObj.hostname.includes('shopify.com');
+                        
+                        let isOnTargetPage = false;
+                        
+                        if (isShopifyDomain) {
+                            // For Shopify, be more lenient - if we're on any Shopify domain, don't navigate
+                            isOnTargetPage = currentUrlObj.hostname.includes('shopify.com');
+                            console.log('[GuideFloat] Shopify domain detected, isOnTargetPage:', isOnTargetPage);
+                        } else {
+                            // For other domains, use normal logic
+                            isOnTargetPage = isSameDomain && (
+                                currentPath === targetPath || 
+                                currentPath.startsWith(targetPath + '/') ||
+                                targetPath.startsWith(currentPath + '/')
+                            );
+                        }
                         
                         if (!isOnTargetPage) {
                             console.log('[GuideFloat] Auto-navigating to first step:', targetUrl);
@@ -484,22 +502,38 @@
                     const currentUrlObj = new URL(currentUrl);
                     const targetUrlObj = new URL(targetUrl);
                     
+                    console.log('[GuideFloat] Checking auto-navigation:');
+                    console.log('[GuideFloat] Current URL:', currentUrl);
+                    console.log('[GuideFloat] Target URL:', targetUrl);
+                    console.log('[GuideFloat] Current domain:', currentUrlObj.origin);
+                    console.log('[GuideFloat] Target domain:', targetUrlObj.origin);
+                    
                     // More flexible URL comparison
                     const isSameDomain = currentUrlObj.origin === targetUrlObj.origin;
                     const currentPath = currentUrlObj.pathname;
                     const targetPath = targetUrlObj.pathname;
                     
-                    // Check if we're already on the target page or a sub-page
-                    const isOnTargetPage = isSameDomain && (
-                        currentPath === targetPath || 
-                        currentPath.startsWith(targetPath + '/') ||
-                        targetPath.startsWith(currentPath + '/')
-                    );
+                    // Special handling for Shopify URLs
+                    const isShopifyDomain = currentUrlObj.hostname.includes('shopify.com') || 
+                                          targetUrlObj.hostname.includes('shopify.com');
+                    
+                    let isOnTargetPage = false;
+                    
+                    if (isShopifyDomain) {
+                        // For Shopify, be more lenient - if we're on any Shopify domain, don't navigate
+                        isOnTargetPage = currentUrlObj.hostname.includes('shopify.com');
+                        console.log('[GuideFloat] Shopify domain detected, isOnTargetPage:', isOnTargetPage);
+                    } else {
+                        // For other domains, use normal logic
+                        isOnTargetPage = isSameDomain && (
+                            currentPath === targetPath || 
+                            currentPath.startsWith(targetPath + '/') ||
+                            targetPath.startsWith(currentPath + '/')
+                        );
+                    }
                     
                     if (!isOnTargetPage) {
                         console.log('[GuideFloat] Auto-navigating to:', targetUrl);
-                        console.log('[GuideFloat] Current URL:', currentUrl);
-                        console.log('[GuideFloat] Target URL:', targetUrl);
                         
                         // Show brief notification
                         if (step.autoNavigate.message) {
