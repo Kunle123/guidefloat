@@ -104,11 +104,18 @@
                 if (firstStep.autoNavigate && firstStep.autoNavigate.url) {
                     targetUrl = firstStep.autoNavigate.url;
                     shouldNavigate = true;
+                    console.log('[GuideFloat] Found autoNavigate URL:', targetUrl);
                 } else if (firstStep.actionButtons && firstStep.actionButtons.length > 0) {
                     // Or use the first action button URL
                     targetUrl = firstStep.actionButtons[0].url;
                     shouldNavigate = true;
+                    console.log('[GuideFloat] Using action button URL:', targetUrl);
                 }
+                
+                console.log('[GuideFloat] Auto-navigation decision:');
+                console.log('[GuideFloat] - shouldNavigate:', shouldNavigate);
+                console.log('[GuideFloat] - targetUrl:', targetUrl);
+                console.log('[GuideFloat] - currentStepIndex:', this.currentStepIndex);
                 
                 // Navigate if we have a URL and not already there
                 if (shouldNavigate && targetUrl && this.currentStepIndex === 0) {
@@ -156,12 +163,20 @@
                         
                         if (!isOnTargetPage) {
                             console.log('[GuideFloat] Auto-navigating to first step:', targetUrl);
+                            
+                            // Save guide state before navigation so it can be restored
+                            await chrome.storage.local.set({
+                                currentGuide: guideId,
+                                activeTabId: (await chrome.tabs.query({active: true, currentWindow: true}))[0].id,
+                                widgetVisible: true
+                            });
+                            
                             this.showNavigationNotice(firstStep.autoNavigate?.message || `Taking you to ${firstStep.title}...`);
                             setTimeout(() => {
                                 console.log('[GuideFloat] Actually navigating to:', targetUrl);
                                 window.location.href = targetUrl;
                             }, 1000);
-                            return; // Don't show spotlight yet, we're navigating
+                            return; // Don't show widget yet, we're navigating
                         } else {
                             console.log('[GuideFloat] Already on target page for first step, skipping navigation');
                         }
@@ -171,7 +186,7 @@
                     }
                 }
                 
-                // Show widget after navigation logic
+                // Show widget only if we're not navigating away
                 this.show();
                 
                 // Smart detection: Check if user has already completed some steps
@@ -1241,6 +1256,25 @@
     // Make GuideFloat globally accessible
     window.GuideFloat = GuideFloat;
     console.log('[GuideFloat Content] GuideFloat object ready');
+
+    // Handle messages from background script
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        console.log('[GuideFloat Content] Received message:', message);
+        
+        if (message.action === 'ping') {
+            sendResponse({ status: 'ready' });
+            return true;
+        }
+        
+        if (message.action === 'showGuide') {
+            console.log('[GuideFloat Content] Showing guide:', message.guideId);
+            GuideFloat.loadGuide(message.guideId);
+            sendResponse({ status: 'success' });
+            return true;
+        }
+        
+        return false;
+    });
 
     // Initialize on page load
     GuideFloat.init().then(() => {
