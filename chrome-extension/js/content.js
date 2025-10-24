@@ -473,9 +473,13 @@
         showSpotlight: function() {
             const step = this.currentGuide.steps[this.currentStepIndex];
             
+            console.log('[GuideFloat] showSpotlight called for step:', step.id);
+            console.log('[GuideFloat] Step has fieldProgression:', !!step.fieldProgression);
+            console.log('[GuideFloat] Step has spotlight:', !!step.spotlight);
+            
             // Always clear any existing spotlight first
-            if (window.Spotlight) {
-                window.Spotlight.destroy();
+            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
+                window.Spotlight.remove();
             }
             
             // Check if step has field progression enabled
@@ -486,7 +490,7 @@
             }
             
             // Check if step has spotlight data
-            if (step.spotlight && window.Spotlight) {
+            if (step.spotlight && window.Spotlight && typeof window.Spotlight.create === 'function') {
                 console.log('[GuideFloat] Showing spotlight for step', step.id);
                 
                 // Wait a bit for page to settle
@@ -505,9 +509,21 @@
 
         // Start field-by-field progression
         startFieldProgression: function(fieldConfig) {
+            console.log('[GuideFloat] startFieldProgression called with config:', fieldConfig);
             this.currentFieldIndex = 0;
             this.fieldConfig = fieldConfig;
             this.fieldCompletionStatus = new Array(fieldConfig.fields.length).fill(false);
+            
+            console.log('[GuideFloat] Starting field progression with', fieldConfig.fields.length, 'fields');
+            
+            // Hide the widget content to show only the spotlight
+            if (this.widget) {
+                this.widget.classList.add('field-progression-mode');
+                const content = this.widget.querySelector('.guidefloat-content');
+                if (content) {
+                    content.style.display = 'none';
+                }
+            }
             
             // Start with the first field
             this.showNextField();
@@ -517,16 +533,22 @@
         showNextField: function() {
             if (!this.fieldConfig || this.currentFieldIndex >= this.fieldConfig.fields.length) {
                 console.log('[GuideFloat] Field progression complete');
+                this.endFieldProgression();
                 return;
             }
 
             const field = this.fieldConfig.fields[this.currentFieldIndex];
             console.log('[GuideFloat] Showing field', this.currentFieldIndex + 1, 'of', this.fieldConfig.fields.length);
+            console.log('[GuideFloat] Field selector:', field.selector);
+            console.log('[GuideFloat] Field message:', field.message);
 
             // Find the target element
             const targetElement = this.findFieldElement(field.selector);
+            console.log('[GuideFloat] Target element found:', !!targetElement);
+            console.log('[GuideFloat] Spotlight available:', !!window.Spotlight);
             
-            if (targetElement && window.Spotlight) {
+            if (targetElement && window.Spotlight && typeof window.Spotlight.create === 'function') {
+                console.log('[GuideFloat] Creating spotlight for field:', field.selector);
                 // Create spotlight for this field
                 window.Spotlight.create({
                     target: field.selector,
@@ -538,12 +560,42 @@
                 // Set up field completion detection
                 this.setupFieldCompletionDetection(targetElement, field);
             } else {
-                console.log('[GuideFloat] Field element not found:', field.selector);
+                console.log('[GuideFloat] Field element not found or Spotlight not available:', field.selector);
                 // Try next field after a delay
                 setTimeout(() => {
                     this.currentFieldIndex++;
                     this.showNextField();
                 }, 2000);
+            }
+        },
+
+        // End field progression and restore widget
+        endFieldProgression: function() {
+            console.log('[GuideFloat] Ending field progression');
+            
+            // Clear any existing spotlight
+            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
+                window.Spotlight.remove();
+            }
+            
+            // Restore widget content
+            if (this.widget) {
+                this.widget.classList.remove('field-progression-mode');
+                const content = this.widget.querySelector('.guidefloat-content');
+                if (content) {
+                    content.style.display = 'block';
+                }
+            }
+            
+            // Clean up field progression state
+            this.currentFieldIndex = 0;
+            this.fieldConfig = null;
+            this.fieldCompletionStatus = [];
+            
+            // Clear any intervals
+            if (this.fieldIntervals) {
+                this.fieldIntervals.forEach(interval => clearInterval(interval));
+                this.fieldIntervals = [];
             }
         },
 

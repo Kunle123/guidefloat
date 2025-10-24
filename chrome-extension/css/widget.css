@@ -637,3 +637,27 @@
     }
 }
 
+/* Field progression mode - minimize widget to show only spotlight */
+#guidefloat-widget.field-progression-mode {
+    width: 60px;
+    max-height: 60px;
+    opacity: 0.3;
+    overflow: hidden;
+}
+
+#guidefloat-widget.field-progression-mode:hover {
+    opacity: 0.6;
+}
+
+#guidefloat-widget.field-progression-mode .guidefloat-content {
+    display: none !important;
+}
+
+#guidefloat-widget.field-progression-mode .guidefloat-progress-section {
+    display: none !important;
+}
+
+#guidefloat-widget.field-progression-mode .guidefloat-navigation {
+    display: none !important;
+}
+
