@@ -1740,6 +1740,27 @@
     // Make GuideFloat globally accessible
     window.GuideFloat = GuideFloat;
     console.log('[GuideFloat Content] GuideFloat object ready');
+    
+    // Add a test function to manually test spotlight
+    window.testSpotlight = function() {
+        console.log('[GuideFloat] Testing spotlight manually...');
+        console.log('[GuideFloat] Window.Spotlight exists:', !!window.Spotlight);
+        
+        if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+            console.log('[GuideFloat] Creating test spotlight...');
+            window.Spotlight.create({
+                target: 'input[type="email"]',
+                message: 'Test spotlight - this should appear on the email field',
+                type: 'success',
+                position: 'auto'
+            });
+            console.log('[GuideFloat] Test spotlight created');
+        } else {
+            console.error('[GuideFloat] Spotlight not available for testing');
+        }
+    };
+    
+    console.log('[GuideFloat] Test function available: window.testSpotlight()');
 
     // Handle messages from background script
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
