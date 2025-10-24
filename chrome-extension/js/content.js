@@ -1285,11 +1285,15 @@
                 window.Spotlight.remove();
             }
 
-            // Wait a bit for page to load, then show spotlight
-            setTimeout(() => {
+            // Wait for page to be fully loaded, then show spotlight
+            this.waitForPageLoad().then(() => {
                 console.log('[GuideFloat] ===== CREATING SPOTLIGHT =====');
                 console.log('[GuideFloat] Window.Spotlight exists:', !!window.Spotlight);
                 console.log('[GuideFloat] Spotlight.create function exists:', !!(window.Spotlight && typeof window.Spotlight.create === 'function'));
+                
+                // Check if target elements exist
+                const targetExists = this.checkTargetExists(currentStep.spotlight.target);
+                console.log('[GuideFloat] Target elements exist:', targetExists);
                 
                 if (window.Spotlight && typeof window.Spotlight.create === 'function') {
                     console.log('[GuideFloat] ✅ Creating spotlight with options:', {
@@ -1311,7 +1315,20 @@
                     console.error('[GuideFloat] ❌ Spotlight not available');
                     console.error('[GuideFloat] window.Spotlight:', window.Spotlight);
                 }
-            }, 2000); // 2 second delay to allow page to load
+            }).catch(error => {
+                console.error('[GuideFloat] Error waiting for page load:', error);
+                // Fallback: try after a longer delay
+                setTimeout(() => {
+                    if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+                        window.Spotlight.create({
+                            target: currentStep.spotlight.target,
+                            message: currentStep.spotlight.message,
+                            type: currentStep.spotlight.type || 'info',
+                            position: currentStep.spotlight.position || 'auto'
+                        });
+                    }
+                }, 5000);
+            });
 
             // If field progression is enabled, start it after a longer delay
             if (currentStep.fieldProgression && currentStep.fieldProgression.enabled) {
@@ -1337,6 +1354,10 @@
 
         // Show next field in progression
         showNextField: function() {
+            console.log('[GuideFloat] ===== SHOWING NEXT FIELD =====');
+            console.log('[GuideFloat] Current field index:', this.currentFieldIndex);
+            console.log('[GuideFloat] Total fields:', this.fieldProgression?.fields?.length);
+            
             if (!this.fieldProgression || !this.fieldProgression.fields) {
                 console.log('[GuideFloat] No field progression available');
                 return;
@@ -1354,21 +1375,31 @@
             // Find the field element
             const fieldElement = this.findFieldElement(field.selector);
             if (fieldElement) {
+                console.log('[GuideFloat] ✅ Found field element:', fieldElement);
+                
                 // Show spotlight on the field
                 if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+                    console.log('[GuideFloat] Creating spotlight for field');
                     window.Spotlight.create({
                         target: fieldElement,
                         message: field.message,
                         type: 'info',
                         position: 'auto'
                     });
+                } else {
+                    console.log('[GuideFloat] ❌ Spotlight not available');
                 }
 
                 // Set up completion detection
                 this.setupFieldCompletionDetection(fieldElement, field);
             } else {
-                console.log('[GuideFloat] Field not found:', field.selector);
-                // Try next field
+                console.log('[GuideFloat] ❌ Field not found:', field.selector);
+                console.log('[GuideFloat] Available elements on page:');
+                console.log('  - Inputs:', document.querySelectorAll('input'));
+                console.log('  - Buttons:', document.querySelectorAll('button'));
+                console.log('  - Selects:', document.querySelectorAll('select'));
+                
+                // Try next field after a short delay
                 this.currentFieldIndex++;
                 setTimeout(() => this.showNextField(), 1000);
             }
@@ -1386,31 +1417,106 @@
 
         // Set up field completion detection
         setupFieldCompletionDetection: function(element, field) {
+            console.log('[GuideFloat] Setting up completion detection for:', field.selector);
+            
             const checkCompletion = () => {
+                console.log('[GuideFloat] Checking completion for field:', field.selector);
+                console.log('[GuideFloat] Element value:', element.value);
+                console.log('[GuideFloat] Element checked:', element.checked);
+                
                 if (this.isFieldCompleted(element, field)) {
-                    console.log('[GuideFloat] Field completed:', field.selector);
+                    console.log('[GuideFloat] ✅ Field completed:', field.selector);
                     this.currentFieldIndex++;
                     setTimeout(() => this.showNextField(), 1000);
+                } else {
+                    console.log('[GuideFloat] ❌ Field not completed yet:', field.selector);
                 }
             };
 
-            // Check on various events
+            // Check on various events with more aggressive detection
             element.addEventListener('input', checkCompletion);
             element.addEventListener('change', checkCompletion);
             element.addEventListener('click', checkCompletion);
             element.addEventListener('blur', checkCompletion);
+            element.addEventListener('keyup', checkCompletion);
+            element.addEventListener('keydown', checkCompletion);
+            
+            // Also check periodically for dynamic content
+            const intervalId = setInterval(() => {
+                if (this.isFieldCompleted(element, field)) {
+                    console.log('[GuideFloat] ✅ Field completed via interval check:', field.selector);
+                    clearInterval(intervalId);
+                    this.currentFieldIndex++;
+                    setTimeout(() => this.showNextField(), 1000);
+                }
+            }, 500);
+            
+            // Clear interval after 30 seconds to avoid memory leaks
+            setTimeout(() => clearInterval(intervalId), 30000);
         },
 
         // Check if field is completed
         isFieldCompleted: function(element, field) {
-            if (element.type === 'checkbox' || element.type === 'radio') {
-                return element.checked;
-            } else if (element.type === 'text' || element.type === 'email' || element.type === 'password') {
-                return element.value.trim().length > 0;
-            } else if (element.tagName === 'BUTTON') {
-                // For buttons, consider it "completed" when clicked
-                return true;
+            console.log('[GuideFloat] Checking if field is completed:', {
+                selector: field.selector,
+                elementType: element.type,
+                elementTag: element.tagName,
+                value: element.value,
+                checked: element.checked,
+                required: field.required
+            });
+            
+            if (!element) {
+                console.log('[GuideFloat] No element provided');
+                return false;
             }
+            
+            // For checkboxes and radio buttons
+            if (element.type === 'checkbox' || element.type === 'radio') {
+                const completed = element.checked;
+                console.log('[GuideFloat] Checkbox/Radio completed:', completed);
+                return completed;
+            }
+            
+            // For text inputs (text, email, password, tel, etc.)
+            if (element.type === 'text' || element.type === 'email' || element.type === 'password' || 
+                element.type === 'tel' || element.type === 'url' || element.type === 'search') {
+                const completed = element.value.trim().length > 0;
+                console.log('[GuideFloat] Text input completed:', completed, 'value length:', element.value.trim().length);
+                return completed;
+            }
+            
+            // For textarea
+            if (element.tagName === 'TEXTAREA') {
+                const completed = element.value.trim().length > 0;
+                console.log('[GuideFloat] Textarea completed:', completed);
+                return completed;
+            }
+            
+            // For select dropdowns
+            if (element.tagName === 'SELECT') {
+                const completed = element.value && element.value !== '';
+                console.log('[GuideFloat] Select completed:', completed, 'value:', element.value);
+                return completed;
+            }
+            
+            // For buttons - consider completed when they have focus or are clicked
+            if (element.tagName === 'BUTTON') {
+                // For buttons, we'll consider them "completed" when they're focused
+                // This is a bit tricky since buttons don't have "completion" in the same way
+                const completed = document.activeElement === element;
+                console.log('[GuideFloat] Button completed (focused):', completed);
+                return completed;
+            }
+            
+            // For links
+            if (element.tagName === 'A') {
+                const completed = document.activeElement === element;
+                console.log('[GuideFloat] Link completed (focused):', completed);
+                return completed;
+            }
+            
+            console.log('[GuideFloat] Unknown element type, defaulting to false');
             return false;
         },
 
@@ -1430,6 +1536,58 @@
             
             this.fieldProgression = null;
             this.currentFieldIndex = 0;
+        },
+
+        // Wait for page to be fully loaded
+        waitForPageLoad: function() {
+            return new Promise((resolve, reject) => {
+                console.log('[GuideFloat] Waiting for page to load...');
+                
+                // If page is already loaded
+                if (document.readyState === 'complete') {
+                    console.log('[GuideFloat] Page already loaded');
+                    resolve();
+                    return;
+                }
+                
+                // Wait for DOM content loaded
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        console.log('[GuideFloat] DOM content loaded');
+                        // Add extra delay for dynamic content
+                        setTimeout(resolve, 1000);
+                    });
+                } else {
+                    // Interactive or complete
+                    console.log('[GuideFloat] Page interactive, adding delay for dynamic content');
+                    setTimeout(resolve, 1000);
+                }
+                
+                // Timeout after 10 seconds
+                setTimeout(() => {
+                    console.log('[GuideFloat] Page load timeout, proceeding anyway');
+                    resolve();
+                }, 10000);
+            });
+        },
+
+        // Check if target elements exist on the page
+        checkTargetExists: function(selector) {
+            try {
+                const elements = document.querySelectorAll(selector);
+                console.log('[GuideFloat] Found', elements.length, 'elements for selector:', selector);
+                
+                if (elements.length > 0) {
+                    console.log('[GuideFloat] Target elements:', elements);
+                    return true;
+                } else {
+                    console.log('[GuideFloat] No elements found for selector:', selector);
+                    return false;
+                }
+            } catch (error) {
+                console.error('[GuideFloat] Error checking target selector:', error);
+                return false;
+            }
         }
     };
 
