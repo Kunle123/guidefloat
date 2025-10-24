@@ -1,0 +1,132 @@
+{
+  "id": "your-guide-id",
+  "title": "🎯 Your Guide Title",
+  "description": "Brief description of what this guide accomplishes",
+  "category": "Category Name",
+  "difficulty": "Beginner",
+  "estimatedTime": "30 minutes",
+  "totalSteps": 5,
+  "affiliateDisclosure": "This guide contains affiliate links. We earn a commission if you sign up through our links, at no extra cost to you. This helps us create more free guides!",
+  "prerequisites": {
+    "title": "What You'll Need",
+    "description": "Make sure you have these ready before starting:",
+    "items": [
+      "Required item 1",
+      "Required item 2",
+      "Required item 3"
+    ],
+    "checkpoints": [
+      {
+        "id": "has-account",
+        "question": "Do you already have an account?",
+        "skipToStep": 2
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": 1,
+      "title": "Step 1 Title",
+      "description": "Brief description of this step",
+      "instructions": "1. First action to take\n2. Second action to take\n3. Third action to take\n\n💡 Pro Tip: Helpful tip for this step\n📝 Note: Important note about this step",
+      "skipIfCompleted": true,
+      "skipMessage": "Already completed this step? Skip it.",
+      "layoutDiagram": "<svg viewBox='0 0 300 80' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='80' fill='#eff6ff' rx='8'/><text x='150' y='25' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 What to Look For:</text><rect x='20' y='35' width='260' height='32' fill='#3b82f6' rx='6'/><text x='150' y='55' text-anchor='middle' font-size='14' font-weight='bold' fill='white'>Button Text</text></svg>",
+      "actionButtons": [
+        {
+          "text": "Button Text",
+          "url": "https://example.com",
+          "type": "affiliate"
+        }
+      ],
+      "tips": [
+        "Helpful tip 1",
+        "Helpful tip 2",
+        "Helpful tip 3"
+      ],
+      "estimatedTime": "5 minutes",
+      "spotlight": {
+        "target": "input[type='email'], input[name*='email']",
+        "message": "Enter your email address here",
+        "type": "success",
+        "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "https://example.com/signup",
+        "message": "Taking you to the signup page..."
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='email'], input[name*='email']",
+            "message": "Enter your email address",
+            "required": true
+          },
+          {
+            "selector": "input[type='password'], input[name*='password']",
+            "message": "Create a secure password",
+            "required": true
+          },
+          {
+            "selector": "button[type='submit'], button",
+            "message": "Click the submit button to continue",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "title": "Step 2 Title",
+      "description": "Brief description of this step",
+      "instructions": "1. First action to take\n2. Second action to take\n3. Third action to take",
+      "estimatedTime": "3 minutes",
+      "spotlight": {
+        "target": "button, a[href*='next']",
+        "message": "Click the next button to continue",
+        "type": "info",
+        "position": "auto"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Step 3 Title",
+      "description": "Brief description of this step",
+      "instructions": "1. First action to take\n2. Second action to take\n3. Third action to take",
+      "estimatedTime": "7 minutes",
+      "spotlight": {
+        "target": "input[type='text'], input[name*='name']",
+        "message": "Fill in your information here",
+        "type": "info",
+        "position": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "title": "Step 4 Title",
+      "description": "Brief description of this step",
+      "instructions": "1. First action to take\n2. Second action to take\n3. Third action to take",
+      "estimatedTime": "10 minutes",
+      "spotlight": {
+        "target": "button[type='submit'], button",
+        "message": "Click to complete this step",
+        "type": "success",
+        "position": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Step 5 Title - Complete!",
+      "description": "Final step description",
+      "instructions": "1. Final action to take\n2. Verify everything is set up\n3. You're all done!\n\n🎉 Congratulations! You've successfully completed the setup.",
+      "estimatedTime": "5 minutes",
+      "spotlight": {
+        "target": "button, a[href*='dashboard'], a[href*='home']",
+        "message": "Click to go to your dashboard",
+        "type": "success",
+        "position": "auto"
+      }
+    }
+  ]
+}

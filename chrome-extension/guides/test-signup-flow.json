@@ -1,0 +1,213 @@
+{
+  "id": "test-signup-flow",
+  "title": "🧪 Test Signup Flow Guide",
+  "description": "Test guide for the GuideFloat test page - demonstrates all features",
+  "category": "Testing",
+  "difficulty": "Beginner",
+  "estimatedTime": "5 minutes",
+  "totalSteps": 4,
+  "affiliateDisclosure": "This is a test guide for development purposes.",
+  "prerequisites": {
+    "title": "What You'll Need",
+    "description": "Make sure you have these ready before starting:",
+    "items": [
+      "Test page open in browser",
+      "GuideFloat extension loaded",
+      "Developer console open (F12) for debugging"
+    ],
+    "checkpoints": [
+      {
+        "id": "has-test-page",
+        "question": "Do you have the test page open?",
+        "skipToStep": 1
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": 1,
+      "title": "Create Account - Email & Password",
+      "description": "Start by entering your email and password to create an account",
+      "instructions": "1. Enter your email address in the email field\n2. Create a secure password (8+ characters)\n3. Confirm your password\n4. Check the terms and conditions box\n5. Click 'Create Account' to continue\n\n💡 Pro Tip: Use a real email format like test@example.com\n📝 Note: This is a test page - no real account will be created",
+      "skipIfCompleted": false,
+      "layoutDiagram": "<svg viewBox='0 0 300 120' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='120' fill='#eff6ff' rx='8'/><text x='150' y='20' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 Step 1: Account Creation</text><rect x='20' y='30' width='260' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='44' text-anchor='middle' font-size='11' fill='#374151'>Email Input</text><rect x='20' y='55' width='260' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='69' text-anchor='middle' font-size='11' fill='#374151'>Password Input</text><rect x='20' y='80' width='260' height='25' fill='#667eea' rx='4'/><text x='150' y='97' text-anchor='middle' font-size='12' font-weight='bold' fill='white'>Create Account Button</text></svg>",
+      "actionButtons": [
+        {
+          "text": "Open Test Page",
+          "url": "file:///Users/admin/Documents/KunleDevFolder/GuideFloat/test-page.html",
+          "type": "regular"
+        }
+      ],
+      "tips": [
+        "This is a test page - no real data is saved",
+        "Use any email format for testing",
+        "Password can be anything for testing purposes",
+        "Watch the blue dot guide you to each field"
+      ],
+      "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "input[type='email'], input[name='email']",
+        "message": "Enter your email address to start creating your account",
+        "type": "success",
+        "position": "auto"
+      },
+      "autoNavigate": {
+        "url": "file:///Users/admin/Documents/KunleDevFolder/GuideFloat/test-page.html",
+        "message": "Opening the test page for you..."
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='email'], input[name='email']",
+            "message": "Enter your email address",
+            "required": true
+          },
+          {
+            "selector": "input[type='password'], input[name='password']",
+            "message": "Create a secure password (8+ characters)",
+            "required": true
+          },
+          {
+            "selector": "input[name='confirmPassword']",
+            "message": "Confirm your password",
+            "required": true
+          },
+          {
+            "selector": "input[type='checkbox'], input[name='terms']",
+            "message": "Check the terms and conditions box",
+            "required": true
+          },
+          {
+            "selector": "button[type='submit'], button",
+            "message": "Click 'Create Account' to continue",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "title": "Complete Your Profile",
+      "description": "Fill in your personal information to complete your profile",
+      "instructions": "1. Enter your first name\n2. Enter your last name\n3. Optionally add your company name\n4. Select your industry from the dropdown\n5. Add your phone number (optional)\n6. Click 'Continue' to proceed\n\n💡 Pro Tip: All fields except company and phone are required\n📝 Note: This information helps customize your experience",
+      "skipIfCompleted": false,
+      "layoutDiagram": "<svg viewBox='0 0 300 140' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='140' fill='#eff6ff' rx='8'/><text x='150' y='20' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 Step 2: Profile Information</text><rect x='20' y='30' width='120' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='80' y='44' text-anchor='middle' font-size='10' fill='#374151'>First Name</text><rect x='160' y='30' width='120' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='220' y='44' text-anchor='middle' font-size='10' fill='#374151'>Last Name</text><rect x='20' y='60' width='260' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='74' text-anchor='middle' font-size='11' fill='#374151'>Company (Optional)</text><rect x='20' y='90' width='260' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='104' text-anchor='middle' font-size='11' fill='#374151'>Industry Dropdown</text><rect x='20' y='115' width='260' height='20' fill='#667eea' rx='4'/><text x='150' y='129' text-anchor='middle' font-size='12' font-weight='bold' fill='white'>Continue Button</text></svg>",
+      "tips": [
+        "First and last name are required",
+        "Company name is optional",
+        "Industry selection helps with customization",
+        "Phone number is optional but recommended"
+      ],
+      "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "input[name='firstName'], input[name='lastName']",
+        "message": "Enter your first and last name to complete your profile",
+        "type": "info",
+        "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[name='firstName']",
+            "message": "Enter your first name",
+            "required": true
+          },
+          {
+            "selector": "input[name='lastName']",
+            "message": "Enter your last name",
+            "required": true
+          },
+          {
+            "selector": "input[name='company']",
+            "message": "Enter your company name (optional)",
+            "required": false
+          },
+          {
+            "selector": "select[name='industry']",
+            "message": "Select your industry from the dropdown",
+            "required": true
+          },
+          {
+            "selector": "input[name='phone']",
+            "message": "Enter your phone number (optional)",
+            "required": false
+          },
+          {
+            "selector": "button[type='submit'], button",
+            "message": "Click 'Continue' to proceed to preferences",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "title": "Set Your Preferences",
+      "description": "Customize your experience by setting your preferences",
+      "instructions": "1. Select the features you're most interested in (checkboxes)\n2. Choose your email notification frequency\n3. Optionally subscribe to the newsletter\n4. Click 'Complete Setup' to finish\n\n💡 Pro Tip: You can select multiple features that interest you\n📝 Note: These preferences can be changed later in your account settings",
+      "skipIfCompleted": false,
+      "layoutDiagram": "<svg viewBox='0 0 300 120' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='120' fill='#eff6ff' rx='8'/><text x='150' y='20' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 Step 3: Preferences</text><rect x='20' y='30' width='20' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='2'/><text x='30' y='44' font-size='10' fill='#374151'>☑️</text><text x='50' y='44' font-size='10' fill='#374151'>Feature Checkboxes</text><rect x='20' y='55' width='260' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='69' text-anchor='middle' font-size='11' fill='#374151'>Notification Frequency</text><rect x='20' y='80' width='20' height='20' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='2'/><text x='30' y='94' font-size='10' fill='#374151'>☐</text><text x='50' y='94' font-size='10' fill='#374151'>Newsletter Subscription</text><rect x='20' y='105' width='260' height='20' fill='#10b981' rx='4'/><text x='150' y='119' text-anchor='middle' font-size='12' font-weight='bold' fill='white'>Complete Setup</text></svg>",
+      "tips": [
+        "Select multiple features if interested",
+        "Choose notification frequency that works for you",
+        "Newsletter subscription is optional",
+        "All preferences can be changed later"
+      ],
+      "estimatedTime": "1 minute",
+      "spotlight": {
+        "target": "input[type='checkbox'], select[name='notifications']",
+        "message": "Select your preferences and notification settings",
+        "type": "info",
+        "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='checkbox'], input[name='features']",
+            "message": "Select the features you're interested in",
+            "required": false
+          },
+          {
+            "selector": "select[name='notifications']",
+            "message": "Choose your email notification frequency",
+            "required": true
+          },
+          {
+            "selector": "input[name='newsletter']",
+            "message": "Optionally subscribe to the newsletter",
+            "required": false
+          },
+          {
+            "selector": "button[type='submit'], button",
+            "message": "Click 'Complete Setup' to finish",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "title": "🎉 Setup Complete!",
+      "description": "Congratulations! You've successfully completed the test signup flow",
+      "instructions": "1. Review the success message\n2. Click 'Go to Dashboard' to complete the flow\n3. You've successfully tested all GuideFloat features!\n\n🎉 Congratulations! You've completed the test guide and seen how GuideFloat works with:\n• Auto-navigation to the test page\n• Blue dot spotlight guidance\n• Field-by-field progression\n• Auto-advancement between steps\n• Visual diagrams and helpful tips",
+      "skipIfCompleted": false,
+      "layoutDiagram": "<svg viewBox='0 0 300 100' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='100' fill='#f0fdf4' rx='8'/><text x='150' y='25' text-anchor='middle' font-size='16' font-weight='bold' fill='#10b981'>🎉 Success!</text><text x='150' y='45' text-anchor='middle' font-size='12' fill='#059669'>Your account has been created</text><text x='150' y='60' text-anchor='middle' font-size='12' fill='#059669'>successfully</text><rect x='50' y='70' width='200' height='25' fill='#10b981' rx='4'/><text x='150' y='87' text-anchor='middle' font-size='12' font-weight='bold' fill='white'>Go to Dashboard</text></svg>",
+      "tips": [
+        "This was a test flow - no real account was created",
+        "You've seen all GuideFloat features in action",
+        "Use this as a reference for creating your own guides",
+        "The blue dot, field progression, and auto-navigation all worked!"
+      ],
+      "estimatedTime": "1 minute",
+      "spotlight": {
+        "target": "button, .btn-primary",
+        "message": "Click 'Go to Dashboard' to complete the test flow",
+        "type": "success",
+        "position": "auto"
+      }
+    }
+  ]
+}

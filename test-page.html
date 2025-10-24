@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuideFloat Test Page - Signup Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .btn-secondary:hover {
+            background: #edf2f7;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .step.completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .step.inactive {
+            background: #f1f5f9;
+            color: #94a3b8;
+        }
+        
+        .step-connector {
+            width: 20px;
+            height: 2px;
+            background: #e2e8f0;
+            margin-top: 19px;
+        }
+        
+        .step-connector.completed {
+            background: #10b981;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-message h2 {
+            color: #10b981;
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .debug-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+        }
+        
+        .debug-info h4 {
+            margin-bottom: 10px;
+            color: #10b981;
+        }
+        
+        .debug-info .step-info {
+            margin-bottom: 5px;
+        }
+        
+        .debug-info .element-info {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+    <!-- Debug Info Panel -->
+    <div class="debug-info">
+        <h4>🔍 GuideFloat Test Page</h4>
+        <div class="step-info">Current Step: <span id="currentStep">1</span></div>
+        <div class="element-info">Target Elements:</div>
+        <div id="targetElements">input[type='email'], input[name*='email']</div>
+        <div style="margin-top: 10px; font-size: 10px; color: #9ca3af;">
+            This page simulates a typical signup flow for testing GuideFloat guides.
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Step 1: Email Signup -->
+        <div id="step1" class="step-content">
+            <div class="logo">
+                <h1>🚀 TestApp</h1>
+                <p>Create your account to get started</p>
+            </div>
+            
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step-connector"></div>
+                <div class="step inactive">2</div>
+                <div class="step-connector"></div>
+                <div class="step inactive">3</div>
+            </div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a secure password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+            
+            <div class="divider">
+                <span>or</span>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="showStep2()">Continue with Google</button>
+        </div>
+
+        <!-- Step 2: Profile Setup -->
+        <div id="step2" class="step-content hidden">
+            <div class="logo">
+                <h1>👤 Complete Your Profile</h1>
+                <p>Tell us a bit about yourself</p>
+            </div>
+            
+            <div class="step-indicator">
+                <div class="step completed">1</div>
+                <div class="step-connector completed"></div>
+                <div class="step active">2</div>
+                <div class="step-connector"></div>
+                <div class="step inactive">3</div>
+            </div>
+            
+            <form id="profileForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company (Optional)</label>
+                    <input type="text" id="company" name="company" placeholder="Your Company Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <select id="industry" name="industry" required>
+                        <option value="">Select your industry</option>
+                        <option value="technology">Technology</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="finance">Finance</option>
+                        <option value="education">Education</option>
+                        <option value="retail">Retail</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </form>
+            
+            <button class="btn btn-secondary" onclick="showStep1()">Back</button>
+        </div>
+
+        <!-- Step 3: Preferences -->
+        <div id="step3" class="step-content hidden">
+            <div class="logo">
+                <h1>⚙️ Set Your Preferences</h1>
+                <p>Customize your experience</p>
+            </div>
+            
+            <div class="step-indicator">
+                <div class="step completed">1</div>
+                <div class="step-connector completed"></div>
+                <div class="step completed">2</div>
+                <div class="step-connector completed"></div>
+                <div class="step active">3</div>
+            </div>
+            
+            <form id="preferencesForm">
+                <div class="form-group">
+                    <label>What are you most interested in?</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="feature1" name="features" value="analytics">
+                        <label for="feature1">Analytics & Reporting</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="feature2" name="features" value="automation">
+                        <label for="feature2">Marketing Automation</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="feature3" name="features" value="integration">
+                        <label for="feature3">Third-party Integrations</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notifications">Email Notifications</label>
+                    <select id="notifications" name="notifications" required>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="never">Never</option>
+                    </select>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="newsletter" name="newsletter">
+                    <label for="newsletter">Subscribe to our newsletter for tips and updates</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Complete Setup</button>
+            </form>
+            
+            <button class="btn btn-secondary" onclick="showStep2()">Back</button>
+        </div>
+
+        <!-- Success Page -->
+        <div id="success" class="step-content hidden">
+            <div class="success-message">
+                <h2>🎉 Welcome to TestApp!</h2>
+                <p>Your account has been created successfully. You're all set to start using our platform.</p>
+                <button class="btn btn-primary" onclick="goToDashboard()">Go to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        
+        // Update debug info
+        function updateDebugInfo() {
+            document.getElementById('currentStep').textContent = currentStep;
+            
+            const targetElements = {
+                1: "input[type='email'], input[name*='email']",
+                2: "input[name='firstName'], input[name='lastName']",
+                3: "input[type='checkbox'], select[name='notifications']"
+            };
+            
+            document.getElementById('targetElements').textContent = targetElements[currentStep] || 'None';
+        }
+        
+        // Show specific step
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.add('hidden');
+            });
+            
+            // Show target step
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+            
+            currentStep = stepNumber;
+            updateDebugInfo();
+        }
+        
+        function showStep1() { showStep(1); }
+        function showStep2() { showStep(2); }
+        function showStep3() { showStep(3); }
+        
+        function goToDashboard() {
+            alert('🎉 Congratulations! You\'ve completed the test flow!\n\nThis simulates what would happen when a user completes a GuideFloat guide.');
+        }
+        
+        // Form submissions
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showStep2();
+        });
+        
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showStep3();
+        });
+        
+        document.getElementById('preferencesForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showStep(4); // Success page
+        });
+        
+        // Initialize
+        updateDebugInfo();
+        
+        // Add some console logging for debugging
+        console.log('🧪 GuideFloat Test Page Loaded');
+        console.log('📋 Available elements for testing:');
+        console.log('  • Email input: input[type="email"]');
+        console.log('  • Password input: input[type="password"]');
+        console.log('  • Submit button: button[type="submit"]');
+        console.log('  • First name: input[name="firstName"]');
+        console.log('  • Last name: input[name="lastName"]');
+        console.log('  • Industry select: select[name="industry"]');
+        console.log('  • Checkboxes: input[type="checkbox"]');
+        console.log('  • Continue button: button');
+        console.log('');
+        console.log('🎯 Test your GuideFloat guide by:');
+        console.log('  1. Loading the extension');
+        console.log('  2. Selecting a guide');
+        console.log('  3. Watching the blue dot guide you through each step');
+        console.log('  4. Observing field progression and auto-advancement');
+    </script>
+</body>
+</html>
