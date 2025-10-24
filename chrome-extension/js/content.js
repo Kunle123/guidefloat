@@ -84,6 +84,9 @@
         // Load a guide
         loadGuide: async function(guideId) {
             try {
+                console.log('[GuideFloat] Loading guide:', guideId);
+                console.log('[GuideFloat] Current URL when loading guide:', window.location.href);
+                
                 const url = chrome.runtime.getURL(`guides/${guideId}.json`);
                 const response = await fetch(url);
                 this.currentGuide = await response.json();
@@ -124,6 +127,12 @@
                 if (shouldNavigate && targetUrl && this.currentStepIndex === 0) {
                     const currentUrl = window.location.href;
                     
+                    console.log('[GuideFloat] Auto-navigation check:');
+                    console.log('[GuideFloat] shouldNavigate:', shouldNavigate);
+                    console.log('[GuideFloat] targetUrl:', targetUrl);
+                    console.log('[GuideFloat] currentStepIndex:', this.currentStepIndex);
+                    console.log('[GuideFloat] currentUrl:', currentUrl);
+                    
                     try {
                         const currentUrlObj = new URL(currentUrl);
                         const targetUrlObj = new URL(targetUrl);
@@ -162,6 +171,7 @@
                             console.log('[GuideFloat] Auto-navigating to first step:', targetUrl);
                             this.showNavigationNotice(firstStep.autoNavigate?.message || `Taking you to ${firstStep.title}...`);
                             setTimeout(() => {
+                                console.log('[GuideFloat] Actually navigating to:', targetUrl);
                                 window.location.href = targetUrl;
                             }, 1000);
                             return; // Don't show spotlight yet, we're navigating
@@ -244,7 +254,23 @@
             this.widget = widget;
 
             this.setupEventListeners();
+            this.setupKeyboardShortcuts();
             this.loadPosition();
+        },
+
+        // Setup keyboard shortcuts
+        setupKeyboardShortcuts: function() {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (this.isMinimized) {
+                        // Maximize minimized widget
+                        this.toggleMinimize();
+                    } else if (this.widget && this.widget.classList.contains('peek-mode')) {
+                        // Exit peek mode
+                        this.togglePeekMode();
+                    }
+                }
+            });
         },
 
         // Setup event listeners
@@ -275,18 +301,48 @@
                 alert('GuideFloat Help\n\n- Check boxes to mark steps complete\n- Click step headers to expand/collapse\n- Drag the header to move the widget\n- Click "Skip" button if step is already done\n- Press ESC to toggle peek mode (compact sidebar)\n- Progress is saved automatically');
             });
 
-            // Keyboard shortcut: ESC to toggle peek mode
-            document.addEventListener('keydown', (e) => {
-                // Only toggle if widget is visible and not in an input field
-                if (e.key === 'Escape' && 
-                    this.widget && 
-                    this.widget.style.display !== 'none' &&
-                    !this.isMinimized &&
-                    !e.target.matches('input, textarea, [contenteditable="true"]')) {
-                    e.preventDefault();
-                    this.togglePeekMode();
-                }
-            });
+        },
+
+        // Toggle minimize/maximize
+        toggleMinimize: function() {
+            if (!this.widget) return;
+            
+            this.isMinimized = !this.isMinimized;
+            
+            if (this.isMinimized) {
+                // Minimize - show only icon
+                this.widget.classList.add('minimized');
+                this.widget.innerHTML = `
+                    <div class="guidefloat-minimized-icon" style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        border-radius: 16px;
+                        cursor: pointer;
+                        font-size: 24px;
+                        color: white;
+                        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                    ">
+                        🚀
+                    </div>
+                `;
+                
+                // Add click listener to maximize
+                this.widget.addEventListener('click', this.handleMinimizedClick.bind(this));
+            } else {
+                // Maximize - restore full widget
+                this.widget.classList.remove('minimized');
+                this.renderWidget();
+                this.setupEventListeners();
+            }
+        },
+
+        // Handle click on minimized widget
+        handleMinimizedClick: function() {
+            this.toggleMinimize();
         },
 
         // Render widget content
@@ -482,15 +538,8 @@
                 window.Spotlight.remove();
             }
             
-            // Check if step has field progression enabled
-            if (step.fieldProgression && step.fieldProgression.enabled) {
-                console.log('[GuideFloat] Starting field progression for step', step.id);
-                this.startFieldProgression(step.fieldProgression);
-                return;
-            }
-            
-            // Check if step has spotlight data
-            if (step.spotlight && window.Spotlight && typeof window.Spotlight.create === 'function') {
+            // Check if step has spotlight data (but not field progression)
+            if (step.spotlight && !step.fieldProgression && window.Spotlight && typeof window.Spotlight.create === 'function') {
                 console.log('[GuideFloat] Showing spotlight for step', step.id);
                 
                 // Wait a bit for page to settle
@@ -502,8 +551,18 @@
                         position: step.spotlight.position || 'auto'
                     });
                 }, 2000);
-            } else {
+            } else if (!step.fieldProgression) {
                 console.log('[GuideFloat] Step', step.id, 'has no spotlight data, clearing any existing spotlight');
+            }
+            
+            // Handle field progression after auto-navigation has had time to work
+            if (step.fieldProgression && step.fieldProgression.enabled) {
+                console.log('[GuideFloat] Will start field progression after auto-navigation');
+                // Wait longer for auto-navigation to complete
+                setTimeout(() => {
+                    console.log('[GuideFloat] Starting field progression for step', step.id);
+                    this.startFieldProgression(step.fieldProgression);
+                }, 5000); // Wait 5 seconds for auto-navigation to complete
             }
         },
 
