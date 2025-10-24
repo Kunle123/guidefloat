@@ -123,16 +123,36 @@
                 // Navigate if we have a URL and not already there
                 if (shouldNavigate && targetUrl && this.currentStepIndex === 0) {
                     const currentUrl = window.location.href;
-                    const currentDomain = new URL(currentUrl).origin + new URL(currentUrl).pathname;
-                    const targetDomain = new URL(targetUrl).origin + new URL(targetUrl).pathname;
                     
-                    if (!currentDomain.includes(targetDomain.split('?')[0])) {
-                        console.log('[GuideFloat] Auto-navigating to first step:', targetUrl);
-                        this.showNavigationNotice(firstStep.autoNavigate?.message || `Taking you to ${firstStep.title}...`);
-                        setTimeout(() => {
-                            window.location.href = targetUrl;
-                        }, 1000);
-                        return; // Don't show spotlight yet, we're navigating
+                    try {
+                        const currentUrlObj = new URL(currentUrl);
+                        const targetUrlObj = new URL(targetUrl);
+                        
+                        // More flexible URL comparison
+                        const isSameDomain = currentUrlObj.origin === targetUrlObj.origin;
+                        const currentPath = currentUrlObj.pathname;
+                        const targetPath = targetUrlObj.pathname;
+                        
+                        // Check if we're already on the target page or a sub-page
+                        const isOnTargetPage = isSameDomain && (
+                            currentPath === targetPath || 
+                            currentPath.startsWith(targetPath + '/') ||
+                            targetPath.startsWith(currentPath + '/')
+                        );
+                        
+                        if (!isOnTargetPage) {
+                            console.log('[GuideFloat] Auto-navigating to first step:', targetUrl);
+                            this.showNavigationNotice(firstStep.autoNavigate?.message || `Taking you to ${firstStep.title}...`);
+                            setTimeout(() => {
+                                window.location.href = targetUrl;
+                            }, 1000);
+                            return; // Don't show spotlight yet, we're navigating
+                        } else {
+                            console.log('[GuideFloat] Already on target page for first step, skipping navigation');
+                        }
+                    } catch (error) {
+                        console.error('[GuideFloat] Error comparing URLs in loadGuide:', error);
+                        // If URL parsing fails, don't navigate to avoid loops
                     }
                 }
                 
@@ -460,22 +480,42 @@
                 const currentUrl = window.location.href;
                 const targetUrl = step.autoNavigate.url;
                 
-                // Check if we're already on the target page (or close enough)
-                const currentDomain = new URL(currentUrl).origin + new URL(currentUrl).pathname;
-                const targetDomain = new URL(targetUrl).origin + new URL(targetUrl).pathname;
-                
-                if (!currentDomain.includes(targetDomain.split('?')[0])) {
-                    console.log('[GuideFloat] Auto-navigating to:', targetUrl);
+                try {
+                    const currentUrlObj = new URL(currentUrl);
+                    const targetUrlObj = new URL(targetUrl);
                     
-                    // Show brief notification
-                    if (step.autoNavigate.message) {
-                        this.showNavigationNotice(step.autoNavigate.message);
+                    // More flexible URL comparison
+                    const isSameDomain = currentUrlObj.origin === targetUrlObj.origin;
+                    const currentPath = currentUrlObj.pathname;
+                    const targetPath = targetUrlObj.pathname;
+                    
+                    // Check if we're already on the target page or a sub-page
+                    const isOnTargetPage = isSameDomain && (
+                        currentPath === targetPath || 
+                        currentPath.startsWith(targetPath + '/') ||
+                        targetPath.startsWith(currentPath + '/')
+                    );
+                    
+                    if (!isOnTargetPage) {
+                        console.log('[GuideFloat] Auto-navigating to:', targetUrl);
+                        console.log('[GuideFloat] Current URL:', currentUrl);
+                        console.log('[GuideFloat] Target URL:', targetUrl);
+                        
+                        // Show brief notification
+                        if (step.autoNavigate.message) {
+                            this.showNavigationNotice(step.autoNavigate.message);
+                        }
+                        
+                        // Navigate after short delay (let user see the notification)
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 1000);
+                    } else {
+                        console.log('[GuideFloat] Already on target page, skipping navigation');
                     }
-                    
-                    // Navigate after short delay (let user see the notification)
-                    setTimeout(() => {
-                        window.location.href = targetUrl;
-                    }, 1000);
+                } catch (error) {
+                    console.error('[GuideFloat] Error comparing URLs:', error);
+                    // If URL parsing fails, don't navigate to avoid loops
                 }
             }
         },
