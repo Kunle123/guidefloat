@@ -1,0 +1,67 @@
+{
+  "id": "generic-form-guide",
+  "title": "📝 Generic Form Guide",
+  "description": "Demonstrates automatic field detection on any website form",
+  "category": "Examples",
+  "difficulty": "Beginner",
+  "estimatedTime": "3 minutes",
+  "totalSteps": 2,
+  "affiliateDisclosure": "This is an example guide showing generic form detection capabilities.",
+  "prerequisites": {
+    "title": "What You'll Need",
+    "description": "Make sure you have these ready before starting:",
+    "items": [
+      "Any website with a form (signup, contact, etc.)",
+      "GuideFloat extension loaded"
+    ]
+  },
+  "steps": [
+    {
+      "id": 1,
+      "title": "Auto-Detect Form Fields",
+      "description": "GuideFloat will automatically detect and guide you through any form fields",
+      "instructions": "1. Navigate to any website with a form\n2. GuideFloat will automatically detect all form fields\n3. The blue dot will guide you through each field in logical order\n4. Fields are detected by:\n   • Autocomplete attributes\n   • Name/ID patterns\n   • Input types\n   • Label text\n   • Placeholder text\n\n💡 Pro Tip: GuideFloat works on any website - no manual configuration needed!\n📝 Note: The system intelligently orders fields (email → name → password → submit)",
+      "skipIfCompleted": false,
+      "layoutDiagram": "<svg viewBox='0 0 300 120' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='120' fill='#eff6ff' rx='8'/><text x='150' y='20' text-anchor='middle' font-size='13' font-weight='600' fill='#1e40af'>🔍 Auto-Detection</text><rect x='20' y='30' width='260' height='15' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='41' text-anchor='middle' font-size='10' fill='#374151'>Email Field (autocomplete='email')</text><rect x='20' y='50' width='260' height='15' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='61' text-anchor='middle' font-size='10' fill='#374151'>Name Field (name='firstName')</text><rect x='20' y='70' width='260' height='15' fill='#f3f4f6' stroke='#9ca3af' stroke-width='1' rx='4'/><text x='150' y='81' text-anchor='middle' font-size='10' fill='#374151'>Password Field (type='password')</text><rect x='20' y='90' width='260' height='25' fill='#667eea' rx='4'/><text x='150' y='107' text-anchor='middle' font-size='12' font-weight='bold' fill='white'>Submit Button</text></svg>",
+      "tips": [
+        "Works on any website with forms",
+        "Detects fields by multiple methods",
+        "Orders fields logically",
+        "No manual configuration required"
+      ],
+      "estimatedTime": "2 minutes",
+      "spotlight": {
+        "target": "input, select, textarea",
+        "message": "GuideFloat will automatically detect and guide you through form fields",
+        "type": "info",
+        "position": "auto"
+      },
+      "fieldProgression": {
+        "enabled": true,
+        "autoDetect": true,
+        "fields": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "🎉 Generic Detection Complete!",
+      "description": "You've seen how GuideFloat works with any website's forms",
+      "instructions": "1. GuideFloat automatically detected all form fields\n2. It guided you through them in logical order\n3. No manual configuration was needed\n4. This works on any website!\n\n🎉 Congratulations! You've seen how GuideFloat can work with any website's forms using intelligent field detection.\n\nKey Features Demonstrated:\n• Automatic field type detection\n• Smart field ordering\n• Generic selector generation\n• Works with any website",
+      "skipIfCompleted": false,
+      "layoutDiagram": "<svg viewBox='0 0 300 100' xmlns='http://www.w3.org/2000/svg'><rect width='300' height='100' fill='#f0fdf4' rx='8'/><text x='150' y='25' text-anchor='middle' font-size='16' font-weight='bold' fill='#10b981'>🎉 Success!</text><text x='150' y='45' text-anchor='middle' font-size='12' fill='#059669'>Generic form detection</text><text x='150' y='60' text-anchor='middle' font-size='12' fill='#059669'>working perfectly!</text><text x='150' y='80' text-anchor='middle' font-size='10' fill='#6b7280'>Works on any website</text></svg>",
+      "tips": [
+        "This detection works on any website",
+        "No manual field configuration needed",
+        "Intelligent field ordering",
+        "Supports all common form patterns"
+      ],
+      "estimatedTime": "1 minute",
+      "spotlight": {
+        "target": "button, input[type='submit']",
+        "message": "Generic form detection complete! This works on any website.",
+        "type": "success",
+        "position": "auto"
+      }
+    }
+  ]
+}

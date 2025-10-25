@@ -16,7 +16,16 @@
             if (message.action === 'ping') {
                 // Respond to ping to confirm script is loaded
                 console.log('[GuideFloat Content] Responding to ping');
-                sendResponse({ status: 'ready' });
+                console.log('[GuideFloat Content] GuideFloat object exists:', !!window.GuideFloat);
+                console.log('[GuideFloat Content] Spotlight object exists:', !!window.Spotlight);
+                console.log('[GuideFloat Content] FieldDetector object exists:', !!window.FieldDetector);
+                sendResponse({ 
+                    status: 'ready',
+                    guideFloatReady: !!window.GuideFloat,
+                    spotlightReady: !!window.Spotlight,
+                    fieldDetectorReady: !!window.FieldDetector,
+                    fullyInitialized: !!(window.GuideFloat && window.GuideFloat.fullyInitialized)
+                });
                 return true;
             } else if (message.action === 'showGuide') {
                 console.log('[GuideFloat Content] Showing guide:', message.guideId);
@@ -542,45 +551,6 @@
         },
 
         // Show spotlight for current step
-        showSpotlight: function() {
-            const step = this.currentGuide.steps[this.currentStepIndex];
-            
-            console.log('[GuideFloat] showSpotlight called for step:', step.id);
-            console.log('[GuideFloat] Step has fieldProgression:', !!step.fieldProgression);
-            console.log('[GuideFloat] Step has spotlight:', !!step.spotlight);
-            
-            // Always clear any existing spotlight first
-            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
-                window.Spotlight.remove();
-            }
-            
-            // Check if step has spotlight data (but not field progression)
-            if (step.spotlight && !step.fieldProgression && window.Spotlight && typeof window.Spotlight.create === 'function') {
-                console.log('[GuideFloat] Showing spotlight for step', step.id);
-                
-                // Wait a bit for page to settle
-                setTimeout(() => {
-                    window.Spotlight.create({
-                        target: step.spotlight.target,
-                        message: step.spotlight.message || step.title,
-                        type: step.spotlight.type || 'info',
-                        position: step.spotlight.position || 'auto'
-                    });
-                }, 2000);
-            } else if (!step.fieldProgression) {
-                console.log('[GuideFloat] Step', step.id, 'has no spotlight data, clearing any existing spotlight');
-            }
-            
-            // Handle field progression after auto-navigation has had time to work
-            if (step.fieldProgression && step.fieldProgression.enabled) {
-                console.log('[GuideFloat] Will start field progression after auto-navigation');
-                // Wait longer for auto-navigation to complete
-                setTimeout(() => {
-                    console.log('[GuideFloat] Starting field progression for step', step.id);
-                    this.startFieldProgression(step.fieldProgression);
-                }, 5000); // Wait 5 seconds for auto-navigation to complete
-            }
-        },
 
         // Start field-by-field progression
         startFieldProgression: function(fieldConfig) {
@@ -1252,373 +1222,134 @@
             await chrome.storage.local.set({ progress: allProgress });
         },
 
-        // Show spotlight for current step
+        // Show spotlight for current step - SIMPLIFIED VERSION
         showSpotlight: function() {
-            console.log('[GuideFloat] ===== SHOWSPOTLIGHT DEBUG =====');
-            console.log('[GuideFloat] Current guide:', this.currentGuide?.id);
-            console.log('[GuideFloat] Current step index:', this.currentStepIndex);
-            console.log('[GuideFloat] Total steps:', this.currentGuide?.steps?.length);
-            console.log('[GuideFloat] Current URL:', window.location.href);
+            console.log('[GuideFloat] ===== SHOWSPOTLIGHT SIMPLE =====');
             
             if (!this.currentGuide || !this.currentGuide.steps) {
-                console.log('[GuideFloat] ❌ No guide or steps available for spotlight');
+                console.log('[GuideFloat] ❌ No guide or steps available');
                 return;
             }
 
             const currentStep = this.currentGuide.steps[this.currentStepIndex];
-            console.log('[GuideFloat] Current step:', currentStep);
-            
             if (!currentStep || !currentStep.spotlight) {
                 console.log('[GuideFloat] ❌ No spotlight configuration for current step');
-                console.log('[GuideFloat] Step has spotlight:', !!currentStep?.spotlight);
                 return;
             }
 
             console.log('[GuideFloat] ✅ Showing spotlight for step:', currentStep.title);
-            console.log('[GuideFloat] ✅ Spotlight target:', currentStep.spotlight.target);
-            console.log('[GuideFloat] ✅ Spotlight message:', currentStep.spotlight.message);
-            console.log('[GuideFloat] ✅ Spotlight type:', currentStep.spotlight.type);
-            console.log('[GuideFloat] ✅ Spotlight position:', currentStep.spotlight.position);
 
             // Remove any existing spotlight
             if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
                 window.Spotlight.remove();
             }
 
-            // Wait for page to be fully loaded, then show spotlight
-            this.waitForPageLoad().then(() => {
-                console.log('[GuideFloat] ===== CREATING SPOTLIGHT =====');
-                console.log('[GuideFloat] Window.Spotlight exists:', !!window.Spotlight);
-                console.log('[GuideFloat] Spotlight.create function exists:', !!(window.Spotlight && typeof window.Spotlight.create === 'function'));
-                
-                // Check if target elements exist
-                const targetExists = this.checkTargetExists(currentStep.spotlight.target);
-                console.log('[GuideFloat] Target elements exist:', targetExists);
+            // Simple approach: wait 2 seconds then create spotlight
+            setTimeout(() => {
+                console.log('[GuideFloat] Creating spotlight after delay...');
                 
                 if (window.Spotlight && typeof window.Spotlight.create === 'function') {
-                    console.log('[GuideFloat] ✅ Creating spotlight with options:', {
-                        target: currentStep.spotlight.target,
-                        message: currentStep.spotlight.message,
-                        type: currentStep.spotlight.type || 'info',
-                        position: currentStep.spotlight.position || 'auto'
-                    });
-                    
-                    window.Spotlight.create({
-                        target: currentStep.spotlight.target,
-                        message: currentStep.spotlight.message,
-                        type: currentStep.spotlight.type || 'info',
-                        position: currentStep.spotlight.position || 'auto'
-                    });
-                    
-                    console.log('[GuideFloat] ✅ Spotlight creation called');
-                } else {
-                    console.error('[GuideFloat] ❌ Spotlight not available');
-                    console.error('[GuideFloat] window.Spotlight:', window.Spotlight);
-                }
-            }).catch(error => {
-                console.error('[GuideFloat] Error waiting for page load:', error);
-                // Fallback: try after a longer delay
-                setTimeout(() => {
-                    if (window.Spotlight && typeof window.Spotlight.create === 'function') {
+                    try {
                         window.Spotlight.create({
                             target: currentStep.spotlight.target,
                             message: currentStep.spotlight.message,
                             type: currentStep.spotlight.type || 'info',
                             position: currentStep.spotlight.position || 'auto'
                         });
+                        console.log('[GuideFloat] ✅ Spotlight created successfully');
+                    } catch (error) {
+                        console.error('[GuideFloat] ❌ Error creating spotlight:', error);
                     }
-                }, 5000);
-            });
-
-            // If field progression is enabled, start it after a longer delay
-            if (currentStep.fieldProgression && currentStep.fieldProgression.enabled) {
-                setTimeout(() => {
-                    console.log('[GuideFloat] Starting field progression after delay');
-                    console.log('[GuideFloat] Current step index:', this.currentStepIndex);
-                    console.log('[GuideFloat] Widget visible:', this.widget && this.widget.style.display !== 'none');
-                    
-                    // Only start field progression if we're still on the first step and widget is visible
-                    if (this.currentStepIndex === 0 && this.widget && this.widget.style.display !== 'none') {
-                        this.startFieldProgression(currentStep.fieldProgression);
-                    } else {
-                        console.log('[GuideFloat] Skipping field progression - not on first step or widget not visible');
-                    }
-                }, 3000); // Reduced delay to 3 seconds
-            }
-        },
-
-        // Start field progression mode
-        startFieldProgression: function(fieldProgression) {
-            console.log('[GuideFloat] Starting field progression mode');
-            
-            // Only start field progression if we're actually on the right step
-            if (this.currentStepIndex !== 0) {
-                console.log('[GuideFloat] Not on first step, skipping field progression');
-                return;
-            }
-            
-            // Remove any existing spotlight first
-            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
-                window.Spotlight.remove();
-            }
-            
-            // Add field progression mode class to widget (this minimizes it)
-            if (this.widget) {
-                this.widget.classList.add('field-progression-mode');
-                console.log('[GuideFloat] Widget minimized for field progression');
-            }
-            
-            this.currentFieldIndex = 0;
-            this.fieldProgression = fieldProgression;
-            this.showNextField();
-        },
-
-        // Show next field in progression
-        showNextField: function() {
-            console.log('[GuideFloat] ===== SHOWING NEXT FIELD =====');
-            console.log('[GuideFloat] Current field index:', this.currentFieldIndex);
-            console.log('[GuideFloat] Total fields:', this.fieldProgression?.fields?.length);
-            
-            if (!this.fieldProgression || !this.fieldProgression.fields) {
-                console.log('[GuideFloat] No field progression available');
-                return;
-            }
-
-            const field = this.fieldProgression.fields[this.currentFieldIndex];
-            if (!field) {
-                console.log('[GuideFloat] Field progression complete');
-                this.endFieldProgression();
-                return;
-            }
-
-            console.log('[GuideFloat] Showing field:', field.selector, field.message);
-
-            // Find the field element
-            const fieldElement = this.findFieldElement(field.selector);
-            if (fieldElement) {
-                console.log('[GuideFloat] ✅ Found field element:', fieldElement);
-                
-                // Show spotlight on the field
-                if (window.Spotlight && typeof window.Spotlight.create === 'function') {
-                    console.log('[GuideFloat] Creating spotlight for field');
-                    
-                    // Ensure element is visible and in viewport
-                    this.ensureElementVisible(fieldElement);
-                    
-                    // Create a unique selector for this element
-                    const elementSelector = this.createElementSelector(fieldElement);
-                    console.log('[GuideFloat] Created selector for element:', elementSelector);
-                    
-                    window.Spotlight.create({
-                        target: elementSelector,
-                        message: field.message,
-                        type: 'info',
-                        position: 'auto'
-                    });
-                    
-                    // Keep spotlight visible by checking periodically
-                    this.keepSpotlightVisible(fieldElement, field.message);
                 } else {
-                    console.log('[GuideFloat] ❌ Spotlight not available');
+                    console.error('[GuideFloat] ❌ Spotlight not available');
                 }
+            }, 2000);
 
-                // Set up completion detection
-                this.setupFieldCompletionDetection(fieldElement, field);
-            } else {
-                console.log('[GuideFloat] ❌ Field not found:', field.selector);
-                console.log('[GuideFloat] Available elements on page:');
-                console.log('  - Inputs:', document.querySelectorAll('input'));
-                console.log('  - Buttons:', document.querySelectorAll('button'));
-                console.log('  - Selects:', document.querySelectorAll('select'));
-                
-                // Try next field after a short delay
-                this.currentFieldIndex++;
-                setTimeout(() => this.showNextField(), 1000);
-            }
+            // DISABLED: Automatic field progression causes jumping
+            // Field progression is now manual only - user clicks through steps
+            console.log('[GuideFloat] Field progression disabled - using manual step navigation only');
+        },
+
+        // DISABLED: Field progression mode - causes jumping behavior
+        startFieldProgression: function(fieldProgression) {
+            console.log('[GuideFloat] Field progression disabled - using manual navigation only');
+            return; // Completely disabled
+        },
+
+        // DISABLED: Show next field in progression
+        showNextField: function() {
+            console.log('[GuideFloat] Field progression disabled - using manual navigation only');
+            return; // Completely disabled
         },
 
         // Find field element by selector
         findFieldElement: function(selector) {
             try {
-                return document.querySelector(selector);
+                // Split selector by comma and try each one
+                const selectors = selector.split(',').map(s => s.trim());
+                
+                for (const sel of selectors) {
+                    const element = document.querySelector(sel);
+                    if (element) {
+                        console.log('[GuideFloat] Found element with selector:', sel);
+                        return element;
+                    }
+                }
+                
+                console.log('[GuideFloat] No element found with any selector:', selectors);
+                return null;
             } catch (e) {
                 console.error('[GuideFloat] Invalid selector:', selector);
                 return null;
             }
         },
 
-        // Set up field completion detection
+        // DISABLED: Set up field completion detection
         setupFieldCompletionDetection: function(element, field) {
-            console.log('[GuideFloat] Setting up completion detection for:', field.selector);
-            
-            const checkCompletion = () => {
-                console.log('[GuideFloat] Checking completion for field:', field.selector);
-                console.log('[GuideFloat] Element value:', element.value);
-                console.log('[GuideFloat] Element checked:', element.checked);
-                
-                if (this.isFieldCompleted(element, field)) {
-                    console.log('[GuideFloat] ✅ Field completed:', field.selector);
-                    this.currentFieldIndex++;
-                    setTimeout(() => this.showNextField(), 1000);
-                } else {
-                    console.log('[GuideFloat] ❌ Field not completed yet:', field.selector);
-                }
-            };
-
-            // Check on various events with more aggressive detection
-            element.addEventListener('input', checkCompletion);
-            element.addEventListener('change', checkCompletion);
-            element.addEventListener('click', checkCompletion);
-            element.addEventListener('blur', checkCompletion);
-            element.addEventListener('keyup', checkCompletion);
-            
-            // Handle enter key specially - don't let it submit the form immediately
-            element.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    console.log('[GuideFloat] Enter key pressed, checking completion');
-                    // Small delay to let the input value update
-                    setTimeout(checkCompletion, 100);
-                    // Don't prevent default - let normal form behavior happen
-                } else {
-                    checkCompletion();
-                }
-            });
-            
-            // Also check periodically for dynamic content
-            const intervalId = setInterval(() => {
-                if (this.isFieldCompleted(element, field)) {
-                    console.log('[GuideFloat] ✅ Field completed via interval check:', field.selector);
-                    clearInterval(intervalId);
-                    this.currentFieldIndex++;
-                    setTimeout(() => this.showNextField(), 1000);
-                }
-            }, 500);
-            
-            // Clear interval after 30 seconds to avoid memory leaks
-            setTimeout(() => clearInterval(intervalId), 30000);
+            console.log('[GuideFloat] Field progression disabled - using manual navigation only');
+            return; // Completely disabled
         },
 
-        // Check if field is completed
+        // Check if field is completed - SIMPLIFIED
         isFieldCompleted: function(element, field) {
-            console.log('[GuideFloat] Checking if field is completed:', {
-                selector: field.selector,
-                elementType: element.type,
-                elementTag: element.tagName,
-                value: element.value,
-                checked: element.checked,
-                required: field.required
-            });
-            
-            if (!element) {
-                console.log('[GuideFloat] No element provided');
-                return false;
-            }
+            if (!element) return false;
             
             // For checkboxes and radio buttons
             if (element.type === 'checkbox' || element.type === 'radio') {
-                const completed = element.checked;
-                console.log('[GuideFloat] Checkbox/Radio completed:', completed);
-                return completed;
+                return element.checked;
             }
             
-            // For text inputs (text, email, password, tel, etc.)
+            // For text inputs - simple length check
             if (element.type === 'text' || element.type === 'email' || element.type === 'password' || 
                 element.type === 'tel' || element.type === 'url' || element.type === 'search') {
-                const completed = element.value.trim().length > 0;
-                console.log('[GuideFloat] Text input completed:', completed, 'value length:', element.value.trim().length);
-                return completed;
+                return element.value.trim().length >= 3; // Simple minimum length
             }
             
             // For textarea
             if (element.tagName === 'TEXTAREA') {
-                const completed = element.value.trim().length > 0;
-                console.log('[GuideFloat] Textarea completed:', completed);
-                return completed;
+                return element.value.trim().length >= 3;
             }
             
             // For select dropdowns
             if (element.tagName === 'SELECT') {
-                const completed = element.value && element.value !== '';
-                console.log('[GuideFloat] Select completed:', completed, 'value:', element.value);
-                return completed;
+                return element.value && element.value !== '';
             }
             
-            // For buttons - consider completed when they have focus or are clicked
-            if (element.tagName === 'BUTTON') {
-                // For buttons, we'll consider them "completed" when they're focused
-                // This is a bit tricky since buttons don't have "completion" in the same way
-                const completed = document.activeElement === element;
-                console.log('[GuideFloat] Button completed (focused):', completed);
-                return completed;
+            // For buttons and links
+            if (element.tagName === 'BUTTON' || element.tagName === 'A') {
+                return document.activeElement === element;
             }
             
-            // For links
-            if (element.tagName === 'A') {
-                const completed = document.activeElement === element;
-                console.log('[GuideFloat] Link completed (focused):', completed);
-                return completed;
-            }
-            
-            console.log('[GuideFloat] Unknown element type, defaulting to false');
             return false;
         },
 
-        // End field progression mode
+        // DISABLED: End field progression mode
         endFieldProgression: function() {
-            console.log('[GuideFloat] Ending field progression mode');
-            
-            // Remove field progression mode class (this restores widget to full size)
-            if (this.widget) {
-                this.widget.classList.remove('field-progression-mode');
-                console.log('[GuideFloat] Widget restored to full size');
-            }
-            
-            // Remove spotlight
-            if (window.Spotlight && typeof window.Spotlight.remove === 'function') {
-                window.Spotlight.remove();
-            }
-            
-            this.fieldProgression = null;
-            this.currentFieldIndex = 0;
-            
-            // Show the regular spotlight for the current step
-            setTimeout(() => {
-                this.showSpotlight();
-            }, 1000);
+            console.log('[GuideFloat] Field progression disabled - using manual navigation only');
+            return; // Completely disabled
         },
 
-        // Wait for page to be fully loaded
-        waitForPageLoad: function() {
-            return new Promise((resolve, reject) => {
-                console.log('[GuideFloat] Waiting for page to load...');
-                
-                // If page is already loaded
-                if (document.readyState === 'complete') {
-                    console.log('[GuideFloat] Page already loaded');
-                    resolve();
-                    return;
-                }
-                
-                // Wait for DOM content loaded
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', () => {
-                        console.log('[GuideFloat] DOM content loaded');
-                        // Add extra delay for dynamic content
-                        setTimeout(resolve, 1000);
-                    });
-                } else {
-                    // Interactive or complete
-                    console.log('[GuideFloat] Page interactive, adding delay for dynamic content');
-                    setTimeout(resolve, 1000);
-                }
-                
-                // Timeout after 10 seconds
-                setTimeout(() => {
-                    console.log('[GuideFloat] Page load timeout, proceeding anyway');
-                    resolve();
-                }, 10000);
-            });
-        },
+        // Simple page load wait - REMOVED COMPLEX MONITORING
 
         // Check if target elements exist on the page
         checkTargetExists: function(selector) {
@@ -1638,6 +1369,8 @@
                 return false;
             }
         },
+
+        // Simple target element check - REMOVED COMPLEX WAITING
 
         // Ensure element is visible in viewport
         ensureElementVisible: function(element) {
@@ -1740,6 +1473,27 @@
     // Make GuideFloat globally accessible
     window.GuideFloat = GuideFloat;
     console.log('[GuideFloat Content] GuideFloat object ready');
+    
+    // Wait for all required scripts to be loaded
+    function waitForDependencies() {
+        if (window.Spotlight && window.FieldDetector) {
+            console.log('[GuideFloat Content] All dependencies loaded');
+            console.log('[GuideFloat Content] Spotlight ready:', !!window.Spotlight);
+            console.log('[GuideFloat Content] FieldDetector ready:', !!window.FieldDetector);
+            
+            // Mark as fully initialized
+            window.GuideFloat.fullyInitialized = true;
+            console.log('[GuideFloat Content] GuideFloat fully initialized and ready');
+        } else {
+            console.log('[GuideFloat Content] Waiting for dependencies...');
+            console.log('[GuideFloat Content] Spotlight:', !!window.Spotlight);
+            console.log('[GuideFloat Content] FieldDetector:', !!window.FieldDetector);
+            setTimeout(waitForDependencies, 100);
+        }
+    }
+    
+    // Start checking for dependencies
+    waitForDependencies();
     
     // Add a test function to manually test spotlight
     window.testSpotlight = function() {

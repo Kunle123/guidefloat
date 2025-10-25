@@ -28,7 +28,13 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["guides/*.json", "css/*.css"],
+      "resources": [
+        "guides/*.json", 
+        "css/*.css",
+        "design-system/*.css",
+        "design-system/*.json",
+        "design-system/assets/*"
+      ],
       "matches": ["<all_urls>"]
     }
   ],

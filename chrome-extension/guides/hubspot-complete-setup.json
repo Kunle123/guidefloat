@@ -1,0 +1,408 @@
+{
+  "id": "hubspot-complete-setup",
+  "title": "Complete HubSpot Setup Journey",
+  "description": "Complete 20-step journey from your 6-step form through full HubSpot onboarding with affiliate tracking",
+  "category": "business",
+  "difficulty": "intermediate",
+  "estimatedTime": "45-60 minutes",
+  "totalSteps": 20,
+  "affiliate": {
+    "enabled": true,
+    "program": "HubSpot",
+    "commission": "30%",
+    "cookieDuration": "90 days"
+  },
+  "steps": [
+    {
+      "id": 1,
+      "title": "Welcome & Value Proposition",
+      "description": "Explain HubSpot value and collect basic contact information",
+      "content": "Welcome to your HubSpot setup journey! We'll guide you through creating a powerful CRM and marketing automation system for your business.\n\n**What you'll get:**\n- Complete CRM with contact management\n- Email marketing automation\n- Sales pipeline tracking\n- Website analytics and lead capture\n- Integration with your existing tools",
+      "spotlight": {
+        "target": "input[type='text'], input[name*='name'], input[name*='first'], input[name*='last']",
+        "message": "Let's start by entering your name to personalize your HubSpot experience",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Continue to Business Info",
+          "url": "#step2",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Your Business Information",
+      "description": "Collect company details, website, size, and industry",
+      "content": "Now let's learn about your business to customize your HubSpot setup.\n\n**We'll collect:**\n- Company name and website\n- Business size (employees)\n- Industry type\n- Current tools you're using",
+      "spotlight": {
+        "target": "input[name*='company'], input[name*='business'], input[name*='organization']",
+        "message": "Enter your company name so we can personalize your HubSpot workspace",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Continue to Goals",
+          "url": "#step3",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Your Goals & Role",
+      "description": "Identify your role and primary HubSpot objectives",
+      "content": "Understanding your role and goals helps us set up the right HubSpot features for you.\n\n**Tell us:**\n- Your role (Owner, Sales, Marketing, etc.)\n- Primary goal (Generate leads, Close deals, Nurture customers)\n- Current challenges you're facing",
+      "spotlight": {
+        "target": "select[name*='role'], input[name*='role'], select[name*='goal']",
+        "message": "Select your primary role to customize your HubSpot dashboard",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Continue to CRM Setup",
+          "url": "#step4",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "CRM Starter Information",
+      "description": "Prepare sample contact and deal data for your CRM",
+      "content": "Let's prepare some sample data to get your CRM started quickly.\n\n**We'll help you add:**\n- Sample contact information\n- Example deal in your pipeline\n- Basic company information\n- Lead source tracking",
+      "spotlight": {
+        "target": "input[name*='contact'], input[name*='deal'], textarea[name*='notes']",
+        "message": "Add a sample contact to see how your CRM will work",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Continue to Email Setup",
+          "url": "#step5",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Email & Tracking Configuration",
+      "description": "Set up sender information and domain tracking",
+      "content": "Configure your email marketing and website tracking settings.\n\n**We'll set up:**\n- Sender name and email address\n- Your website domain for tracking\n- Email signature preferences\n- Tracking pixel placement",
+      "spotlight": {
+        "target": "input[type='email'], input[name*='sender'], input[name*='domain']",
+        "message": "Enter your email address for HubSpot's email marketing features",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Continue to Team Setup",
+          "url": "#step6",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Invite Team & Choose Dashboard",
+      "description": "Add teammates and select your preferred dashboard type",
+      "content": "Final step! Let's add your team and choose your dashboard.\n\n**Complete setup:**\n- Invite team members by email\n- Choose dashboard type (Sales, Marketing, Service)\n- Set notification preferences\n- Launch your HubSpot workspace",
+      "spotlight": {
+        "target": "input[type='email'], select[name*='dashboard'], button[type='submit']",
+        "message": "Add team member emails and select your preferred dashboard type",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "🚀 Launch HubSpot Setup",
+          "url": "https://www.hubspot.com/products/crm?utm_source=guidefloat&utm_medium=extension&utm_campaign=complete_setup",
+          "affiliate": true,
+          "primary": true
+        }
+      ],
+      "autoNavigate": {
+        "url": "https://www.hubspot.com/products/crm?utm_source=guidefloat&utm_medium=extension&utm_campaign=complete_setup",
+        "message": "Redirecting to HubSpot to complete your setup..."
+      }
+    },
+    {
+      "id": 7,
+      "title": "Email Verification",
+      "description": "Verify your email address with HubSpot",
+      "content": "Check your email inbox for a verification message from HubSpot.\n\n**What to do:**\n1. Look for email from HubSpot\n2. Click the verification link\n3. Return to this page when verified\n\n**Extension will detect successful verification and continue automatically.**",
+      "spotlight": {
+        "target": "a[href*='verify'], button[type='submit'], input[type='email']",
+        "message": "Check your email and click the verification link, then return here",
+        "type": "success",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "I've Verified My Email",
+          "url": "#step8",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Tell Us About Your Business",
+      "description": "HubSpot asks for business information (we'll autofill this)",
+      "content": "HubSpot is asking for your business information again. **Don't worry - we've got this!**\n\n**Extension will automatically fill:**\n- Your role and company size\n- Business goals and industry\n- Website and contact information\n\nJust click 'Continue' when you see the form is filled.",
+      "spotlight": {
+        "target": "input[name*='company'], select[name*='size'], select[name*='industry']",
+        "message": "✅ We've pre-filled your answers based on your setup wizard. Click 'Continue' to proceed.",
+        "type": "success",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Continue with Pre-filled Info",
+          "url": "#step9",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Workspace Initialization",
+      "description": "HubSpot is creating your workspace",
+      "content": "HubSpot is building your personalized workspace. This may take a few moments.\n\n**What's happening:**\n- Creating your CRM database\n- Setting up your dashboard\n- Configuring your workspace settings\n- Preparing your sample data",
+      "spotlight": {
+        "target": ".loading, .spinner, [class*='loading'], [class*='spinner']",
+        "message": "⏳ Hang tight — building your workspace. This usually takes 30-60 seconds.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Workspace Ready",
+          "url": "#step10",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Import Your Contacts",
+      "description": "Import your contact list into HubSpot",
+      "content": "Let's get your contacts into HubSpot! We've prepared a sample CSV file for you.\n\n**What to do:**\n1. Click 'Import Contacts' below\n2. Upload the CSV file we prepared\n3. Map the fields (Name, Email, Company)\n4. Complete the import",
+      "spotlight": {
+        "target": "a[href*='import'], button[type='submit'], input[type='file']",
+        "message": "📁 Click here to upload your contact list. We'll guide you through the field mapping.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "📁 Upload Contact List",
+          "url": "#step11",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Connect Your Email Inbox",
+      "description": "Connect Gmail or Outlook to HubSpot",
+      "content": "Connect your email to sync contacts and track email interactions.\n\n**Steps:**\n1. Click 'Connect Gmail' or 'Connect Outlook'\n2. Sign in to your email account\n3. Allow HubSpot permissions\n4. We'll detect success automatically",
+      "spotlight": {
+        "target": "a[href*='gmail'], a[href*='outlook'], button[type='submit']",
+        "message": "📧 Click 'Connect Gmail' → sign in → allow permissions. We'll mark this step done automatically.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Email Connected",
+          "url": "#step12",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Connect Your Domain",
+      "description": "Set up domain tracking for your website",
+      "content": "Connect your website domain to track visitors and leads.\n\n**We'll help you:**\n1. Enter your domain (we'll autofill this)\n2. Get the DNS records you need\n3. Add them to your domain provider\n4. Verify the connection",
+      "spotlight": {
+        "target": "input[name*='domain'], input[type='url'], input[name*='website']",
+        "message": "🌐 We've filled in your domain. Copy the CNAME record to your DNS provider (GoDaddy, etc.).",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Domain Connected",
+          "url": "#step13",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Install Tracking Pixel",
+      "description": "Add HubSpot tracking code to your website",
+      "content": "Install the HubSpot tracking pixel to monitor website visitors and leads.\n\n**What to do:**\n1. Copy the tracking code from HubSpot\n2. Add it to your website's header\n3. We'll scan your site to verify installation\n4. You'll see a success badge when complete",
+      "spotlight": {
+        "target": "button[type='button'], a[href*='copy'], textarea, code",
+        "message": "📋 Click 'Copy Pixel' and add it to your website's <head> section. We'll verify when it's live.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Tracking Installed",
+          "url": "#step14",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Connect Analytics & Ads",
+      "description": "Link Google Analytics, Google Ads, and Facebook",
+      "content": "Connect your marketing tools to get a complete view of your campaigns.\n\n**Available connections:**\n- Google Analytics (website traffic)\n- Google Ads (ad performance)\n- Facebook Ads (social campaigns)\n- LinkedIn (professional network)",
+      "spotlight": {
+        "target": "a[href*='google'], a[href*='facebook'], a[href*='linkedin'], button[type='submit']",
+        "message": "🔗 Choose the accounts you want to connect. Click the OAuth buttons to authorize.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Analytics Connected",
+          "url": "#step15",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Add Sample CRM Data",
+      "description": "Create your first contact and deal in HubSpot",
+      "content": "Let's add some sample data to see how your CRM works.\n\n**We'll help you create:**\n- Sample contact: 'Jane Smith - Demo Lead'\n- Sample deal: '$5,000 Website Project'\n- Company record: 'Acme Corp'\n- Activity timeline",
+      "spotlight": {
+        "target": "input[name*='contact'], input[name*='deal'], input[name*='company']",
+        "message": "👤 We've pre-filled sample data. Review and click 'Save' to create your first CRM records.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Sample Data Added",
+          "url": "#step16",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Choose Your Dashboard",
+      "description": "Select your preferred HubSpot dashboard layout",
+      "content": "Choose the dashboard that best fits your role and goals.\n\n**Dashboard options:**\n- **Sales Dashboard**: Focus on deals and pipeline\n- **Marketing Dashboard**: Focus on leads and campaigns\n- **Service Dashboard**: Focus on customer support\n- **Custom Dashboard**: Mix of all features",
+      "spotlight": {
+        "target": "input[type='radio'], select[name*='dashboard'], button[type='submit']",
+        "message": "📊 We picked 'Sales Dashboard' based on your earlier setup. You can change this later.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Dashboard Selected",
+          "url": "#step17",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Invite Your Team",
+      "description": "Add team members to your HubSpot workspace",
+      "content": "Invite your team members to collaborate in HubSpot.\n\n**We've prepared:**\n- Team member email addresses from your setup\n- Appropriate permission levels\n- Welcome message template\n\nYou can send invites now or skip and invite later.",
+      "spotlight": {
+        "target": "input[type='email'], textarea[name*='message'], button[type='submit']",
+        "message": "👥 We've filled in your teammate emails. Click 'Send Invites' or skip for now.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Team Invited",
+          "url": "#step18",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Optional App Suggestions",
+      "description": "HubSpot suggests mobile app and browser extension",
+      "content": "HubSpot is suggesting additional tools to enhance your experience.\n\n**Available options:**\n- Mobile app for on-the-go access\n- Browser extension for quick actions\n- Desktop app for offline access\n\nThese are optional - you can skip and add later.",
+      "spotlight": {
+        "target": "a[href*='app'], a[href*='extension'], button[type='button']",
+        "message": "📱 These are optional tools. You can skip this now and add them later if needed.",
+        "type": "info",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "Skip for Now",
+          "url": "#step19",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Final Onboarding Checklist",
+      "description": "Review your setup progress and complete remaining tasks",
+      "content": "Great progress! Let's review what you've completed and finish any remaining tasks.\n\n**Completed:**\n✅ Email verified\n✅ Business info added\n✅ Contacts imported\n✅ Email connected\n✅ Domain connected\n✅ Tracking installed\n✅ Sample data added\n✅ Dashboard selected\n\n**Remaining:**\n- Complete team invitations\n- Set up additional integrations",
+      "spotlight": {
+        "target": ".checklist, .progress, [class*='complete'], [class*='progress']",
+        "message": "📋 7 of 9 steps complete — almost there! Review your progress and finish any remaining tasks.",
+        "type": "success",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Checklist Complete",
+          "url": "#step20",
+          "affiliate": true
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "🎉 Setup Complete - Affiliate Confirmed",
+      "description": "Your HubSpot workspace is ready and affiliate referral is confirmed",
+      "content": "🎉 **Congratulations!** Your HubSpot workspace is fully set up and ready to use.\n\n**What you've accomplished:**\n✅ Complete CRM with sample data\n✅ Email marketing connected\n✅ Website tracking installed\n✅ Team members invited\n✅ Dashboard customized\n✅ All integrations connected\n\n**Your affiliate referral has been confirmed and logged.**\n\n**Next steps:**\n- Explore your new dashboard\n- Start adding real contacts\n- Create your first email campaign\n- Set up your sales pipeline",
+      "spotlight": {
+        "target": ".dashboard, .home, [class*='dashboard'], [class*='home']",
+        "message": "🎉 Setup complete — affiliate referral confirmed. Your HubSpot workspace is ready!",
+        "type": "success",
+        "position": "auto"
+      },
+      "actionButtons": [
+        {
+          "text": "🚀 Start Using HubSpot",
+          "url": "https://app.hubspot.com/",
+          "affiliate": true,
+          "primary": true
+        },
+        {
+          "text": "📚 View HubSpot Academy",
+          "url": "https://academy.hubspot.com/",
+          "affiliate": true
+        }
+      ]
+    }
+  ]
+}

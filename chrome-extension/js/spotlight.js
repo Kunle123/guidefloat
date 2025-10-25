@@ -8,6 +8,30 @@ if (typeof window.Spotlight !== 'undefined') {
     activeSpotlight: null,
     activeDialog: null,
     
+    // Check if there's text content in a given area
+    hasTextInArea: function(x1, y1, x2, y2) {
+        const elements = document.elementsFromPoint(x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2);
+        
+        for (const element of elements) {
+            // Skip our own spotlight elements
+            if (element.classList.contains('guidefloat-spotlight-dot') || 
+                element.classList.contains('guidefloat-spotlight-dialog')) {
+                continue;
+            }
+            
+            // Check if element has text content
+            const text = element.textContent || element.innerText;
+            if (text && text.trim().length > 0) {
+                // Check if element is visible and has meaningful text
+                const style = window.getComputedStyle(element);
+                if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+
     // Create and position spotlight
     create: function(options) {
         // Remove any existing spotlight
@@ -163,17 +187,19 @@ if (typeof window.Spotlight !== 'undefined') {
         
         dialog.style.cssText = `
             position: fixed;
-            max-width: 280px;
+            max-width: 240px;
             background: white;
             border: 2px solid ${colors.border};
-            border-radius: 12px;
-            padding: 12px 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             z-index: 2147483646;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 13px;
+            line-height: 1.4;
             color: #1a1a1a;
+            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.95);
         `;
         
         // Create arrow
@@ -186,22 +212,46 @@ if (typeof window.Spotlight !== 'undefined') {
         `;
         
         // Position dialog relative to target
-        const dialogPadding = 20;
+        const dialogPadding = 12;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         
-        // Auto-determine best position
+        // Auto-determine best position with smarter logic
         let finalPosition = position;
         if (position === 'auto') {
-            // Prefer right, then left, then bottom, then top
-            if (targetRect.right + 300 < viewportWidth) {
+            // Check available space in each direction
+            const rightSpace = viewportWidth - targetRect.right;
+            const leftSpace = targetRect.left;
+            const bottomSpace = viewportHeight - targetRect.bottom;
+            const topSpace = targetRect.top;
+            
+            // Prefer positions that don't obscure important content
+            // Check if there's text or important elements in each direction
+            const hasTextRight = this.hasTextInArea(targetRect.right, targetRect.top, targetRect.right + 260, targetRect.bottom);
+            const hasTextLeft = this.hasTextInArea(targetRect.left - 260, targetRect.top, targetRect.left, targetRect.bottom);
+            const hasTextBottom = this.hasTextInArea(targetRect.left, targetRect.bottom, targetRect.right, targetRect.bottom + 120);
+            const hasTextTop = this.hasTextInArea(targetRect.left, targetRect.top - 120, targetRect.right, targetRect.top);
+            
+            // Choose position with most space and least text interference
+            if (rightSpace > 280 && !hasTextRight) {
                 finalPosition = 'right';
-            } else if (targetRect.left - 300 > 0) {
+            } else if (leftSpace > 280 && !hasTextLeft) {
                 finalPosition = 'left';
-            } else if (targetRect.bottom + 150 < viewportHeight) {
+            } else if (bottomSpace > 140 && !hasTextBottom) {
                 finalPosition = 'bottom';
-            } else {
+            } else if (topSpace > 140 && !hasTextTop) {
                 finalPosition = 'top';
+            } else {
+                // Fallback: choose position with most space
+                if (rightSpace > leftSpace && rightSpace > bottomSpace && rightSpace > topSpace) {
+                    finalPosition = 'right';
+                } else if (leftSpace > bottomSpace && leftSpace > topSpace) {
+                    finalPosition = 'left';
+                } else if (bottomSpace > topSpace) {
+                    finalPosition = 'bottom';
+                } else {
+                    finalPosition = 'top';
+                }
             }
         }
         

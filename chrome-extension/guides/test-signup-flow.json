@@ -46,8 +46,8 @@
       ],
       "estimatedTime": "2 minutes",
       "spotlight": {
-        "target": "input[type='email'], input[name='email']",
-        "message": "Enter your email address to start creating your account",
+        "target": "input[type='email']",
+        "message": "Let's start by creating your account - I'll guide you through each field",
         "type": "success",
         "position": "auto"
       },
@@ -59,12 +59,12 @@
         "enabled": true,
         "fields": [
           {
-            "selector": "input[type='email'], input[name='email']",
+            "selector": "input[type='email']",
             "message": "Enter your email address",
             "required": true
           },
           {
-            "selector": "input[type='password'], input[name='password']",
+            "selector": "input[type='password']:not([name='confirmPassword']), input[name='password']",
             "message": "Create a secure password (8+ characters)",
             "required": true
           },
@@ -74,12 +74,12 @@
             "required": true
           },
           {
-            "selector": "input[type='checkbox'], input[name='terms']",
+            "selector": "input[type='checkbox'][name='terms']",
             "message": "Check the terms and conditions box",
             "required": true
           },
           {
-            "selector": "button[type='submit'], button",
+            "selector": "button[type='submit']",
             "message": "Click 'Create Account' to continue",
             "required": true
           }

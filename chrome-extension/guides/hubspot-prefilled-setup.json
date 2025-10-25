@@ -1,0 +1,233 @@
+{
+  "id": "hubspot-prefilled-setup",
+  "title": "HubSpot Setup Assistant",
+  "description": "Floating assistant panel that guides you through HubSpot onboarding with pre-filled data from your setup wizard",
+  "category": "business",
+  "difficulty": "intermediate",
+  "estimatedTime": "15-20 minutes",
+  "totalSteps": 5,
+  "affiliate": {
+    "enabled": true,
+    "program": "HubSpot",
+    "commission": "30%",
+    "cookieDuration": "90 days"
+  },
+  "panelMode": true,
+  "panelConfig": {
+    "width": "360px",
+    "position": "right",
+    "theme": "light",
+    "brandColor": "#ff7a59"
+  },
+  "steps": [
+    {
+      "id": 1,
+      "title": "Business Profile",
+      "description": "We're filling in your business details so HubSpot tailors your workspace",
+      "content": "**We're filling in your business details so HubSpot tailors your workspace.**\n\n**Fields we're autofilling:**\n• Company name\n• Website/domain\n• Company size\n• Industry\n• Role\n• Primary goal\n\n**What's happening:**\nWe're using the information you provided in our setup wizard to pre-populate HubSpot's business profile form. This ensures your workspace is configured correctly from the start.",
+      "spotlight": {
+        "target": "input[name*='company'], input[name*='business'], select[name*='size'], select[name*='industry'], select[name*='role']",
+        "message": "✅ We've pre-filled your business details. Review and click 'Continue' in HubSpot when ready.",
+        "type": "success",
+        "position": "auto"
+      },
+      "autofill": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[name*='company'], input[name*='business'], input[name*='organization']",
+            "value": "{{company_name}}",
+            "event": "input"
+          },
+          {
+            "selector": "input[name*='website'], input[name*='domain'], input[type='url']",
+            "value": "{{company_domain}}",
+            "event": "input"
+          },
+          {
+            "selector": "select[name*='size'], input[name*='size']",
+            "value": "{{company_size}}",
+            "event": "change"
+          },
+          {
+            "selector": "select[name*='industry'], input[name*='industry']",
+            "value": "{{industry}}",
+            "event": "change"
+          },
+          {
+            "selector": "select[name*='role'], input[name*='role']",
+            "value": "{{user_role}}",
+            "event": "change"
+          }
+        ]
+      },
+      "actionButtons": [
+        {
+          "text": "✅ Business Profile Complete",
+          "url": "#step2",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Connect Your Website",
+      "description": "We're adding your domain and getting you ready for tracking and forms",
+      "content": "**We're adding your domain and getting you ready for tracking and forms.**\n\n**What we're doing:**\n• Adding your domain to HubSpot\n• Generating DNS records for verification\n• Preparing tracking setup\n\n**DNS Instructions:**\n1. Log in to your domain provider (GoDaddy, Namecheap, etc.)\n2. Add a TXT record:\n   - Name: `{{dns_name}}`\n   - Value: `{{dns_value}}`\n3. Save and wait 5-10 minutes for propagation\n\n**Need help?** We can generate step-by-step instructions for your specific domain provider.",
+      "spotlight": {
+        "target": "input[name*='domain'], input[name*='website'], input[type='url']",
+        "message": "🌐 We've filled in your domain. Follow the DNS instructions in the panel to complete verification.",
+        "type": "info",
+        "position": "auto"
+      },
+      "autofill": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[name*='domain'], input[name*='website'], input[type='url']",
+            "value": "{{company_domain}}",
+            "event": "input"
+          }
+        ]
+      },
+      "actionButtons": [
+        {
+          "text": "📋 Get DNS Instructions",
+          "url": "#dns-help",
+          "affiliate": false
+        },
+        {
+          "text": "✅ DNS Record Added",
+          "url": "#step3",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Install Tracking Pixel",
+      "description": "Copy this pixel and paste it into your site's head tag. We'll check when it's live.",
+      "content": "**Copy this pixel and paste it into your site's head tag. We'll check when it's live.**\n\n**What to do:**\n1. Copy the tracking code from HubSpot\n2. Add it to your website's `<head>` section\n3. Save and publish your site\n4. We'll automatically verify the installation\n\n**Tracking Code:**\n```html\n<script type=\"text/javascript\" id=\"hs-script-loader\" async defer src=\"//js.hs-scripts.com/{{portal_id}}.js\"></script>\n```\n\n**Status:** {{tracking_status}}",
+      "spotlight": {
+        "target": "code, pre, textarea, button[type='button']",
+        "message": "📋 Click 'Copy' to copy the tracking code, then add it to your website's head section.",
+        "type": "info",
+        "position": "auto"
+      },
+      "autofill": {
+        "enabled": false
+      },
+      "actionButtons": [
+        {
+          "text": "📋 Copy Tracking Code",
+          "url": "#copy-pixel",
+          "affiliate": false
+        },
+        {
+          "text": "✅ Tracking Installed",
+          "url": "#step4",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Seed Your CRM",
+      "description": "We'll add your first lead and first deal so your CRM isn't empty",
+      "content": "**We'll add your first lead and first deal so your CRM isn't empty.**\n\n**Sample Contact:**\n• Name: {{sample_contact_name}}\n• Email: {{sample_contact_email}}\n• Company: {{company_name}}\n• Source: Website\n\n**Sample Deal:**\n• Deal Name: {{sample_deal_name}}\n• Value: ${{sample_deal_value}}\n• Stage: {{deal_stage}}\n• Close Date: {{close_date}}\n\n**What's happening:**\nWe're pre-filling the contact and deal forms with sample data so you can see how your CRM works. You can modify any of these details before saving.",
+      "spotlight": {
+        "target": "input[name*='contact'], input[name*='deal'], input[name*='name'], input[name*='email']",
+        "message": "👤 We've pre-filled sample contact and deal data. Review and click 'Save' in HubSpot when ready.",
+        "type": "info",
+        "position": "auto"
+      },
+      "autofill": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[name*='contact'][name*='name'], input[name*='first']",
+            "value": "{{sample_contact_name}}",
+            "event": "input"
+          },
+          {
+            "selector": "input[name*='contact'][name*='email'], input[type='email']",
+            "value": "{{sample_contact_email}}",
+            "event": "input"
+          },
+          {
+            "selector": "input[name*='deal'][name*='name'], input[name*='deal']",
+            "value": "{{sample_deal_name}}",
+            "event": "input"
+          },
+          {
+            "selector": "input[name*='deal'][name*='value'], input[name*='amount']",
+            "value": "{{sample_deal_value}}",
+            "event": "input"
+          }
+        ]
+      },
+      "actionButtons": [
+        {
+          "text": "✅ CRM Seeded",
+          "url": "#step5",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Personalize Your Dashboard",
+      "description": "We set your default dashboard to Sales (you can change this anytime)",
+      "content": "**We set your default dashboard to Sales (you can change this anytime).**\n\n**Dashboard Preference:** {{preferred_dashboard}}\n\n**What this means:**\n• Your home screen will show sales-focused widgets\n• Quick access to deals, contacts, and activities\n• You can switch to Marketing or Service view anytime\n\n**Available Dashboards:**\n• **Sales:** Deals, contacts, activities\n• **Marketing:** Campaigns, leads, analytics\n• **Service:** Tickets, knowledge base, customer feedback\n\n**Next Steps:**\nYour HubSpot workspace is now configured! You can start using it immediately or explore additional features.",
+      "spotlight": {
+        "target": "input[type='radio'], select[name*='dashboard'], button[type='submit']",
+        "message": "📊 We've selected your preferred dashboard. You can change this anytime in your settings.",
+        "type": "success",
+        "position": "auto"
+      },
+      "autofill": {
+        "enabled": true,
+        "fields": [
+          {
+            "selector": "input[type='radio'][value*='sales'], input[type='radio'][value*='marketing'], input[type='radio'][value*='service']",
+            "value": "{{preferred_dashboard}}",
+            "event": "click"
+          }
+        ]
+      },
+      "actionButtons": [
+        {
+          "text": "🎉 Setup Complete!",
+          "url": "#complete",
+          "affiliate": false,
+          "primary": true
+        },
+        {
+          "text": "🛍️ Next: Shopify Setup",
+          "url": "https://www.shopify.com/free-trial?utm_source=guidefloat&utm_medium=extension&utm_campaign=hubspot_complete",
+          "affiliate": true
+        },
+        {
+          "text": "📊 Next: SEMrush Analytics",
+          "url": "https://www.semrush.com/?utm_source=guidefloat&utm_medium=extension&utm_campaign=hubspot_complete",
+          "affiliate": true
+        }
+      ]
+    }
+  ],
+  "completion": {
+    "message": "🎉 Your HubSpot workspace is now running!\n\n**What you've accomplished:**\n✅ Business profile configured\n✅ Domain connected and verified\n✅ Tracking pixel installed\n✅ CRM seeded with sample data\n✅ Dashboard personalized\n\n**Want help next with Shopify or SEMrush?**",
+    "actions": [
+      {
+        "text": "🛍️ Set up Shopify Store",
+        "url": "https://www.shopify.com/free-trial?utm_source=guidefloat&utm_medium=extension&utm_campaign=hubspot_complete",
+        "affiliate": true
+      },
+      {
+        "text": "📊 Connect SEMrush Analytics",
+        "url": "https://www.semrush.com/?utm_source=guidefloat&utm_medium=extension&utm_campaign=hubspot_complete",
+        "affiliate": true
+      }
+    ]
+  }
+}

@@ -3,11 +3,13 @@
 // Category definitions
 const categories = {
     testing: { name: 'Testing & Development', icon: '🧪', color: '#f59e0b' },
+    examples: { name: 'Examples & Demos', icon: '📝', color: '#10b981' },
     marketing: { name: 'Marketing & Ads', icon: '📱', color: '#3b82f6' },
     ecommerce: { name: 'E-commerce', icon: '🛒', color: '#10b981' },
     email: { name: 'Email Marketing', icon: '📧', color: '#8b5cf6' },
     website: { name: 'Website Building', icon: '🌐', color: '#06b6d4' },
-    analytics: { name: 'Analytics', icon: '📊', color: '#f59e0b' }
+    analytics: { name: 'Analytics', icon: '📊', color: '#f59e0b' },
+    business: { name: 'Business Tools', icon: '💼', color: '#8b5cf6' }
 };
 
 const guides = [
@@ -20,6 +22,16 @@ const guides = [
         estimatedTime: '5 minutes',
         totalSteps: 4,
         icon: '🧪'
+    },
+    {
+        id: 'generic-form-guide',
+        title: '📝 Generic Form Guide',
+        description: 'Demonstrates automatic field detection on any website form',
+        category: 'examples',
+        difficulty: 'Beginner',
+        estimatedTime: '3 minutes',
+        totalSteps: 2,
+        icon: '📝'
     },
     {
         id: 'facebook-ads-setup',
@@ -40,6 +52,17 @@ const guides = [
         estimatedTime: '90 minutes',
         totalSteps: 12,
         icon: '🛍️',
+        hasAffiliate: true
+    },
+    {
+        id: 'hubspot-prefilled-setup',
+        title: '💼 HubSpot Setup Assistant',
+        description: 'Floating assistant panel that guides you through HubSpot onboarding with pre-filled data',
+        category: 'business',
+        difficulty: 'Intermediate',
+        estimatedTime: '15-20 minutes',
+        totalSteps: 5,
+        icon: '💼',
         hasAffiliate: true
     },
     {
@@ -355,7 +378,7 @@ function renderHomeView() {
     Object.entries(categories).forEach(([catId, cat]) => {
         const count = guides.filter(g => g.category === catId).length;
         html += `
-            <div class="guide-card" data-category-id="${catId}" style="cursor: pointer;">
+            <div class="guidefloat-guide-card" data-category-id="${catId}" style="cursor: pointer;">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="font-size: 32px;">${cat.icon}</div>
@@ -420,7 +443,7 @@ function renderCategoryView() {
     });
     
     // Guide click handlers
-    document.querySelectorAll('.guide-card[data-guide-id]').forEach(card => {
+    document.querySelectorAll('.guidefloat-guide-card[data-guide-id]').forEach(card => {
         card.addEventListener('click', () => {
             selectGuide(card.dataset.guideId);
         });
@@ -454,7 +477,7 @@ function renderSearchResults(searchTerm) {
     guideList.innerHTML = html;
     
     // Guide click handlers
-    document.querySelectorAll('.guide-card[data-guide-id]').forEach(card => {
+    document.querySelectorAll('.guidefloat-guide-card[data-guide-id]').forEach(card => {
         card.addEventListener('click', () => {
             selectGuide(card.dataset.guideId);
         });
@@ -464,7 +487,7 @@ function renderSearchResults(searchTerm) {
 // Create compact guide card (for recently used)
 function createCompactGuideCard(guide) {
     return `
-        <div class="guide-card compact-guide ${guide.id === currentGuideId ? 'active' : ''}" data-guide-id="${guide.id}" style="padding: 10px 16px;">
+        <div class="guidefloat-guide-card compact-guide ${guide.id === currentGuideId ? 'active' : ''}" data-guide-id="${guide.id}" style="padding: 10px 16px;">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="font-size: 20px;">${guide.icon}</div>
                 <div style="flex: 1; min-width: 0;">
@@ -481,11 +504,11 @@ function createCompactGuideCard(guide) {
 function createFullGuideCard(guide) {
     const cat = categories[guide.category];
     return `
-        <div class="guide-card ${guide.id === currentGuideId ? 'active' : ''}" data-guide-id="${guide.id}">
-            <div class="guide-icon">${guide.icon}</div>
-            <div class="guide-title">${guide.title}</div>
+        <div class="guidefloat-guide-card ${guide.id === currentGuideId ? 'active' : ''}" data-guide-id="${guide.id}">
+            <div class="guidefloat-guide-icon">${guide.icon}</div>
+            <div class="guidefloat-guide-title">${guide.title}</div>
             <div style="font-size: 12px; color: #6b7280; margin: 4px 0;">${guide.description}</div>
-            <div class="guide-meta">
+            <div class="guidefloat-guide-meta">
                 <span>${cat.icon} ${cat.name}</span>
                 <span>📋 ${guide.totalSteps} steps</span>
                 <span>⏱️ ${guide.estimatedTime}</span>
@@ -604,26 +627,32 @@ async function selectGuide(guideId) {
         console.log('[GuideFloat] ✓ CSS injected');
         
         console.log('[GuideFloat] Injecting JavaScript...');
-        // Inject page detector first
-        await chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ['js/page-detector.js']
-        });
-        console.log('[GuideFloat] ✓ Page detector injected');
         
-        // Inject spotlight system
-        await chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ['js/spotlight.js']
-        });
-        console.log('[GuideFloat] ✓ Spotlight injected');
+        // Inject all scripts in sequence with proper timing
+        const scripts = [
+            'js/page-detector.js',
+            'js/spotlight.js', 
+            'js/field-detector.js',
+            'js/floating-panel.js',
+            'js/hubspot-detector.js',
+            'js/content.js'
+        ];
         
-        // Then inject main content script
-        const injection = await chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ['js/content.js']
-        });
-        console.log('[GuideFloat] ✓ Content script injected, result:', injection);
+        for (const script of scripts) {
+            try {
+                await chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    files: [script]
+                });
+                console.log(`[GuideFloat] ✓ ${script} injected`);
+                
+                // Small delay between injections to ensure proper loading
+                await new Promise(resolve => setTimeout(resolve, 100));
+            } catch (error) {
+                console.error(`[GuideFloat] ❌ Failed to inject ${script}:`, error);
+                throw error;
+            }
+        }
         
         // Add a small delay to let scripts initialize
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -667,9 +696,23 @@ async function selectGuide(guideId) {
             console.log(`[GuideFloat] Ping response:`, response);
             
             if (response && response.status === 'ready') {
-                scriptReady = true;
                 console.log('[GuideFloat] ✓ Content script is ready!');
-                break;
+                console.log('[GuideFloat] GuideFloat ready:', response.guideFloatReady);
+                console.log('[GuideFloat] Spotlight ready:', response.spotlightReady);
+                console.log('[GuideFloat] FieldDetector ready:', response.fieldDetectorReady);
+                
+                // Check if all required objects are ready AND fully initialized
+                if (response.guideFloatReady && response.spotlightReady && response.fieldDetectorReady && response.fullyInitialized) {
+                    scriptReady = true;
+                    console.log('[GuideFloat] ✓ All objects are ready and fully initialized!');
+                    break;
+                } else {
+                    console.log('[GuideFloat] ⚠️ Some objects not ready yet, continuing to wait...');
+                    console.log('[GuideFloat] GuideFloat ready:', response.guideFloatReady);
+                    console.log('[GuideFloat] Spotlight ready:', response.spotlightReady);
+                    console.log('[GuideFloat] FieldDetector ready:', response.fieldDetectorReady);
+                    console.log('[GuideFloat] Fully initialized:', response.fullyInitialized);
+                }
             } else {
                 console.log(`[GuideFloat] Unexpected ping response:`, response);
             }
